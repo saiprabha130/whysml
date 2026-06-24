@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>whySML — Shirts Made for You</title>
+<title>whySML — Wear Your Size</title>
+<meta name="description" content="whySML — Custom stitched shirts made to your exact measurements. No S, M, L — just you. Wear Your Size.">
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
@@ -35,8 +36,8 @@ body { font-family: 'Georgia', serif; background: var(--off-white); color: var(-
 nav {
   background: var(--white);
   border-bottom: 1px solid var(--gray-200);
-  padding: 0 24px;
-  height: 60px;
+  padding: 0 32px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,71 +45,107 @@ nav {
   top: 0;
   z-index: 100;
 }
-.logo { font-size: 22px; font-weight: 700; letter-spacing: -1px; color: var(--black); cursor: pointer; font-family: 'Georgia', serif; }
+.logo { font-size: 24px; font-weight: 700; letter-spacing: -1px; color: var(--black); cursor: pointer; font-family: 'Georgia', serif; }
 .logo span { color: var(--gray-400); font-weight: 400; }
-.nav-actions { display: flex; align-items: center; gap: 16px; }
+.logo-tagline { font-size: 11px; color: var(--gray-400); font-family: 'Arial', sans-serif; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+.nav-actions { display: flex; align-items: center; gap: 20px; }
 .nav-btn { background: none; border: none; cursor: pointer; font-size: 13px; color: var(--gray-600); font-family: inherit; display: flex; align-items: center; gap: 6px; padding: 6px 0; transition: color 0.15s; }
 .nav-btn:hover { color: var(--black); }
-.nav-btn.logout { color: var(--red); font-size: 12px; border: 1px solid #f5c4b3; padding: 5px 10px; border-radius: var(--radius); }
+.nav-btn.logout { color: var(--red); font-size: 12px; border: 1px solid #f5c4b3; padding: 5px 12px; border-radius: var(--radius); font-family: 'Arial', sans-serif; }
 .nav-btn.logout:hover { background: var(--red-light); }
 .nav-user { font-size: 13px; font-weight: 600; color: var(--black); font-family: 'Arial', sans-serif; }
 .cart-badge { background: var(--black); color: var(--white); font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Arial', sans-serif; }
 
-.hero { background: var(--black); color: var(--white); padding: 72px 24px; text-align: center; }
-.hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 20px; font-family: 'Arial', sans-serif; }
-.hero h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 700; line-height: 1.05; letter-spacing: -2px; margin-bottom: 20px; }
+/* HERO */
+.hero { background: var(--black); color: var(--white); padding: 88px 32px; text-align: center; }
+.hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 24px; font-family: 'Arial', sans-serif; }
+.hero h1 { font-size: clamp(42px, 7vw, 72px); font-weight: 700; line-height: 1.05; letter-spacing: -2px; margin-bottom: 20px; }
 .hero h1 em { font-style: italic; color: var(--gray-400); font-weight: 400; }
-.hero p { font-size: 16px; color: var(--gray-400); max-width: 420px; margin: 0 auto 32px; line-height: 1.7; font-family: 'Arial', sans-serif; }
-
+.hero-tagline { font-size: 22px; color: #c9c5be; font-family: 'Georgia', serif; font-style: italic; margin-bottom: 16px; letter-spacing: -0.5px; }
+.hero p { font-size: 16px; color: var(--gray-400); max-width: 440px; margin: 0 auto 36px; line-height: 1.7; font-family: 'Arial', sans-serif; }
+.hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 .btn-white { background: var(--white); color: var(--black); border: none; padding: 14px 32px; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: var(--radius); font-family: 'Arial', sans-serif; letter-spacing: 0.5px; transition: background 0.15s; display: inline-block; }
 .btn-white:hover { background: var(--gray-100); }
+.btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.3); padding: 14px 32px; font-size: 14px; cursor: pointer; border-radius: var(--radius); font-family: 'Arial', sans-serif; transition: border-color 0.15s; }
+.btn-outline:hover { border-color: var(--white); }
+
 .btn-dark { background: var(--black); color: var(--white); border: none; padding: 14px 32px; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: var(--radius); font-family: 'Arial', sans-serif; width: 100%; transition: background 0.15s; }
 .btn-dark:hover { background: var(--gray-800); }
 .btn-dark:disabled { background: var(--gray-400); cursor: not-allowed; }
 .btn-ghost { background: transparent; color: var(--gray-600); border: 1px solid var(--gray-200); padding: 13px 32px; font-size: 14px; cursor: pointer; border-radius: var(--radius); font-family: 'Arial', sans-serif; width: 100%; margin-top: 10px; transition: border-color 0.15s, color 0.15s; }
 .btn-ghost:hover { border-color: var(--gray-400); color: var(--black); }
 
-.main { flex: 1; padding: 40px 24px; max-width: 1100px; margin: 0 auto; width: 100%; }
-.section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; border-bottom: 1px solid var(--gray-200); padding-bottom: 16px; }
-.section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+/* TAGLINE BANNER */
+.tagline-banner { background: var(--off-white); border-bottom: 1px solid var(--gray-200); padding: 14px 32px; text-align: center; }
+.tagline-banner p { font-size: 13px; color: var(--gray-600); font-family: 'Arial', sans-serif; letter-spacing: 0.5px; }
+.tagline-banner strong { color: var(--black); }
+
+/* MAIN */
+.main { flex: 1; padding: 48px 32px; max-width: 1200px; margin: 0 auto; width: 100%; }
+.section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; border-bottom: 1px solid var(--gray-200); padding-bottom: 16px; }
+.section-title { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
 .section-sub { font-size: 13px; color: var(--gray-400); font-family: 'Arial', sans-serif; }
 
-.shirt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-.shirt-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; transition: border-color 0.2s, transform 0.15s; }
-.shirt-card:hover { border-color: var(--gray-400); transform: translateY(-2px); }
-.shirt-img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 72px; position: relative; }
-.shirt-badge { position: absolute; top: 10px; left: 10px; background: var(--black); color: var(--white); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 2px; font-family: 'Arial', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
-.shirt-info { padding: 14px 16px 16px; }
-.shirt-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; letter-spacing: -0.3px; }
-.shirt-desc { font-size: 12px; color: var(--gray-400); margin-bottom: 12px; font-family: 'Arial', sans-serif; line-height: 1.5; }
+/* SHIRT GRID — Myntra/Amazon style */
+.shirt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+@media(max-width: 600px) { .shirt-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+.shirt-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; transition: box-shadow 0.2s, transform 0.15s; cursor: pointer; }
+.shirt-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-3px); border-color: var(--gray-400); }
+.shirt-img { height: 320px; display: flex; align-items: center; justify-content: center; font-size: 100px; position: relative; overflow: hidden; }
+@media(max-width: 600px) { .shirt-img { height: 200px; font-size: 72px; } }
+.shirt-img img { width: 100%; height: 100%; object-fit: cover; }
+.shirt-badge { position: absolute; top: 12px; left: 12px; background: var(--black); color: var(--white); font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 2px; font-family: 'Arial', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+.shirt-custom-badge { position: absolute; top: 12px; right: 12px; background: var(--green); color: var(--white); font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 2px; font-family: 'Arial', sans-serif; }
+.shirt-info { padding: 16px 18px 18px; }
+.shirt-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.3px; }
+.shirt-desc { font-size: 12px; color: var(--gray-400); margin-bottom: 14px; font-family: 'Arial', sans-serif; line-height: 1.5; }
 .shirt-footer { display: flex; align-items: center; justify-content: space-between; }
-.shirt-price { font-size: 16px; font-weight: 700; font-family: 'Arial', sans-serif; }
-.atc-btn { background: var(--black); color: var(--white); border: none; padding: 8px 14px; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: var(--radius); font-family: 'Arial', sans-serif; transition: background 0.15s; }
+.shirt-price { font-size: 18px; font-weight: 700; font-family: 'Arial', sans-serif; }
+.shirt-price-sub { font-size: 11px; color: var(--gray-400); font-family: 'Arial', sans-serif; margin-top: 2px; }
+.atc-btn { background: var(--black); color: var(--white); border: none; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: var(--radius); font-family: 'Arial', sans-serif; transition: background 0.15s; }
 .atc-btn:hover { background: var(--gray-800); }
 .atc-btn.added { background: var(--green); }
 
-.how-section { background: var(--black); color: var(--white); padding: 56px 24px; margin-top: 60px; }
-.how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; max-width: 900px; margin: 32px auto 0; }
-.how-step { text-align: center; }
-.how-num { font-size: 40px; font-weight: 700; color: var(--gray-600); letter-spacing: -2px; display: block; margin-bottom: 12px; }
-.how-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-.how-desc { font-size: 13px; color: var(--gray-400); font-family: 'Arial', sans-serif; line-height: 1.6; }
+/* WEAR YOUR SIZE SECTION */
+.wys-section { background: var(--white); border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200); padding: 56px 32px; text-align: center; margin-top: 60px; }
+.wys-title { font-size: 32px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
+.wys-title em { font-style: italic; color: var(--gray-400); }
+.wys-sub { font-size: 15px; color: var(--gray-600); font-family: 'Arial', sans-serif; max-width: 500px; margin: 0 auto 40px; line-height: 1.7; }
+.wys-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 800px; margin: 0 auto; }
+@media(max-width:600px){ .wys-grid { grid-template-columns: 1fr; gap: 24px; } }
+.wys-item { }
+.wys-num { font-size: 48px; font-weight: 700; letter-spacing: -2px; color: var(--gray-200); font-family: 'Georgia', serif; display: block; margin-bottom: 8px; }
+.wys-item-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+.wys-item-desc { font-size: 13px; color: var(--gray-600); font-family: 'Arial', sans-serif; line-height: 1.6; }
 
+/* HOW IT WORKS */
+.how-section { background: var(--black); color: var(--white); padding: 64px 32px; }
+.how-inner { max-width: 1000px; margin: 0 auto; }
+.how-header { text-align: center; margin-bottom: 48px; }
+.how-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; font-family: 'Arial', sans-serif; }
+.how-title { font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+@media(max-width:700px){ .how-grid { grid-template-columns: 1fr; gap: 32px; } }
+.how-step { }
+.how-num { font-size: 48px; font-weight: 700; color: var(--gray-600); letter-spacing: -2px; display: block; margin-bottom: 16px; }
+.how-step-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.how-step-desc { font-size: 13px; color: var(--gray-400); font-family: 'Arial', sans-serif; line-height: 1.7; }
+
+/* AUTH */
 .auth-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: var(--off-white); }
 .auth-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 40px; width: 100%; max-width: 400px; }
-.auth-logo { font-size: 24px; font-weight: 700; letter-spacing: -1px; margin-bottom: 4px; font-family: 'Georgia', serif; }
+.auth-logo { font-size: 24px; font-weight: 700; letter-spacing: -1px; margin-bottom: 2px; font-family: 'Georgia', serif; }
 .auth-logo span { color: var(--gray-400); font-weight: 400; }
-.auth-tagline { font-size: 13px; color: var(--gray-400); font-family: 'Arial', sans-serif; margin-bottom: 28px; }
+.auth-tagline { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-serif; margin-bottom: 28px; font-style: italic; }
 .auth-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.5px; }
 .auth-sub { font-size: 13px; color: var(--gray-600); font-family: 'Arial', sans-serif; margin-bottom: 24px; line-height: 1.6; }
 
 .input-group { margin-bottom: 16px; }
-.input-label { font-size: 12px; font-weight: 600; color: var(--gray-600); font-family: 'Arial', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+.input-label { font-size: 11px; font-weight: 600; color: var(--gray-600); font-family: 'Arial', sans-serif; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
 .input-row { display: flex; gap: 8px; }
 .input-prefix { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 0 12px; font-size: 14px; color: var(--gray-600); font-family: 'Arial', sans-serif; display: flex; align-items: center; white-space: nowrap; }
-input[type="tel"], input[type="text"], input[type="number"] {
-  width: 100%; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 11px 14px; font-size: 14px; font-family: 'Arial', sans-serif; color: var(--black); background: var(--white); outline: none; transition: border-color 0.15s;
-}
+input[type="tel"], input[type="text"], input[type="number"] { width: 100%; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 11px 14px; font-size: 14px; font-family: 'Arial', sans-serif; color: var(--black); background: var(--white); outline: none; transition: border-color 0.15s; }
 input:focus { border-color: var(--black); }
 input:read-only { background: var(--gray-100); color: var(--gray-600); cursor: not-allowed; }
 
@@ -118,24 +155,26 @@ input:read-only { background: var(--gray-100); color: var(--gray-600); cursor: n
 .auth-note { font-size: 11px; color: var(--gray-400); font-family: 'Arial', sans-serif; text-align: center; margin-top: 16px; line-height: 1.6; }
 .auth-link { color: var(--black); text-decoration: underline; cursor: pointer; }
 
-.page-wrap { flex: 1; max-width: 900px; margin: 0 auto; width: 100%; padding: 40px 24px; }
+/* CART */
+.page-wrap { flex: 1; max-width: 960px; margin: 0 auto; width: 100%; padding: 40px 24px; }
 .page-title { font-size: 28px; font-weight: 700; letter-spacing: -1px; margin-bottom: 32px; }
 .cart-layout { display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start; }
 @media(max-width:700px){ .cart-layout { grid-template-columns: 1fr; } }
 .cart-item { display: flex; align-items: center; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--gray-200); }
-.cart-thumb { width: 72px; height: 72px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 36px; flex-shrink: 0; }
+.cart-thumb { width: 80px; height: 80px; border-radius: var(--radius); overflow: hidden; flex-shrink: 0; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 36px; }
+.cart-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .cart-item-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
 .cart-item-tag { display: inline-block; font-size: 11px; background: var(--green-light); color: var(--green); padding: 2px 8px; border-radius: 2px; font-family: 'Arial', sans-serif; font-weight: 600; }
 .cart-item-price { font-size: 16px; font-weight: 700; font-family: 'Arial', sans-serif; }
 .cart-remove { background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 20px; padding: 4px; transition: color 0.15s; }
 .cart-remove:hover { color: var(--red); }
-
 .order-summary { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px; position: sticky; top: 80px; }
 .summary-title { font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-family: 'Arial', sans-serif; margin-bottom: 20px; }
 .summary-row { display: flex; justify-content: space-between; font-size: 13px; font-family: 'Arial', sans-serif; margin-bottom: 10px; color: var(--gray-600); }
 .summary-row.total { font-size: 16px; font-weight: 700; color: var(--black); font-family: 'Georgia', serif; border-top: 1px solid var(--gray-200); padding-top: 14px; margin-top: 6px; }
 .summary-green { color: var(--green); font-weight: 600; }
 
+/* CHECKOUT */
 .checkout-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: start; }
 @media(max-width:700px){ .checkout-layout { grid-template-columns: 1fr; } }
 .steps { display: flex; gap: 0; margin-bottom: 32px; border-bottom: 1px solid var(--gray-200); }
@@ -165,6 +204,7 @@ input:read-only { background: var(--gray-100); color: var(--gray-600); cursor: n
 .cod-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
 .cod-desc { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
 
+/* SUCCESS */
 .success-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: var(--off-white); }
 .success-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 48px 40px; max-width: 480px; width: 100%; text-align: center; }
 .success-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--green-light); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 24px; }
@@ -177,27 +217,6 @@ input:read-only { background: var(--gray-100); color: var(--gray-600); cursor: n
 .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 5px 12px; border-radius: 20px; font-family: 'Arial', sans-serif; font-weight: 600; }
 .pill-green { background: var(--green-light); color: var(--green); }
 .pill-gray { background: var(--gray-100); color: var(--gray-600); }
-
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
-.modal-overlay.open { display: flex; }
-.modal { background: var(--white); border-radius: var(--radius-lg); padding: 32px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
-.modal-title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
-.modal-sub { font-size: 13px; color: var(--gray-400); font-family: 'Arial', sans-serif; margin-bottom: 24px; }
-
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--black); color: var(--white); padding: 12px 24px; border-radius: 100px; font-size: 13px; font-family: 'Arial', sans-serif; font-weight: 500; z-index: 999; transition: transform 0.3s ease; pointer-events: none; white-space: nowrap; }
-.toast.show { transform: translateX(-50%) translateY(0); }
-
-.spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; margin-right: 8px; vertical-align: middle; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.empty { text-align: center; padding: 80px 24px; color: var(--gray-400); }
-.empty-icon { font-size: 48px; margin-bottom: 16px; }
-.empty h3 { font-size: 18px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
-.empty p { font-size: 14px; font-family: 'Arial', sans-serif; margin-bottom: 24px; }
-.err { font-size: 12px; color: var(--red); font-family: 'Arial', sans-serif; margin-top: 6px; display: none; }
-.err.show { display: block; }
-footer { background: var(--white); border-top: 1px solid var(--gray-200); padding: 24px; text-align: center; }
-footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-serif; }
 
 /* ORDERS */
 .order-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; }
@@ -215,26 +234,50 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 .order-section { margin-bottom: 20px; }
 .order-section:last-child { margin-bottom: 0; }
 .order-section-title { font-size: 11px; font-weight: 600; color: var(--gray-400); font-family: 'Arial', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
-.order-items-list { display: flex; flex-direction: column; gap: 8px; }
-.order-item-row { display: flex; justify-content: space-between; font-size: 13px; font-family: 'Arial', sans-serif; }
-.order-item-name { color: var(--black); }
-.order-item-price { font-weight: 600; color: var(--black); }
+.order-item-row { display: flex; justify-content: space-between; font-size: 13px; font-family: 'Arial', sans-serif; margin-bottom: 6px; }
 .order-total-row { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; font-family: 'Georgia', serif; border-top: 1px solid var(--gray-200); padding-top: 10px; margin-top: 6px; }
 .order-address-block { font-size: 13px; font-family: 'Arial', sans-serif; color: var(--gray-600); line-height: 1.7; background: var(--gray-100); border-radius: var(--radius); padding: 12px 14px; }
 .order-measure-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-@media(max-width:500px){ .order-measure-grid { grid-template-columns: repeat(2, 1fr); } }
 .order-measure-box { background: var(--gray-100); border-radius: var(--radius); padding: 10px; text-align: center; }
 .order-measure-val { font-size: 16px; font-weight: 700; font-family: 'Arial', sans-serif; }
 .order-measure-lbl { font-size: 10px; color: var(--gray-400); font-family: 'Arial', sans-serif; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
 .order-chevron { font-size: 18px; color: var(--gray-400); transition: transform 0.2s; }
 .order-chevron.open { transform: rotate(180deg); }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--white); border-radius: var(--radius-lg); padding: 32px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+.modal-title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--gray-400); font-family: 'Arial', sans-serif; margin-bottom: 24px; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--black); color: var(--white); padding: 12px 24px; border-radius: 100px; font-size: 13px; font-family: 'Arial', sans-serif; font-weight: 500; z-index: 999; transition: transform 0.3s ease; pointer-events: none; white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+.spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; margin-right: 8px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty { text-align: center; padding: 80px 24px; color: var(--gray-400); }
+.empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty h3 { font-size: 18px; font-weight: 700; color: var(--black); margin-bottom: 8px; }
+.empty p { font-size: 14px; font-family: 'Arial', sans-serif; margin-bottom: 24px; }
+.err { font-size: 12px; color: var(--red); font-family: 'Arial', sans-serif; margin-top: 6px; display: none; }
+.err.show { display: block; }
+
+footer { background: var(--black); color: var(--white); padding: 40px 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-logo { font-size: 20px; font-weight: 700; letter-spacing: -1px; font-family: 'Georgia', serif; }
+.footer-logo span { color: var(--gray-400); font-weight: 400; }
+.footer-tagline { font-size: 12px; color: var(--gray-600); font-family: 'Arial', sans-serif; font-style: italic; margin-top: 4px; }
+.footer-right { font-size: 12px; color: var(--gray-600); font-family: 'Arial', sans-serif; text-align: right; line-height: 1.8; }
 </style>
 </head>
 <body>
 
 <div class="toast" id="toast"></div>
 
-<!-- NAME MODAL — shown once after first login -->
+<!-- NAME MODAL -->
 <div class="modal-overlay" id="nameModal">
   <div class="modal">
     <div class="modal-title">Welcome to whySML! 👋</div>
@@ -252,7 +295,7 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 <div class="modal-overlay" id="measureModal">
   <div class="modal">
     <div class="modal-title">Your measurements</div>
-    <div class="modal-sub">Enter in inches. Saved to your profile forever.</div>
+    <div class="modal-sub">Enter in inches. Saved to your profile forever — you'll never need to re-enter these.</div>
     <div class="form-grid">
       <div class="input-group"><label class="input-label">Chest (in)</label><input type="number" id="m-chest" placeholder="e.g. 40" min="28" max="60"></div>
       <div class="input-group"><label class="input-label">Waist (in)</label><input type="number" id="m-waist" placeholder="e.g. 34" min="24" max="56"></div>
@@ -272,24 +315,15 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
   <div class="modal">
     <div class="modal-title">Delivery address</div>
     <div class="modal-sub">Where should we deliver your shirts?</div>
-    <div class="input-group">
-      <label class="input-label">Full name</label>
-      <input type="text" id="a-name" placeholder="Your full name">
-    </div>
+    <div class="input-group"><label class="input-label">Full name</label><input type="text" id="a-name" placeholder="Your full name"></div>
     <div class="input-group">
       <label class="input-label">Phone number</label>
       <input type="tel" id="a-phone" placeholder="+91 98765 43210" readonly>
       <div style="font-size:11px;color:var(--gray-400);font-family:'Arial',sans-serif;margin-top:4px;">Auto-filled from your login number</div>
     </div>
-    <div class="input-group">
-      <label class="input-label">Address line</label>
-      <input type="text" id="a-line1" placeholder="House/flat no., Street name">
-    </div>
+    <div class="input-group"><label class="input-label">Address line</label><input type="text" id="a-line1" placeholder="House/flat no., Street name"></div>
     <div class="form-grid">
-      <div class="input-group">
-        <label class="input-label">City</label>
-        <input type="text" id="a-city" placeholder="City">
-      </div>
+      <div class="input-group"><label class="input-label">City</label><input type="text" id="a-city" placeholder="City"></div>
       <div class="input-group">
         <label class="input-label">Pincode</label>
         <input type="text" id="a-pin" placeholder="500001" maxlength="6" oninput="validatePin(this.value)">
@@ -298,8 +332,7 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
     </div>
     <div class="input-group">
       <label class="input-label">State</label>
-      <input type="text" id="a-state" placeholder="State" id="a-state" readonly>
-      <div style="font-size:11px;color:var(--gray-400);font-family:'Arial',sans-serif;margin-top:4px;">Auto-filled from pincode</div>
+      <input type="text" id="a-state" placeholder="Auto-filled from pincode" readonly>
     </div>
     <div class="err" id="address-err">Please fill in all fields correctly.</div>
     <button class="btn-dark" style="margin-top:16px;" onclick="saveAddress()">Save address</button>
@@ -310,50 +343,118 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 <!-- HOME -->
 <div class="screen active" id="screen-home">
   <nav>
-    <div class="logo" onclick="goto('home')">why<span>SML</span></div>
+    <div onclick="goto('home')" style="cursor:pointer;">
+      <div class="logo">why<span>SML</span></div>
+      <div class="logo-tagline">Wear Your Size</div>
+    </div>
     <div class="nav-actions">
       <div id="nav-user-area" style="display:flex;align-items:center;gap:12px;"></div>
       <button class="nav-btn" id="nav-orders-btn" style="display:none;" onclick="goto('orders')">📦 My Orders</button>
       <button class="nav-btn" onclick="goto('cart')">🛒 Cart <span class="cart-badge" id="cart-count">0</span></button>
     </div>
   </nav>
+
   <div class="hero">
     <div class="hero-eyebrow">Custom-stitched shirts · No S, M, L</div>
     <h1>Shirts made<br>for <em>your</em> body</h1>
-    <p>Give us your measurements once. We'll make every shirt fit you perfectly — every time.</p>
-    <button class="btn-white" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Shop shirts</button>
+    <div class="hero-tagline">"Wear Your Size"</div>
+    <p>Give us your measurements once. We'll stitch every shirt to fit you perfectly — every single time.</p>
+    <div class="hero-btns">
+      <button class="btn-white" onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">Shop now</button>
+      <button class="btn-outline" onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">How it works</button>
+    </div>
   </div>
+
+  <div class="tagline-banner">
+    <p>✂️ Every shirt is <strong>stitched to your exact measurements</strong> — because one size never fits all. <strong>Wear Your Size.</strong></p>
+  </div>
+
   <div class="main" id="catalog">
     <div class="section-header">
-      <div class="section-title">The collection</div>
-      <div class="section-sub">All custom-stitched to your measurements</div>
+      <div>
+        <div class="section-title">The collection</div>
+        <div class="section-sub" style="margin-top:4px;">All shirts custom-stitched to your measurements</div>
+      </div>
+      <div style="font-size:12px;color:var(--gray-400);font-family:'Arial',sans-serif;font-style:italic;">Wear Your Size</div>
     </div>
     <div class="shirt-grid" id="shirt-grid"></div>
   </div>
-  <div class="how-section">
-    <div style="max-width:900px;margin:0 auto;text-align:center;">
-      <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray-400);margin-bottom:12px;font-family:'Arial',sans-serif;">How it works</div>
-      <div style="font-size:28px;font-weight:700;letter-spacing:-1px;">Three steps to a perfect shirt</div>
-    </div>
-    <div class="how-grid">
-      <div class="how-step"><span class="how-num">01</span><div class="how-title">Pick your shirt</div><div class="how-desc">Browse our collection. Add your favourites to cart.</div></div>
-      <div class="how-step"><span class="how-num">02</span><div class="how-title">Give your measurements</div><div class="how-desc">Enter chest, waist, shoulder, sleeve, neck. Saved forever — never re-enter again.</div></div>
-      <div class="how-step"><span class="how-num">03</span><div class="how-title">We stitch and deliver</div><div class="how-desc">Our tailors cut and stitch every shirt to order. Delivered in 7–10 days. Pay on delivery.</div></div>
+
+  <div class="wys-section">
+    <div class="wys-title">Why <em>Wear Your Size?</em></div>
+    <div class="wys-sub">Because you've spent your whole life adjusting to clothes that don't fit. It's time clothes adjusted to you.</div>
+    <div class="wys-grid">
+      <div class="wys-item">
+        <span class="wys-num">01</span>
+        <div class="wys-item-title">Your measurements, forever</div>
+        <div class="wys-item-desc">Enter once. Every future shirt uses your saved measurements — no re-entering ever again.</div>
+      </div>
+      <div class="wys-item">
+        <span class="wys-num">02</span>
+        <div class="wys-item-title">Stitched just for you</div>
+        <div class="wys-item-desc">No standard sizes. No compromises. Every shirt is cut and stitched specifically for your body.</div>
+      </div>
+      <div class="wys-item">
+        <span class="wys-num">03</span>
+        <div class="wys-item-title">Delivered to your door</div>
+        <div class="wys-item-desc">Pay on delivery when your perfect-fit shirts arrive. No advance payment needed.</div>
+      </div>
     </div>
   </div>
-  <footer><p>© 2024 whySML · No S, M, L — just you · Hyderabad, India</p></footer>
+
+  <div class="how-section" id="how-it-works">
+    <div class="how-inner">
+      <div class="how-header">
+        <div class="how-eyebrow">How it works</div>
+        <div class="how-title">Three steps to <em style="color:var(--gray-400);">Wear Your Size</em></div>
+      </div>
+      <div class="how-grid">
+        <div class="how-step">
+          <span class="how-num">01</span>
+          <div class="how-step-title">Pick your shirt</div>
+          <div class="how-step-desc">Browse our collection of fabrics and styles. Add your favourites to cart.</div>
+        </div>
+        <div class="how-step">
+          <span class="how-num">02</span>
+          <div class="how-step-title">Give your measurements</div>
+          <div class="how-step-desc">Enter chest, waist, shoulder, sleeve, neck. Saved forever — you'll never need to enter them again.</div>
+        </div>
+        <div class="how-step">
+          <span class="how-num">03</span>
+          <div class="how-step-title">We stitch and deliver</div>
+          <div class="how-step-desc">Your shirt is stitched to your exact measurements. Delivered in 7–10 days. Pay on delivery.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">why<span>SML</span></div>
+        <div class="footer-tagline">"Wear Your Size" — No S, M, L. Just you.</div>
+      </div>
+      <div class="footer-right">
+        © 2024 whySML · Hyderabad, India<br>
+        Custom-stitched shirts · Made to measure
+      </div>
+    </div>
+  </footer>
 </div>
 
 <!-- LOGIN -->
 <div class="screen" id="screen-login">
   <nav>
-    <div class="logo" onclick="goto('home')">why<span>SML</span></div>
+    <div onclick="goto('home')" style="cursor:pointer;">
+      <div class="logo">why<span>SML</span></div>
+      <div class="logo-tagline">Wear Your Size</div>
+    </div>
     <div class="nav-actions"><button class="nav-btn" onclick="goto('home')">← Back to shop</button></div>
   </nav>
   <div class="auth-wrap">
     <div class="auth-card">
       <div class="auth-logo">why<span>SML</span></div>
-      <div class="auth-tagline">Shirts made for your body</div>
+      <div class="auth-tagline">Wear Your Size</div>
       <div class="auth-title">Sign in</div>
       <div class="auth-sub">Enter your mobile number. We'll send a one-time password.<br>New to whySML? Your account is created automatically.</div>
       <div class="input-group">
@@ -374,13 +475,16 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 <!-- OTP -->
 <div class="screen" id="screen-otp">
   <nav>
-    <div class="logo" onclick="goto('home')">why<span>SML</span></div>
+    <div onclick="goto('home')" style="cursor:pointer;">
+      <div class="logo">why<span>SML</span></div>
+      <div class="logo-tagline">Wear Your Size</div>
+    </div>
     <div class="nav-actions"><button class="nav-btn" onclick="goto('login')">← Change number</button></div>
   </nav>
   <div class="auth-wrap">
     <div class="auth-card">
       <div class="auth-logo">why<span>SML</span></div>
-      <div class="auth-tagline">Shirts made for your body</div>
+      <div class="auth-tagline">Wear Your Size</div>
       <div class="auth-title">Enter OTP</div>
       <div class="auth-sub" id="otp-subtitle">Sent to your number</div>
       <div class="otp-row">
@@ -401,7 +505,10 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 <!-- CART -->
 <div class="screen" id="screen-cart">
   <nav>
-    <div class="logo" onclick="goto('home')">why<span>SML</span></div>
+    <div onclick="goto('home')" style="cursor:pointer;">
+      <div class="logo">why<span>SML</span></div>
+      <div class="logo-tagline">Wear Your Size</div>
+    </div>
     <div class="nav-actions">
       <button class="nav-btn" onclick="goto('home')">← Continue shopping</button>
       <button class="nav-btn" onclick="goto('cart')">🛒 Cart <span class="cart-badge" id="cart-count2">0</span></button>
@@ -416,7 +523,10 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 <!-- CHECKOUT -->
 <div class="screen" id="screen-checkout">
   <nav>
-    <div class="logo" onclick="goto('home')">why<span>SML</span></div>
+    <div onclick="goto('home')" style="cursor:pointer;">
+      <div class="logo">why<span>SML</span></div>
+      <div class="logo-tagline">Wear Your Size</div>
+    </div>
     <div class="nav-actions"><button class="nav-btn" onclick="goto('cart')">← Back to cart</button></div>
   </nav>
   <div class="page-wrap">
@@ -437,7 +547,7 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
           <div id="measure-display"></div>
         </div>
         <div class="form-section">
-          <div class="form-section-title">Payment method</div>
+          <div class="form-section-title">Payment</div>
           <div class="cod-box">
             <div class="cod-title">🚚 Cash on Delivery</div>
             <div class="cod-desc">Pay in cash when your shirts arrive at your door. No online payment needed.</div>
@@ -451,7 +561,6 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
         <div class="order-summary">
           <div class="summary-title">Order summary</div>
           <div id="checkout-items"></div>
-          <div class="summary-row"><span>Tailoring</span><span class="summary-green">Included</span></div>
           <div class="summary-row"><span>Shipping</span><span class="summary-green">Free</span></div>
           <div class="summary-row"><span>Payment</span><span class="summary-green">COD</span></div>
           <div class="summary-row total"><span>Total</span><span>₹<span id="checkout-total2">0</span></span></div>
@@ -464,7 +573,10 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 <!-- ORDERS -->
 <div class="screen" id="screen-orders">
   <nav>
-    <div class="logo" onclick="goto('home')">why<span>SML</span></div>
+    <div onclick="goto('home')" style="cursor:pointer;">
+      <div class="logo">why<span>SML</span></div>
+      <div class="logo-tagline">Wear Your Size</div>
+    </div>
     <div class="nav-actions">
       <button class="nav-btn" onclick="goto('home')">← Back to shop</button>
       <button class="nav-btn" onclick="goto('cart')">🛒 Cart <span class="cart-badge" id="cart-count3">0</span></button>
@@ -478,16 +590,21 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 
 <!-- SUCCESS -->
 <div class="screen" id="screen-success">
-  <nav><div class="logo" onclick="goto('home')">why<span>SML</span></div></nav>
+  <nav>
+    <div onclick="goto('home')" style="cursor:pointer;">
+      <div class="logo">why<span>SML</span></div>
+      <div class="logo-tagline">Wear Your Size</div>
+    </div>
+  </nav>
   <div class="success-wrap">
     <div class="success-card">
       <div class="success-icon">✅</div>
       <div class="success-title">Order placed!</div>
-      <div class="success-sub">Your custom shirts are being stitched. You'll pay cash when they arrive in 7–10 days.</div>
+      <div class="success-sub">Your custom shirts are being stitched to your exact measurements. Pay cash when they arrive in 7–10 days.</div>
       <div class="receipt" id="success-receipt"></div>
       <div class="tag-row">
-        <span class="pill pill-green">🪡 Custom stitched</span>
-        <span class="pill pill-gray">📦 7–10 days delivery</span>
+        <span class="pill pill-green">✂️ Made to measure</span>
+        <span class="pill pill-gray">📦 7–10 days</span>
         <span class="pill pill-gray">💵 Pay on delivery</span>
       </div>
       <button class="btn-dark" onclick="goto('home')">Back to shop</button>
@@ -497,6 +614,7 @@ footer p { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-s
 </div>
 
 <script>
+// ── FIREBASE ─────────────────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyA7oNwbaHZZcPPYlP8sNabbqvqKi-MocAY",
   authDomain: "whysml.firebaseapp.com",
@@ -509,61 +627,47 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+// ── STATE ─────────────────────────────────────────────────────
 let currentUser = null;
 let confirmationResult = null;
+let recaptchaVerifier = null;
 let cart = JSON.parse(localStorage.getItem('wsml_cart') || '[]');
 let userProfile = null;
 let afterLoginDo = null;
-let recaptchaVerifier = null;
 let pinValidated = false;
 
-const SHIRTS = [
-  { id:1, name:'Oxford classic', desc:'Crisp 100% cotton. Perfect for office or smart-casual.', price:1299, color:'#e8f3ee', emoji:'👔' },
-  { id:2, name:'Linen casual', desc:'Breathable linen. Made for weekends and travel.', price:1099, color:'#faeeda', emoji:'👕', badge:'Best seller' },
-  { id:3, name:'Slim formal', desc:'Structured poplin. Designed to be tucked in and dressed up.', price:1499, color:'#eeedfe', emoji:'🧥' },
-  { id:4, name:'Check weekend', desc:'Soft brushed cotton. Relaxed fit for days off.', price:949, color:'#fdf0ee', emoji:'👕' },
-  { id:5, name:'Mandarin collar', desc:'Contemporary collar-less design. Minimalist and modern.', price:1199, color:'#e8effe', emoji:'👔', badge:'New' },
-  { id:6, name:'Chambray easy', desc:'Faded chambray. Laid-back look that pairs with anything.', price:1049, color:'#f0f9e8', emoji:'👕' },
+// ── SHIRTS — loaded from Firestore, fallback to defaults ──────
+const DEFAULT_SHIRTS = [
+  { id:'shirt1', name:'Oxford classic', desc:'Crisp 100% cotton. Perfect for office or smart-casual.', price:1299, color:'#e8f3ee', emoji:'👔' },
+  { id:'shirt2', name:'Linen casual', desc:'Breathable linen. Made for weekends and travel.', price:1099, color:'#faeeda', emoji:'👕', badge:'Best seller' },
+  { id:'shirt3', name:'Slim formal', desc:'Structured poplin. Designed to be tucked in and dressed up.', price:1499, color:'#eeedfe', emoji:'🧥' },
+  { id:'shirt4', name:'Check weekend', desc:'Soft brushed cotton. Relaxed fit for days off.', price:949, color:'#fdf0ee', emoji:'👕' },
+  { id:'shirt5', name:'Mandarin collar', desc:'Contemporary collar-less design. Minimalist and modern.', price:1199, color:'#e8effe', emoji:'👔', badge:'New' },
+  { id:'shirt6', name:'Chambray easy', desc:'Faded chambray. Laid-back look that pairs with anything.', price:1049, color:'#f0f9e8', emoji:'👕' },
 ];
+let SHIRTS = [...DEFAULT_SHIRTS];
 
-// ── PINCODE VALIDATION ───────────────────────────────────────
-const PIN_DATA = {
-  "500001":"Telangana","500002":"Telangana","500003":"Telangana","500004":"Telangana","500005":"Telangana",
-  "500006":"Telangana","500007":"Telangana","500008":"Telangana","500009":"Telangana","500010":"Telangana",
-  "500011":"Telangana","500012":"Telangana","500013":"Telangana","500014":"Telangana","500015":"Telangana",
-  "500016":"Telangana","500017":"Telangana","500018":"Telangana","500019":"Telangana","500020":"Telangana",
-  "500028":"Telangana","500029":"Telangana","500030":"Telangana","500032":"Telangana","500033":"Telangana",
-  "500034":"Telangana","500035":"Telangana","500036":"Telangana","500038":"Telangana","500039":"Telangana",
-  "500040":"Telangana","500044":"Telangana","500045":"Telangana","500046":"Telangana","500047":"Telangana",
-  "500048":"Telangana","500049":"Telangana","500050":"Telangana","500051":"Telangana","500052":"Telangana",
-  "500053":"Telangana","500054":"Telangana","500055":"Telangana","500056":"Telangana","500057":"Telangana",
-  "500058":"Telangana","500059":"Telangana","500060":"Telangana","500061":"Telangana","500062":"Telangana",
-  "500063":"Telangana","500064":"Telangana","500065":"Telangana","500066":"Telangana","500067":"Telangana",
-  "500068":"Telangana","500069":"Telangana","500070":"Telangana","500072":"Telangana","500073":"Telangana",
-  "500074":"Telangana","500075":"Telangana","500076":"Telangana","500077":"Telangana","500078":"Telangana",
-  "500079":"Telangana","500080":"Telangana","500081":"Telangana","500082":"Telangana","500083":"Telangana",
-  "500084":"Telangana","500085":"Telangana","500086":"Telangana","500087":"Telangana","500088":"Telangana",
-  "500089":"Telangana","500090":"Telangana","500091":"Telangana","500092":"Telangana","500093":"Telangana",
-  "500094":"Telangana","500095":"Telangana","500096":"Telangana","500097":"Telangana","500098":"Telangana"
-};
+// Load shirts from Firestore
+async function loadShirts() {
+  try {
+    const snapshot = await db.collection('shirts').where('active', '==', true).get();
+    if (!snapshot.empty) {
+      SHIRTS = [];
+      snapshot.forEach(doc => SHIRTS.push({ id: doc.id, ...doc.data() }));
+    }
+  } catch(e) {
+    SHIRTS = [...DEFAULT_SHIRTS];
+  }
+  renderShirts();
+}
 
+// ── PINCODE VALIDATION ────────────────────────────────────────
 let pinLookupTimer = null;
 function validatePin(val) {
   pinValidated = false;
   const statusEl = document.getElementById('pin-status');
   const stateEl = document.getElementById('a-state');
   if (val.length < 6) { statusEl.className = 'pin-status'; stateEl.value = ''; return; }
-
-  // First check local data
-  if (PIN_DATA[val]) {
-    stateEl.value = PIN_DATA[val];
-    statusEl.textContent = '✓ Valid pincode — ' + PIN_DATA[val];
-    statusEl.className = 'pin-status valid';
-    pinValidated = true;
-    return;
-  }
-
-  // Live lookup via India Post API
   statusEl.textContent = 'Checking pincode...';
   statusEl.className = 'pin-status valid';
   clearTimeout(pinLookupTimer);
@@ -571,14 +675,13 @@ function validatePin(val) {
     try {
       const res = await fetch(`https://api.postalpincode.in/pincode/${val}`);
       const data = await res.json();
-      if (data[0].Status === 'Success' && data[0].PostOffice && data[0].PostOffice.length > 0) {
+      if (data[0].Status === 'Success' && data[0].PostOffice?.length > 0) {
         const state = data[0].PostOffice[0].State;
         const district = data[0].PostOffice[0].District;
         stateEl.value = state;
         statusEl.textContent = `✓ Valid — ${district}, ${state}`;
         statusEl.className = 'pin-status valid';
         pinValidated = true;
-        // Auto-fill city if empty
         const cityEl = document.getElementById('a-city');
         if (!cityEl.value) cityEl.value = district;
       } else {
@@ -588,39 +691,35 @@ function validatePin(val) {
         pinValidated = false;
       }
     } catch(e) {
-      statusEl.textContent = 'Could not verify pincode — please check it manually';
+      statusEl.textContent = 'Could not verify — please check manually';
       statusEl.className = 'pin-status invalid';
-      pinValidated = true; // allow proceed if API fails
+      pinValidated = true;
     }
   }, 600);
 }
 
-// ── AUTH STATE ───────────────────────────────────────────────
+// ── AUTH STATE ────────────────────────────────────────────────
 auth.onAuthStateChanged(async user => {
   if (user) {
     currentUser = user;
     await loadUserProfile();
     updateNavAuth();
-    renderShirts();
   } else {
     currentUser = null;
     userProfile = null;
     updateNavAuth();
-    renderShirts();
   }
 });
 
 function updateNavAuth() {
   const area = document.getElementById('nav-user-area');
   const ordersBtn = document.getElementById('nav-orders-btn');
-  if (currentUser && userProfile && userProfile.name) {
-    area.innerHTML = `
-      <span class="nav-user">👤 ${userProfile.name}</span>
+  if (currentUser && userProfile?.name) {
+    area.innerHTML = `<span class="nav-user">👤 ${userProfile.name}</span>
       <button class="nav-btn logout" onclick="handleLogout()">Sign out</button>`;
     if (ordersBtn) ordersBtn.style.display = 'flex';
   } else if (currentUser) {
-    area.innerHTML = `
-      <span class="nav-user">👤 ${currentUser.phoneNumber}</span>
+    area.innerHTML = `<span class="nav-user">👤 ${currentUser.phoneNumber}</span>
       <button class="nav-btn logout" onclick="handleLogout()">Sign out</button>`;
     if (ordersBtn) ordersBtn.style.display = 'flex';
   } else {
@@ -629,27 +728,22 @@ function updateNavAuth() {
   }
 }
 
+// FIX 1: Direct signout — no confirmation popup
 async function handleLogout() {
-  if (confirm('Sign out of whySML?')) {
-    await auth.signOut();
-    cart = [];
-    saveCart();
-    updateCartBadge();
-    showToast('Signed out successfully');
-    goto('home');
-  }
+  await auth.signOut();
+  cart = [];
+  saveCart();
+  updateCartBadge();
+  showToast('Signed out');
+  goto('home');
 }
 
-// ── USER PROFILE ─────────────────────────────────────────────
+// ── USER PROFILE ──────────────────────────────────────────────
 async function loadUserProfile() {
   if (!currentUser) return;
   try {
     const doc = await db.collection('users').doc(currentUser.uid).get();
-    if (doc.exists) {
-      userProfile = doc.data();
-    } else {
-      userProfile = { phone: currentUser.phoneNumber };
-    }
+    userProfile = doc.exists ? doc.data() : { phone: currentUser.phoneNumber };
   } catch(e) {
     userProfile = JSON.parse(localStorage.getItem('wsml_profile') || '{}');
     userProfile.phone = currentUser.phoneNumber;
@@ -665,12 +759,11 @@ async function saveUserProfileToFirestore() {
   }
 }
 
-// ── NAME MODAL (new users only) ──────────────────────────────
+// ── NAME MODAL ────────────────────────────────────────────────
 function openNameModal() {
   document.getElementById('nameModal').classList.add('open');
   setTimeout(() => document.getElementById('name-input').focus(), 300);
 }
-
 async function saveName() {
   const name = document.getElementById('name-input').value.trim();
   const err = document.getElementById('name-err');
@@ -684,10 +777,10 @@ async function saveName() {
   updateNavAuth();
   showToast('Welcome, ' + name + '! 🎉');
   if (afterLoginDo) { const fn = afterLoginDo; afterLoginDo = null; fn(); }
-  else { goto('home'); }
+  else goto('home');
 }
 
-// ── NAVIGATION ───────────────────────────────────────────────
+// ── NAVIGATION ────────────────────────────────────────────────
 function goto(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + screen).classList.add('active');
@@ -699,148 +792,30 @@ function goto(screen) {
   if (screen === 'orders') renderOrders();
 }
 
-// ── ORDERS ───────────────────────────────────────────────────
-function getStatusStyle(status) {
-  const s = (status || 'processing').toLowerCase();
-  if (s === 'delivered') return { cls: 'status-delivered', icon: '✅', label: 'Delivered' };
-  if (s === 'intransit' || s === 'in transit') return { cls: 'status-intransit', icon: '🚚', label: 'In Transit' };
-  if (s === 'returned') return { cls: 'status-returned', icon: '↩️', label: 'Returned' };
-  return { cls: 'status-processing', icon: '⏳', label: 'Processing' };
-}
-
-function formatDate(ts) {
-  if (!ts) return '—';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
-  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
-}
-
-function toggleOrder(id) {
-  const body = document.getElementById('ob-' + id);
-  const chevron = document.getElementById('oc-' + id);
-  if (body.classList.contains('open')) {
-    body.classList.remove('open');
-    chevron.classList.remove('open');
-  } else {
-    body.classList.add('open');
-    chevron.classList.add('open');
-  }
-}
-
-async function renderOrders() {
-  const wrap = document.getElementById('orders-content');
-  if (!currentUser) {
-    wrap.innerHTML = `<div class="empty"><div class="empty-icon">🔒</div><h3>Please sign in</h3><p>Sign in to view your orders</p><button class="btn-dark" style="max-width:200px;margin:0 auto;" onclick="goto('login')">Sign in</button></div>`;
-    return;
-  }
-
-  wrap.innerHTML = `<div style="text-align:center;padding:40px;color:var(--gray-400);font-family:'Arial',sans-serif;">Loading your orders...</div>`;
-
-  try {
-    const snapshot = await db.collection('orders')
-      .where('userId', '==', currentUser.uid)
-      .get();
-
-    if (snapshot.empty) {
-      wrap.innerHTML = `<div class="empty">
-        <div class="empty-icon">📦</div>
-        <h3>No orders yet</h3>
-        <p>Your orders will appear here once you place one</p>
-        <button class="btn-dark" style="max-width:200px;margin:0 auto;" onclick="goto('home')">Shop now</button>
-      </div>`;
-      return;
-    }
-
-    const orders = [];
-    snapshot.forEach(doc => orders.push(doc.data()));
-
-    wrap.innerHTML = orders.map(order => {
-      const st = getStatusStyle(order.status);
-      const m = order.measurements || {};
-      const addr = order.address || {};
-      const items = order.items || [];
-      const total = order.total || 0;
-      const id = order.orderId;
-
-      return `<div class="order-card">
-        <div class="order-card-header" onclick="toggleOrder('${id}')">
-          <div>
-            <div class="order-id">${id}</div>
-            <div class="order-date">${formatDate(order.createdAt)}</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <span class="order-status ${st.cls}">${st.icon} ${st.label}</span>
-            <span class="order-chevron" id="oc-${id}">▾</span>
-          </div>
-        </div>
-        <div class="order-card-body" id="ob-${id}">
-
-          <div class="order-section">
-            <div class="order-section-title">Items ordered</div>
-            <div class="order-items-list">
-              ${items.map(i => `
-                <div class="order-item-row">
-                  <span class="order-item-name">${i.name}</span>
-                  <span class="order-item-price">₹${i.price.toLocaleString()}</span>
-                </div>`).join('')}
-              <div class="order-total-row">
-                <span>Total (COD)</span>
-                <span>₹${total.toLocaleString()}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="order-section">
-            <div class="order-section-title">Delivery address</div>
-            <div class="order-address-block">
-              <strong>${addr.name || ''}</strong> · ${addr.phone || ''}<br>
-              ${addr.line1 || ''}, ${addr.city || ''} – ${addr.pin || ''}, ${addr.state || ''}
-            </div>
-          </div>
-
-          ${m.chest ? `<div class="order-section">
-            <div class="order-section-title">Measurements used</div>
-            <div class="order-measure-grid">
-              <div class="order-measure-box"><div class="order-measure-val">${m.chest}"</div><div class="order-measure-lbl">Chest</div></div>
-              <div class="order-measure-box"><div class="order-measure-val">${m.waist}"</div><div class="order-measure-lbl">Waist</div></div>
-              <div class="order-measure-box"><div class="order-measure-val">${m.shoulder}"</div><div class="order-measure-lbl">Shoulder</div></div>
-              <div class="order-measure-box"><div class="order-measure-val">${m.sleeve}"</div><div class="order-measure-lbl">Sleeve</div></div>
-              <div class="order-measure-box"><div class="order-measure-val">${m.length}"</div><div class="order-measure-lbl">Length</div></div>
-              <div class="order-measure-box"><div class="order-measure-val">${m.neck}"</div><div class="order-measure-lbl">Neck</div></div>
-            </div>
-          </div>` : ''}
-
-        </div>
-      </div>`;
-    }).join('');
-
-  } catch(e) {
-    console.error('Orders error:', e);
-    wrap.innerHTML = `<div class="empty">
-      <div class="empty-icon">⚠️</div>
-      <h3>Could not load orders</h3>
-      <p style="font-size:12px;color:var(--red);font-family:'Arial',sans-serif;">${e.message}</p>
-      <button class="btn-dark" style="max-width:200px;margin:16px auto 0;" onclick="renderOrders()">Retry</button>
-    </div>`;
-  }
-}
-
-// ── SHIRTS ───────────────────────────────────────────────────
+// ── SHIRTS ────────────────────────────────────────────────────
 function renderShirts() {
   const grid = document.getElementById('shirt-grid');
   if (!grid) return;
   grid.innerHTML = SHIRTS.map(s => {
     const inCart = cart.some(c => c.id === s.id);
+    const imgContent = s.imageUrl
+      ? `<img src="${s.imageUrl}" alt="${s.name}" loading="lazy">`
+      : `<span>${s.emoji || '👔'}</span>`;
     return `<div class="shirt-card">
-      <div class="shirt-img" style="background:${s.color};">
+      <div class="shirt-img" style="${s.imageUrl ? '' : 'background:' + (s.color||'#e8f3ee') + ';'}">
         ${s.badge ? `<div class="shirt-badge">${s.badge}</div>` : ''}
-        <span>${s.emoji}</span>
+        <div class="shirt-custom-badge">Wear Your Size</div>
+        ${imgContent}
       </div>
       <div class="shirt-info">
         <div class="shirt-name">${s.name}</div>
         <div class="shirt-desc">${s.desc}</div>
         <div class="shirt-footer">
-          <div class="shirt-price">₹${s.price.toLocaleString()}</div>
-          <button class="atc-btn ${inCart ? 'added' : ''}" id="atc-${s.id}" onclick="addToCart(${s.id})">
+          <div>
+            <div class="shirt-price">₹${Number(s.price).toLocaleString()}</div>
+            <div class="shirt-price-sub">Custom stitched to your size</div>
+          </div>
+          <button class="atc-btn ${inCart ? 'added' : ''}" id="atc-${s.id}" onclick="addToCart('${s.id}')">
             ${inCart ? '✓ Added' : 'Add to cart'}
           </button>
         </div>
@@ -857,6 +832,7 @@ function addToCart(id) {
     return;
   }
   const shirt = SHIRTS.find(s => s.id === id);
+  if (!shirt) return;
   if (!cart.some(c => c.id === id)) {
     cart.push({...shirt});
     saveCart();
@@ -868,7 +844,6 @@ function addToCart(id) {
     showToast('Already in your cart');
   }
 }
-
 function saveCart() { localStorage.setItem('wsml_cart', JSON.stringify(cart)); }
 function updateCartBadge() {
   ['cart-count','cart-count2','cart-count3'].forEach(id => {
@@ -877,16 +852,24 @@ function updateCartBadge() {
   });
 }
 
-// ── PHONE AUTH (invisible recaptcha) ─────────────────────────
-function setupRecaptcha() {
+// ── PHONE AUTH — FIX 2: Proper recaptcha reset ────────────────
+function resetRecaptcha() {
   if (recaptchaVerifier) {
     try { recaptchaVerifier.clear(); } catch(e) {}
     recaptchaVerifier = null;
   }
+  // Clear the container
+  const container = document.getElementById('recaptcha-container');
+  if (container) container.innerHTML = '';
+}
+
+function setupRecaptcha() {
+  resetRecaptcha();
   recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
     size: 'invisible',
     callback: () => {}
   });
+  return recaptchaVerifier;
 }
 
 async function sendOTP() {
@@ -900,16 +883,17 @@ async function sendOTP() {
   btn.disabled = true;
 
   try {
-    setupRecaptcha();
-    confirmationResult = await auth.signInWithPhoneNumber('+91' + ph, recaptchaVerifier);
+    const verifier = setupRecaptcha();
+    confirmationResult = await auth.signInWithPhoneNumber('+91' + ph, verifier);
     document.getElementById('otp-subtitle').textContent = 'Sent to +91 ' + ph.slice(0,5) + ' ' + ph.slice(5);
     [0,1,2,3,4,5].forEach(i => { document.getElementById('otp'+i).value = ''; });
     goto('otp');
     showToast('OTP sent!');
     setTimeout(() => document.getElementById('otp0').focus(), 300);
   } catch(e) {
+    console.error('OTP error:', e);
+    resetRecaptcha();
     showToast('Error sending OTP. Please try again.');
-    recaptchaVerifier = null;
   } finally {
     btn.innerHTML = 'Send OTP';
     btn.disabled = false;
@@ -923,7 +907,6 @@ function otpInput(i) {
   const allFilled = [0,1,2,3,4,5].every(n => document.getElementById('otp'+n).value);
   if (allFilled) verifyOTP();
 }
-
 function otpKey(e, i) {
   if (e.key === 'Backspace' && !document.getElementById('otp'+i).value && i > 0)
     document.getElementById('otp'+(i-1)).focus();
@@ -942,9 +925,8 @@ async function verifyOTP() {
   try {
     const result = await confirmationResult.confirm(otp);
     const user = result.user;
-    // Check if new user — Firestore has no doc yet
     const doc = await db.collection('users').doc(user.uid).get().catch(() => null);
-    const isNewUser = !doc || !doc.exists || !doc.data().name;
+    const isNewUser = !doc || !doc.exists || !doc.data()?.name;
     if (isNewUser) {
       openNameModal();
     } else {
@@ -962,44 +944,34 @@ async function verifyOTP() {
   }
 }
 
-// ── CART ─────────────────────────────────────────────────────
+// ── CART ──────────────────────────────────────────────────────
 function renderCart() {
   const wrap = document.getElementById('cart-content');
   if (cart.length === 0) {
-    wrap.innerHTML = `<div class="empty">
-      <div class="empty-icon">🛒</div>
-      <h3>Your cart is empty</h3>
-      <p>Add some shirts to get started</p>
-      <button class="btn-dark" style="max-width:200px;margin:0 auto;" onclick="goto('home')">Browse shirts</button>
-    </div>`;
+    wrap.innerHTML = `<div class="empty"><div class="empty-icon">🛒</div><h3>Your cart is empty</h3><p>Add some shirts to get started</p><button class="btn-dark" style="max-width:200px;margin:0 auto;" onclick="goto('home')">Browse shirts</button></div>`;
     return;
   }
-  const total = cart.reduce((s,i) => s + i.price, 0);
-  wrap.innerHTML = `<div class="cart-layout">
-    <div>
-      ${cart.map(item => `
-        <div class="cart-item">
-          <div class="cart-thumb" style="background:${item.color};">${item.emoji}</div>
-          <div style="flex:1;min-width:0;">
-            <div class="cart-item-name">${item.name}</div>
-            <span class="cart-item-tag">Custom fit</span>
-          </div>
-          <div class="cart-item-price">₹${item.price.toLocaleString()}</div>
-          <button class="cart-remove" onclick="removeFromCart(${item.id})">×</button>
-        </div>`).join('')}
-    </div>
-    <div>
-      <div class="order-summary">
-        <div class="summary-title">Order summary</div>
-        ${cart.map(i => `<div class="summary-row"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join('')}
-        <div class="summary-row"><span>Tailoring</span><span class="summary-green">Included</span></div>
-        <div class="summary-row"><span>Shipping</span><span class="summary-green">Free</span></div>
-        <div class="summary-row"><span>Payment</span><span class="summary-green">Cash on delivery</span></div>
-        <div class="summary-row total"><span>Total</span><span>₹${total.toLocaleString()}</span></div>
-        <button class="btn-dark" style="margin-top:20px;" onclick="goCheckout()">Proceed to checkout</button>
+  const total = cart.reduce((s,i) => s + Number(i.price), 0);
+  wrap.innerHTML = `<div class="cart-layout"><div>
+    ${cart.map(item => `<div class="cart-item">
+      <div class="cart-thumb">${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.name}">` : (item.emoji || '👔')}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="cart-item-name">${item.name}</div>
+        <span class="cart-item-tag">Custom fit — Wear Your Size</span>
       </div>
+      <div class="cart-item-price">₹${Number(item.price).toLocaleString()}</div>
+      <button class="cart-remove" onclick="removeFromCart('${item.id}')">×</button>
+    </div>`).join('')}
+  </div><div>
+    <div class="order-summary">
+      <div class="summary-title">Order summary</div>
+      ${cart.map(i => `<div class="summary-row"><span>${i.name}</span><span>₹${Number(i.price).toLocaleString()}</span></div>`).join('')}
+      <div class="summary-row"><span>Shipping</span><span class="summary-green">Free</span></div>
+      <div class="summary-row"><span>Payment</span><span class="summary-green">Cash on delivery</span></div>
+      <div class="summary-row total"><span>Total</span><span>₹${total.toLocaleString()}</span></div>
+      <button class="btn-dark" style="margin-top:20px;" onclick="goCheckout()">Proceed to checkout</button>
     </div>
-  </div>`;
+  </div></div>`;
 }
 
 function removeFromCart(id) {
@@ -1007,19 +979,18 @@ function removeFromCart(id) {
   saveCart(); updateCartBadge(); renderCart(); renderShirts();
   showToast('Item removed');
 }
-
 function goCheckout() {
   if (!currentUser) { afterLoginDo = () => goto('checkout'); goto('login'); return; }
   goto('checkout');
 }
 
-// ── CHECKOUT ─────────────────────────────────────────────────
+// ── CHECKOUT ──────────────────────────────────────────────────
 function renderCheckout() {
-  const total = cart.reduce((s,i) => s + i.price, 0);
+  const total = cart.reduce((s,i) => s + Number(i.price), 0);
   document.getElementById('checkout-total').textContent = total.toLocaleString();
   document.getElementById('checkout-total2').textContent = total.toLocaleString();
   document.getElementById('checkout-items').innerHTML =
-    cart.map(i => `<div class="summary-row"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join('');
+    cart.map(i => `<div class="summary-row"><span>${i.name}</span><span>₹${Number(i.price).toLocaleString()}</span></div>`).join('');
   renderAddressDisplay();
   renderMeasureDisplay();
 }
@@ -1027,70 +998,59 @@ function renderCheckout() {
 function renderAddressDisplay() {
   const el = document.getElementById('address-display');
   if (!el) return;
-  const addr = userProfile && userProfile.address;
-  if (!addr) {
-    el.innerHTML = `<div class="missing-block" onclick="openAddressModal()">⚠ No address saved — tap to add your delivery address</div>`;
-  } else {
-    el.innerHTML = `<div class="saved-block"><strong>${addr.name}</strong> · ${addr.phone}<br>${addr.line1}, ${addr.city} – ${addr.pin}, ${addr.state}</div>`;
-  }
+  const addr = userProfile?.address;
+  el.innerHTML = addr
+    ? `<div class="saved-block"><strong>${addr.name}</strong> · ${addr.phone}<br>${addr.line1}, ${addr.city} – ${addr.pin}, ${addr.state}</div>`
+    : `<div class="missing-block" onclick="openAddressModal()">⚠ No address saved — tap to add your delivery address</div>`;
 }
 
 function renderMeasureDisplay() {
   const el = document.getElementById('measure-display');
   if (!el) return;
-  const m = userProfile && userProfile.measurements;
+  const m = userProfile?.measurements;
   if (!m) {
     el.innerHTML = `<div class="missing-block" onclick="openMeasureModal()">⚠ No measurements saved — tap to add your measurements</div>`;
-  } else {
-    el.innerHTML = `<div class="measure-grid">
-      <div class="measure-box"><div class="measure-val">${m.chest}"</div><div class="measure-lbl">Chest</div></div>
-      <div class="measure-box"><div class="measure-val">${m.waist}"</div><div class="measure-lbl">Waist</div></div>
-      <div class="measure-box"><div class="measure-val">${m.shoulder}"</div><div class="measure-lbl">Shoulder</div></div>
-      <div class="measure-box"><div class="measure-val">${m.sleeve}"</div><div class="measure-lbl">Sleeve</div></div>
-      <div class="measure-box"><div class="measure-val">${m.length}"</div><div class="measure-lbl">Length</div></div>
-      <div class="measure-box"><div class="measure-val">${m.neck}"</div><div class="measure-lbl">Neck</div></div>
-    </div>
-    <div class="info-box">✓ Saved to your profile — edit anytime before ordering</div>`;
+    return;
   }
+  el.innerHTML = `<div class="measure-grid">
+    <div class="measure-box"><div class="measure-val">${m.chest}"</div><div class="measure-lbl">Chest</div></div>
+    <div class="measure-box"><div class="measure-val">${m.waist}"</div><div class="measure-lbl">Waist</div></div>
+    <div class="measure-box"><div class="measure-val">${m.shoulder}"</div><div class="measure-lbl">Shoulder</div></div>
+    <div class="measure-box"><div class="measure-val">${m.sleeve}"</div><div class="measure-lbl">Sleeve</div></div>
+    <div class="measure-box"><div class="measure-val">${m.length}"</div><div class="measure-lbl">Length</div></div>
+    <div class="measure-box"><div class="measure-val">${m.neck}"</div><div class="measure-lbl">Neck</div></div>
+  </div><div class="info-box">✓ Saved to your profile — edit anytime before ordering</div>`;
 }
 
 async function placeOrder() {
   const errEl = document.getElementById('checkout-err');
-  if (!userProfile || !userProfile.address) {
-    errEl.textContent = 'Please add a delivery address to continue.';
-    errEl.classList.add('show'); openAddressModal(); return;
-  }
-  if (!userProfile || !userProfile.measurements) {
-    errEl.textContent = 'Please add your measurements to continue.';
-    errEl.classList.add('show'); openMeasureModal(); return;
-  }
+  if (!userProfile?.address) { errEl.textContent = 'Please add a delivery address.'; errEl.classList.add('show'); openAddressModal(); return; }
+  if (!userProfile?.measurements) { errEl.textContent = 'Please add your measurements.'; errEl.classList.add('show'); openMeasureModal(); return; }
   errEl.classList.remove('show');
 
   const btn = document.getElementById('place-order-btn');
   btn.innerHTML = '<span class="spinner"></span>Placing order...';
   btn.disabled = true;
 
-  const total = cart.reduce((s,i) => s + i.price, 0);
+  const total = cart.reduce((s,i) => s + Number(i.price), 0);
   const orderId = 'WS-' + Math.floor(10000 + Math.random() * 90000);
   const orderData = {
     orderId, userId: currentUser.uid,
     customerName: userProfile.name || '',
     phone: currentUser.phoneNumber,
-    items: cart.map(i => ({ id: i.id, name: i.name, price: i.price })),
+    items: cart.map(i => ({ id: i.id, name: i.name, price: Number(i.price) })),
     total, address: userProfile.address,
     measurements: userProfile.measurements,
-    paymentMethod: 'COD', status: 'confirmed',
+    paymentMethod: 'COD', status: 'processing',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  try {
-    await db.collection('orders').doc(orderId).set(orderData);
-  } catch(e) { console.log('Order saved locally'); }
+  try { await db.collection('orders').doc(orderId).set(orderData); } catch(e) { console.log('Order saved locally'); }
 
   document.getElementById('success-receipt').innerHTML = `
     <div class="receipt-row"><span style="color:var(--gray-400);font-size:12px;">Order ID</span><span style="font-weight:700;">${orderId}</span></div>
     <div class="receipt-row"><span style="color:var(--gray-400);font-size:12px;">Name</span><span>${userProfile.name || ''}</span></div>
-    ${cart.map(i => `<div class="receipt-row"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join('')}
+    ${cart.map(i => `<div class="receipt-row"><span>${i.name}</span><span>₹${Number(i.price).toLocaleString()}</span></div>`).join('')}
     <div class="receipt-row"><span>Payment</span><span style="color:var(--green);font-weight:600;">Cash on delivery</span></div>
     <div class="receipt-row total"><span>Total on delivery</span><span>₹${total.toLocaleString()}</span></div>`;
 
@@ -1100,21 +1060,17 @@ async function placeOrder() {
   goto('success');
 }
 
-// ── MODALS ───────────────────────────────────────────────────
+// ── MODALS ────────────────────────────────────────────────────
 function openMeasureModal() {
-  const m = userProfile && userProfile.measurements;
+  const m = userProfile?.measurements;
   if (m) {
-    document.getElementById('m-chest').value = m.chest;
-    document.getElementById('m-waist').value = m.waist;
-    document.getElementById('m-shoulder').value = m.shoulder;
-    document.getElementById('m-sleeve').value = m.sleeve;
-    document.getElementById('m-length').value = m.length;
-    document.getElementById('m-neck').value = m.neck;
+    ['chest','waist','shoulder','sleeve','length','neck'].forEach(f => {
+      document.getElementById('m-' + f).value = m[f];
+    });
   }
   document.getElementById('measureModal').classList.add('open');
 }
 function closeMeasureModal() { document.getElementById('measureModal').classList.remove('open'); }
-
 async function saveMeasurements() {
   const fields = ['chest','waist','shoulder','sleeve','length','neck'];
   const vals = {};
@@ -1133,27 +1089,20 @@ async function saveMeasurements() {
 }
 
 function openAddressModal() {
-  const addr = userProfile && userProfile.address;
-  // Auto-populate name and phone
-  document.getElementById('a-name').value = addr ? addr.name : (userProfile && userProfile.name ? userProfile.name : '');
-  document.getElementById('a-phone').value = addr ? addr.phone : (currentUser ? currentUser.phoneNumber : '');
-  document.getElementById('a-line1').value = addr ? addr.line1 : '';
-  document.getElementById('a-city').value = addr ? addr.city : '';
-  document.getElementById('a-pin').value = addr ? addr.pin : '';
-  document.getElementById('a-state').value = addr ? addr.state : '';
-  // Reset pin validation
+  const addr = userProfile?.address;
+  document.getElementById('a-name').value = addr?.name || userProfile?.name || '';
+  document.getElementById('a-phone').value = addr?.phone || currentUser?.phoneNumber || '';
+  document.getElementById('a-line1').value = addr?.line1 || '';
+  document.getElementById('a-city').value = addr?.city || '';
+  document.getElementById('a-pin').value = addr?.pin || '';
+  document.getElementById('a-state').value = addr?.state || '';
   pinValidated = !!addr;
   const statusEl = document.getElementById('pin-status');
-  if (addr && addr.pin) {
-    statusEl.textContent = '✓ Valid pincode — ' + addr.state;
-    statusEl.className = 'pin-status valid';
-  } else {
-    statusEl.className = 'pin-status';
-  }
+  if (addr?.pin) { statusEl.textContent = '✓ Valid — ' + addr.state; statusEl.className = 'pin-status valid'; }
+  else statusEl.className = 'pin-status';
   document.getElementById('addressModal').classList.add('open');
 }
 function closeAddressModal() { document.getElementById('addressModal').classList.remove('open'); }
-
 async function saveAddress() {
   const name = document.getElementById('a-name').value.trim();
   const phone = document.getElementById('a-phone').value.trim();
@@ -1162,12 +1111,8 @@ async function saveAddress() {
   const pin = document.getElementById('a-pin').value.trim();
   const state = document.getElementById('a-state').value.trim();
   const err = document.getElementById('address-err');
-
   if (!name || !line1 || !city || !pin || !state) { err.classList.add('show'); return; }
-  if (pin.length !== 6 || !pinValidated) {
-    err.textContent = 'Please enter a valid 6-digit pincode.';
-    err.classList.add('show'); return;
-  }
+  if (pin.length !== 6 || !pinValidated) { err.textContent = 'Please enter a valid 6-digit pincode.'; err.classList.add('show'); return; }
   err.classList.remove('show');
   if (!userProfile) userProfile = {};
   userProfile.address = { name, phone, line1, city, pin, state };
@@ -1177,11 +1122,93 @@ async function saveAddress() {
   renderAddressDisplay();
 }
 
-// Close modals on overlay click
 document.getElementById('measureModal').addEventListener('click', e => { if(e.target===document.getElementById('measureModal')) closeMeasureModal(); });
 document.getElementById('addressModal').addEventListener('click', e => { if(e.target===document.getElementById('addressModal')) closeAddressModal(); });
 
-// ── TOAST ────────────────────────────────────────────────────
+// ── ORDERS ────────────────────────────────────────────────────
+function getStatusInfo(status) {
+  const s = (status || 'processing').toLowerCase();
+  if (s === 'delivered') return { cls: 'status-delivered', icon: '✅', label: 'Delivered' };
+  if (s === 'intransit') return { cls: 'status-intransit', icon: '🚚', label: 'In Transit' };
+  if (s === 'returned') return { cls: 'status-returned', icon: '↩️', label: 'Returned' };
+  return { cls: 'status-processing', icon: '⏳', label: 'Processing' };
+}
+function formatDate(ts) {
+  if (!ts) return '—';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function toggleOrder(id) {
+  const body = document.getElementById('ob-' + id);
+  const chevron = document.getElementById('oc-' + id);
+  body.classList.toggle('open');
+  chevron.classList.toggle('open');
+}
+async function renderOrders() {
+  const wrap = document.getElementById('orders-content');
+  if (!currentUser) {
+    wrap.innerHTML = `<div class="empty"><div class="empty-icon">🔒</div><h3>Please sign in</h3><p>Sign in to view your orders</p><button class="btn-dark" style="max-width:200px;margin:0 auto;" onclick="goto('login')">Sign in</button></div>`;
+    return;
+  }
+  wrap.innerHTML = `<div style="text-align:center;padding:40px;color:var(--gray-400);font-family:'Arial',sans-serif;">Loading your orders...</div>`;
+  try {
+    const snapshot = await db.collection('orders').where('userId', '==', currentUser.uid).get();
+    if (snapshot.empty) {
+      wrap.innerHTML = `<div class="empty"><div class="empty-icon">📦</div><h3>No orders yet</h3><p>Your orders will appear here once you place one</p><button class="btn-dark" style="max-width:200px;margin:0 auto;" onclick="goto('home')">Shop now</button></div>`;
+      return;
+    }
+    const orders = [];
+    snapshot.forEach(doc => orders.push(doc.data()));
+    orders.sort((a,b) => {
+      const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(0);
+      const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(0);
+      return tb - ta;
+    });
+    wrap.innerHTML = orders.map(order => {
+      const st = getStatusInfo(order.status);
+      const m = order.measurements || {};
+      const addr = order.address || {};
+      const items = order.items || [];
+      const id = order.orderId;
+      return `<div class="order-card">
+        <div class="order-card-header" onclick="toggleOrder('${id}')">
+          <div><div class="order-id">${id}</div><div class="order-date">${formatDate(order.createdAt)}</div></div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <span class="order-status ${st.cls}">${st.icon} ${st.label}</span>
+            <span class="order-chevron" id="oc-${id}">▾</span>
+          </div>
+        </div>
+        <div class="order-card-body" id="ob-${id}">
+          <div class="order-section">
+            <div class="order-section-title">Items ordered</div>
+            ${items.map(i => `<div class="order-item-row"><span>${i.name}</span><span>₹${Number(i.price).toLocaleString()}</span></div>`).join('')}
+            <div class="order-total-row"><span>Total (COD)</span><span>₹${Number(order.total||0).toLocaleString()}</span></div>
+          </div>
+          <div class="order-section">
+            <div class="order-section-title">Delivery address</div>
+            <div class="order-address-block"><strong>${addr.name||''}</strong> · ${addr.phone||''}<br>${addr.line1||''}, ${addr.city||''} – ${addr.pin||''}, ${addr.state||''}</div>
+          </div>
+          ${m.chest ? `<div class="order-section">
+            <div class="order-section-title">Measurements</div>
+            <div class="order-measure-grid">
+              <div class="order-measure-box"><div class="order-measure-val">${m.chest}"</div><div class="order-measure-lbl">Chest</div></div>
+              <div class="order-measure-box"><div class="order-measure-val">${m.waist}"</div><div class="order-measure-lbl">Waist</div></div>
+              <div class="order-measure-box"><div class="order-measure-val">${m.shoulder}"</div><div class="order-measure-lbl">Shoulder</div></div>
+              <div class="order-measure-box"><div class="order-measure-val">${m.sleeve}"</div><div class="order-measure-lbl">Sleeve</div></div>
+              <div class="order-measure-box"><div class="order-measure-val">${m.length}"</div><div class="order-measure-lbl">Length</div></div>
+              <div class="order-measure-box"><div class="order-measure-val">${m.neck}"</div><div class="order-measure-lbl">Neck</div></div>
+            </div>
+          </div>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    console.error('Orders error:', e);
+    wrap.innerHTML = `<div class="empty"><div class="empty-icon">⚠️</div><h3>Could not load orders</h3><p style="color:var(--red);font-size:12px;">${e.message}</p><button class="btn-dark" style="max-width:200px;margin:16px auto 0;" onclick="renderOrders()">Retry</button></div>`;
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1191,7 +1218,8 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-renderShirts();
+// ── INIT ──────────────────────────────────────────────────────
+loadShirts();
 updateCartBadge();
 </script>
 </body>
