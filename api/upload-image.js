@@ -3,8 +3,6 @@
  * Cloudinary credentials stored securely in Vercel environment variables
  */
 
-import crypto from 'crypto';
-
 const ALLOWED_ORIGINS = [
   'https://whysml.com',
   'https://www.whysml.com',
@@ -34,36 +32,50 @@ export default async function handler(req, res) {
     const apiKey = process.env.CLOUDINARY_API_KEY;
     const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
+    // Log env var presence for debugging
+    console.log('Cloudinary config check:', {
+      hasCloudName: !!cloudName,
+      hasApiKey: !!apiKey,
+      hasApiSecret: !!apiSecret,
+      cloudName: cloudName
+    });
+
     if (!cloudName || !apiKey || !apiSecret) {
-      return res.status(500).json({ error: 'Cloudinary not configured' });
+      return res.status(500).json({ 
+        error: 'Cloudinary not configured',
+        missing: { cloudName: !cloudName, apiKey: !apiKey, apiSecret: !apiSecret }
+      });
     }
 
     const timestamp = Math.round(Date.now() / 1000);
     const uploadFolder = folder || 'whysml/shirts';
     const finalPublicId = publicId || `shirt_${timestamp}_${Math.random().toString(36).substr(2, 9)}`;
 
-    const signatureString = `folder=${uploadFolder}&public_id=${finalPublicId}&timestamp=${timestamp}${apiSecret}`;
-    const signature = crypto.createHash('sha256').update(signatureString).digest('hex');
-
+    // Use unsigned upload to avoid signature complexity
     const formData = new FormData();
     formData.append('file', imageBase64);
-    formData.append('api_key', apiKey);
-    formData.append('timestamp', timestamp.toString());
-    formData.append('signature', signature);
+    formData.append('upload_preset', 'whysml_upload');
     formData.append('folder', uploadFolder);
     formData.append('public_id', finalPublicId);
+
+    console.log('Uploading to Cloudinary cloud:', cloudName);
 
     const cloudRes = await fetch(
       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
       { method: 'POST', body: formData }
     );
 
+    const result = await cloudRes.json();
+    console.log('Cloudinary response status:', cloudRes.status);
+    console.log('Cloudinary result:', JSON.stringify(result));
+
     if (!cloudRes.ok) {
-      const err = await cloudRes.json().catch(() => ({}));
-      return res.status(500).json({ error: 'Upload failed', details: err.error?.message });
+      return res.status(500).json({ 
+        error: 'Cloudinary upload failed', 
+        details: result.error?.message || JSON.stringify(result)
+      });
     }
 
-    const result = await cloudRes.json();
     return res.status(200).json({
       success: true,
       url: result.secure_url,
