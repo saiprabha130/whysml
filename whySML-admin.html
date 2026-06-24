@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>whySML — Admin Panel</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<style>
+:root {
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --off-white: #f7f6f4;
+  --gray-100: #f0efed;
+  --gray-200: #e2e0dc;
+  --gray-400: #a8a49e;
+  --gray-600: #6b6760;
+  --gray-800: #2c2b29;
+  --green: #1a6b4a;
+  --green-light: #e8f3ee;
+  --red: #c0392b;
+  --red-light: #fdf0ee;
+  --blue: #1e40af;
+  --blue-light: #dbeafe;
+  --amber: #92400e;
+  --amber-light: #fef3c7;
+  --radius: 4px;
+  --radius-lg: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Arial', sans-serif; background: var(--off-white); color: var(--black); min-height: 100vh; }
+
+/* SCREENS */
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* LOGIN */
+.login-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: var(--black); }
+.login-card { background: var(--white); border-radius: var(--radius-lg); padding: 40px; width: 100%; max-width: 380px; }
+.login-logo { font-size: 22px; font-weight: 700; letter-spacing: -1px; margin-bottom: 4px; font-family: 'Georgia', serif; }
+.login-logo span { color: var(--gray-400); font-weight: 400; }
+.login-badge { display: inline-block; font-size: 11px; background: var(--black); color: var(--white); padding: 3px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 24px; }
+.login-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.login-sub { font-size: 13px; color: var(--gray-600); margin-bottom: 24px; line-height: 1.6; }
+.input-group { margin-bottom: 14px; }
+.input-label { font-size: 11px; font-weight: 600; color: var(--gray-600); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+input[type="password"], input[type="text"] { width: 100%; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 11px 14px; font-size: 14px; color: var(--black); background: var(--white); outline: none; transition: border-color 0.15s; }
+input:focus { border-color: var(--black); }
+.btn-dark { background: var(--black); color: var(--white); border: none; padding: 13px; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: var(--radius); width: 100%; transition: background 0.15s; margin-top: 8px; }
+.btn-dark:hover { background: var(--gray-800); }
+.err { font-size: 12px; color: var(--red); margin-top: 8px; display: none; }
+.err.show { display: block; }
+
+/* MAIN NAV */
+.admin-nav { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.admin-logo { font-size: 18px; font-weight: 700; color: var(--white); letter-spacing: -0.5px; font-family: 'Georgia', serif; }
+.admin-logo span { color: var(--gray-400); }
+.admin-logo em { font-style: normal; font-size: 11px; background: var(--red); color: var(--white); padding: 2px 8px; border-radius: 20px; margin-left: 8px; font-family: 'Arial', sans-serif; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; vertical-align: middle; }
+.nav-right { display: flex; align-items: center; gap: 16px; }
+.nav-stat { font-size: 12px; color: var(--gray-400); }
+.nav-stat strong { color: var(--white); }
+.logout-btn { background: none; border: 1px solid var(--gray-600); color: var(--gray-400); padding: 5px 12px; border-radius: var(--radius); font-size: 12px; cursor: pointer; transition: all 0.15s; }
+.logout-btn:hover { border-color: var(--white); color: var(--white); }
+
+/* FILTERS */
+.filters { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 12px 24px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.filter-btn { background: transparent; border: 1px solid var(--gray-200); color: var(--gray-600); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+.filter-btn:hover { border-color: var(--black); color: var(--black); }
+.filter-btn.active { background: var(--black); color: var(--white); border-color: var(--black); }
+.filter-count { display: inline-block; background: var(--gray-200); color: var(--gray-600); font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; margin-left: 4px; }
+.filter-btn.active .filter-count { background: rgba(255,255,255,0.2); color: var(--white); }
+.search-input { margin-left: auto; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 7px 12px; font-size: 13px; outline: none; width: 220px; }
+.search-input:focus { border-color: var(--black); }
+
+/* MAIN */
+.admin-main { flex: 1; padding: 24px; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+/* STATS ROW */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+@media(max-width:700px){ .stats-row { grid-template-columns: repeat(2,1fr); } }
+.stat-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 16px 20px; }
+.stat-val { font-size: 28px; font-weight: 700; letter-spacing: -1px; font-family: 'Georgia', serif; }
+.stat-label { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+
+/* ORDER TABLE */
+.orders-table { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; }
+.table-header { display: grid; grid-template-columns: 130px 1fr 160px 120px 150px 140px; gap: 0; padding: 10px 20px; background: var(--gray-100); border-bottom: 1px solid var(--gray-200); }
+@media(max-width:900px){ .table-header { display: none; } }
+.th { font-size: 11px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; }
+.order-row { display: grid; grid-template-columns: 130px 1fr 160px 120px 150px 140px; gap: 0; padding: 16px 20px; border-bottom: 1px solid var(--gray-200); align-items: start; transition: background 0.1s; }
+@media(max-width:900px){ .order-row { display: flex; flex-direction: column; gap: 10px; padding: 16px; } }
+.order-row:last-child { border-bottom: none; }
+.order-row:hover { background: var(--gray-100); }
+.cell-id { font-size: 13px; font-weight: 700; }
+.cell-date { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+.cell-customer { }
+.customer-name { font-size: 13px; font-weight: 600; }
+.customer-phone { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.customer-address { font-size: 11px; color: var(--gray-600); margin-top: 4px; line-height: 1.4; }
+.cell-items { }
+.item-chip { display: inline-block; font-size: 11px; background: var(--gray-100); color: var(--gray-600); padding: 2px 8px; border-radius: 2px; margin-bottom: 3px; margin-right: 3px; }
+.cell-total { font-size: 14px; font-weight: 700; font-family: 'Georgia', serif; }
+.cell-total .cod-tag { display: block; font-size: 11px; color: var(--gray-400); font-family: 'Arial', sans-serif; font-weight: 400; margin-top: 2px; }
+.cell-status { }
+.status-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+.s-processing { background: var(--amber-light); color: var(--amber); }
+.s-intransit { background: var(--blue-light); color: var(--blue); }
+.s-delivered { background: var(--green-light); color: var(--green); }
+.s-returned { background: var(--red-light); color: var(--red); }
+.cell-action { }
+.status-select { width: 100%; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 7px 10px; font-size: 12px; font-weight: 500; cursor: pointer; outline: none; background: var(--white); transition: border-color 0.15s; }
+.status-select:focus { border-color: var(--black); }
+.update-btn { width: 100%; background: var(--black); color: var(--white); border: none; padding: 7px; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: var(--radius); margin-top: 6px; transition: background 0.15s; }
+.update-btn:hover { background: var(--gray-800); }
+.update-btn.saving { background: var(--gray-400); cursor: not-allowed; }
+.update-btn.saved { background: var(--green); }
+
+/* MEASUREMENTS EXPAND */
+.measure-toggle { font-size: 11px; color: var(--gray-400); cursor: pointer; text-decoration: underline; margin-top: 6px; display: inline-block; }
+.measure-toggle:hover { color: var(--black); }
+.measure-mini { display: none; margin-top: 6px; font-size: 11px; color: var(--gray-600); line-height: 1.8; background: var(--gray-100); padding: 6px 10px; border-radius: var(--radius); }
+.measure-mini.open { display: block; }
+
+/* EMPTY / LOADING */
+.table-empty { padding: 60px 24px; text-align: center; color: var(--gray-400); }
+.table-empty p { font-size: 14px; margin-top: 8px; }
+
+/* SPINNER */
+.spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 4px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--black); color: var(--white); padding: 12px 24px; border-radius: 100px; font-size: 13px; font-weight: 500; z-index: 999; transition: transform 0.3s; pointer-events: none; white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- LOGIN SCREEN -->
+<div class="screen active" id="screen-login">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">why<span>SML</span></div>
+      <div class="login-badge">Admin Panel</div>
+      <div class="login-title">Sign in to manage orders</div>
+      <div class="login-sub">Enter your admin email and password to access the order management dashboard.</div>
+      <div class="input-group">
+        <label class="input-label">Admin Email</label>
+        <input type="text" id="admin-email" placeholder="admin@whysml.com" onkeydown="if(event.key==='Enter') adminLogin()">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Password</label>
+        <input type="password" id="admin-pass" placeholder="Enter password" onkeydown="if(event.key==='Enter') adminLogin()">
+      </div>
+      <div class="err" id="login-err">Incorrect password. Please try again.</div>
+      <button class="btn-dark" onclick="adminLogin()">Sign in →</button>
+      <div style="font-size:11px;color:var(--gray-400);margin-top:16px;text-align:center;">This page is only for whySML admin use.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD SCREEN -->
+<div class="screen" id="screen-dashboard">
+  <div class="admin-nav">
+    <div class="admin-logo">why<span>SML</span> <em>Admin</em></div>
+    <div class="nav-right">
+      <div class="nav-stat">Total orders: <strong id="stat-total">0</strong></div>
+      <div class="nav-stat">Revenue: <strong id="stat-revenue">₹0</strong></div>
+      <button class="logout-btn" onclick="adminLogout()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterOrders('all', this)">All <span class="filter-count" id="fc-all">0</span></button>
+    <button class="filter-btn" onclick="filterOrders('processing', this)">⏳ Processing <span class="filter-count" id="fc-processing">0</span></button>
+    <button class="filter-btn" onclick="filterOrders('intransit', this)">🚚 In Transit <span class="filter-count" id="fc-intransit">0</span></button>
+    <button class="filter-btn" onclick="filterOrders('delivered', this)">✅ Delivered <span class="filter-count" id="fc-delivered">0</span></button>
+    <button class="filter-btn" onclick="filterOrders('returned', this)">↩️ Returned <span class="filter-count" id="fc-returned">0</span></button>
+    <input class="search-input" type="text" placeholder="Search by name, phone, order ID..." oninput="searchOrders(this.value)">
+  </div>
+
+  <div class="admin-main">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val" id="s-total">0</div>
+        <div class="stat-label">Total orders</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="s-processing">0</div>
+        <div class="stat-label">Processing</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="s-intransit">0</div>
+        <div class="stat-label">In transit</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="s-revenue">₹0</div>
+        <div class="stat-label">Total revenue (COD)</div>
+      </div>
+    </div>
+
+    <div class="orders-table">
+      <div class="table-header">
+        <div class="th">Order</div>
+        <div class="th">Customer</div>
+        <div class="th">Items</div>
+        <div class="th">Total</div>
+        <div class="th">Status</div>
+        <div class="th">Update status</div>
+      </div>
+      <div id="orders-list">
+        <div class="table-empty"><p>Loading orders...</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── FIREBASE ─────────────────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyA7oNwbaHZZcPPYlP8sNabbqvqKi-MocAY",
+  authDomain: "whysml.firebaseapp.com",
+  projectId: "whysml",
+  storageBucket: "whysml.firebasestorage.app",
+  messagingSenderId: "364291879195",
+  appId: "1:364291879195:web:c2e946a162fcb54bcd63be"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+const ADMIN_UID = 'QnYtiD8hUpQxQeU8jI6TnYSzBKr1';
+
+let allOrders = [];
+let filteredOrders = [];
+let currentFilter = 'all';
+
+// ── AUTH STATE ────────────────────────────────────────────────
+auth.onAuthStateChanged(user => {
+  if (user && user.uid === ADMIN_UID) {
+    showDashboard();
+  } else if (user) {
+    auth.signOut();
+    showLoginError('This account does not have admin access.');
+  }
+});
+
+// ── LOGIN ─────────────────────────────────────────────────────
+async function adminLogin() {
+  const email = document.getElementById('admin-email').value.trim();
+  const pass = document.getElementById('admin-pass').value;
+  const err = document.getElementById('login-err');
+  const btn = document.querySelector('.login-card .btn-dark');
+  if (!email || !pass) {
+    err.textContent = 'Please enter both email and password.';
+    err.classList.add('show'); return;
+  }
+  btn.innerHTML = '<span class="spinner"></span>Signing in...';
+  btn.disabled = true;
+  try {
+    await auth.signInWithEmailAndPassword(email, pass);
+    err.classList.remove('show');
+  } catch(e) {
+    err.textContent = 'Incorrect email or password. Please try again.';
+    err.classList.add('show');
+    document.getElementById('admin-pass').value = '';
+    btn.innerHTML = 'Sign in →';
+    btn.disabled = false;
+  }
+}
+
+function showLoginError(msg) {
+  const err = document.getElementById('login-err');
+  err.textContent = msg;
+  err.classList.add('show');
+}
+
+async function adminLogout() {
+  await auth.signOut();
+  document.getElementById('admin-email').value = '';
+  document.getElementById('admin-pass').value = '';
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-login').classList.add('active');
+  const btn = document.querySelector('.login-card .btn-dark');
+  if (btn) { btn.innerHTML = 'Sign in →'; btn.disabled = false; }
+}
+
+// ── LOAD ORDERS ───────────────────────────────────────────────
+function showDashboard() {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-dashboard').classList.add('active');
+  loadOrders();
+}
+
+async function loadOrders() {
+  try {
+    const snapshot = await db.collection('orders').get();
+    allOrders = [];
+    snapshot.forEach(doc => allOrders.push({ ...doc.data(), docId: doc.id }));
+    // Sort by date newest first
+    allOrders.sort((a, b) => {
+      const ta = a.createdAt ? (a.createdAt.toDate ? a.createdAt.toDate() : new Date(a.createdAt)) : new Date(0);
+      const tb = b.createdAt ? (b.createdAt.toDate ? b.createdAt.toDate() : new Date(b.createdAt)) : new Date(0);
+      return tb - ta;
+    });
+    filteredOrders = [...allOrders];
+    updateStats();
+    updateFilterCounts();
+    renderOrders();
+  } catch(e) {
+    document.getElementById('orders-list').innerHTML = `<div class="table-empty"><p style="color:#c0392b;">Error loading orders: ${e.message}</p></div>`;
+  }
+}
+
+// ── STATS ─────────────────────────────────────────────────────
+function updateStats() {
+  const total = allOrders.length;
+  const processing = allOrders.filter(o => (o.status||'processing') === 'processing').length;
+  const intransit = allOrders.filter(o => o.status === 'intransit').length;
+  const revenue = allOrders.filter(o => o.status !== 'returned').reduce((s,o) => s + (o.total||0), 0);
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-processing').textContent = processing;
+  document.getElementById('s-intransit').textContent = intransit;
+  document.getElementById('s-revenue').textContent = '₹' + revenue.toLocaleString();
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-revenue').textContent = '₹' + revenue.toLocaleString();
+}
+
+function updateFilterCounts() {
+  document.getElementById('fc-all').textContent = allOrders.length;
+  document.getElementById('fc-processing').textContent = allOrders.filter(o => (o.status||'processing') === 'processing').length;
+  document.getElementById('fc-intransit').textContent = allOrders.filter(o => o.status === 'intransit').length;
+  document.getElementById('fc-delivered').textContent = allOrders.filter(o => o.status === 'delivered').length;
+  document.getElementById('fc-returned').textContent = allOrders.filter(o => o.status === 'returned').length;
+}
+
+// ── FILTER ────────────────────────────────────────────────────
+function filterOrders(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function searchOrders(query) {
+  applyFilters(query);
+}
+
+function applyFilters(query) {
+  const q = (query || document.querySelector('.search-input').value || '').toLowerCase();
+  filteredOrders = allOrders.filter(o => {
+    const matchFilter = currentFilter === 'all' || (o.status || 'processing') === currentFilter;
+    const matchSearch = !q ||
+      (o.orderId || '').toLowerCase().includes(q) ||
+      (o.customerName || '').toLowerCase().includes(q) ||
+      (o.phone || '').toLowerCase().includes(q) ||
+      (o.address && o.address.city || '').toLowerCase().includes(q);
+    return matchFilter && matchSearch;
+  });
+  renderOrders();
+}
+
+// ── RENDER ORDERS ─────────────────────────────────────────────
+function getStatusInfo(status) {
+  const s = (status || 'processing').toLowerCase();
+  if (s === 'delivered') return { cls: 's-delivered', icon: '✅', label: 'Delivered' };
+  if (s === 'intransit') return { cls: 's-intransit', icon: '🚚', label: 'In Transit' };
+  if (s === 'returned') return { cls: 's-returned', icon: '↩️', label: 'Returned' };
+  return { cls: 's-processing', icon: '⏳', label: 'Processing' };
+}
+
+function formatDate(ts) {
+  if (!ts) return '—';
+  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) +
+    ' ' + d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+}
+
+function renderOrders() {
+  const wrap = document.getElementById('orders-list');
+  if (filteredOrders.length === 0) {
+    wrap.innerHTML = `<div class="table-empty"><p>No orders found</p></div>`;
+    return;
+  }
+
+  wrap.innerHTML = filteredOrders.map((order, idx) => {
+    const st = getStatusInfo(order.status);
+    const addr = order.address || {};
+    const items = order.items || [];
+    const m = order.measurements || {};
+    const hasMeasure = m.chest;
+
+    return `<div class="order-row">
+      <div>
+        <div class="cell-id">${order.orderId || '—'}</div>
+        <div class="cell-date">${formatDate(order.createdAt)}</div>
+      </div>
+      <div class="cell-customer">
+        <div class="customer-name">${order.customerName || '—'}</div>
+        <div class="customer-phone">${order.phone || '—'}</div>
+        <div class="customer-address">${addr.line1 || ''}, ${addr.city || ''} – ${addr.pin || ''}, ${addr.state || ''}</div>
+        ${hasMeasure ? `
+          <span class="measure-toggle" onclick="toggleMeasure('m-${idx}')">View measurements ▾</span>
+          <div class="measure-mini" id="m-${idx}">
+            Chest: ${m.chest}" · Waist: ${m.waist}" · Shoulder: ${m.shoulder}"<br>
+            Sleeve: ${m.sleeve}" · Length: ${m.length}" · Neck: ${m.neck}"
+          </div>` : ''}
+      </div>
+      <div class="cell-items">
+        ${items.map(i => `<div class="item-chip">${i.name}</div>`).join('')}
+      </div>
+      <div class="cell-total">
+        ₹${(order.total||0).toLocaleString()}
+        <span class="cod-tag">Cash on delivery</span>
+      </div>
+      <div class="cell-status">
+        <span class="status-badge ${st.cls}">${st.icon} ${st.label}</span>
+      </div>
+      <div class="cell-action">
+        <select class="status-select" id="sel-${idx}">
+          <option value="processing" ${(order.status||'processing')==='processing'?'selected':''}>⏳ Processing</option>
+          <option value="intransit" ${order.status==='intransit'?'selected':''}>🚚 In Transit</option>
+          <option value="delivered" ${order.status==='delivered'?'selected':''}>✅ Delivered</option>
+          <option value="returned" ${order.status==='returned'?'selected':''}>↩️ Returned</option>
+        </select>
+        <button class="update-btn" id="ubtn-${idx}" onclick="updateStatus('${order.orderId}', ${idx})">Update</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleMeasure(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ── UPDATE STATUS ─────────────────────────────────────────────
+async function updateStatus(orderId, idx) {
+  const newStatus = document.getElementById('sel-' + idx).value;
+  const btn = document.getElementById('ubtn-' + idx);
+
+  btn.innerHTML = '<span class="spinner"></span>Saving...';
+  btn.classList.add('saving');
+  btn.disabled = true;
+
+  try {
+    await db.collection('orders').doc(orderId).update({ status: newStatus });
+    // Update local data
+    const order = filteredOrders[idx];
+    order.status = newStatus;
+    const allIdx = allOrders.findIndex(o => o.orderId === orderId);
+    if (allIdx >= 0) allOrders[allIdx].status = newStatus;
+
+    btn.innerHTML = '✓ Updated!';
+    btn.classList.remove('saving');
+    btn.classList.add('saved');
+    btn.disabled = false;
+
+    updateStats();
+    updateFilterCounts();
+    showToast('Order ' + orderId + ' updated to ' + newStatus);
+
+    setTimeout(() => {
+      btn.innerHTML = 'Update';
+      btn.classList.remove('saved');
+    }, 2000);
+
+  } catch(e) {
+    btn.innerHTML = 'Update';
+    btn.classList.remove('saving');
+    btn.disabled = false;
+    showToast('Error updating: ' + e.message);
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
