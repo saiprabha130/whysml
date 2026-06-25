@@ -1,8 +1,10 @@
 {
   "rewrites": [
+    { "source": "/", "destination": "/whySML.html" },
     { "source": "/admin", "destination": "/whySML-admin.html" },
     { "source": "/admin/", "destination": "/whySML-admin.html" },
-    { "source": "/", "destination": "/whySML.html" }
+    { "source": "/measure", "destination": "/measure.html" },
+    { "source": "/measure/", "destination": "/measure.html" }
   ],
   "headers": [
     {
@@ -12,14 +14,6 @@
         { "key": "X-Frame-Options", "value": "DENY" },
         { "key": "X-XSS-Protection", "value": "1; mode=block" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
-      ]
-    },
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "https://whysml.com" },
-        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
       ]
     }
   ]
