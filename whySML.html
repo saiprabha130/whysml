@@ -295,16 +295,19 @@ footer { background: var(--black); color: var(--white); padding: 40px 32px; }
 <div class="modal-overlay" id="measureModal">
   <div class="modal">
     <div class="modal-title">Your measurements</div>
-    <div class="modal-sub">Enter in inches. Saved to your profile forever — you'll never need to re-enter these.</div>
+    <div class="modal-sub">Enter in inches. Not sure how? <a href="/measure" target="_blank" style="color:var(--black);font-weight:600;">See our guide →</a></div>
     <div class="form-grid">
-      <div class="input-group"><label class="input-label">Chest (in)</label><input type="number" id="m-chest" placeholder="e.g. 40" min="28" max="60"></div>
-      <div class="input-group"><label class="input-label">Waist (in)</label><input type="number" id="m-waist" placeholder="e.g. 34" min="24" max="56"></div>
-      <div class="input-group"><label class="input-label">Shoulder (in)</label><input type="number" id="m-shoulder" placeholder="e.g. 18" min="12" max="30"></div>
-      <div class="input-group"><label class="input-label">Sleeve (in)</label><input type="number" id="m-sleeve" placeholder="e.g. 25" min="18" max="40"></div>
-      <div class="input-group"><label class="input-label">Shirt length (in)</label><input type="number" id="m-length" placeholder="e.g. 30" min="24" max="42"></div>
-      <div class="input-group"><label class="input-label">Neck (in)</label><input type="number" id="m-neck" placeholder="e.g. 15" min="12" max="22"></div>
+      <div class="input-group"><label class="input-label">Neck (in)</label><input type="number" id="m-neck" placeholder="e.g. 15" min="12" max="22" step="0.5"></div>
+      <div class="input-group"><label class="input-label">Chest (in)</label><input type="number" id="m-chest" placeholder="e.g. 40" min="28" max="60" step="0.5"></div>
+      <div class="input-group"><label class="input-label">Waist (in)</label><input type="number" id="m-waist" placeholder="e.g. 34" min="24" max="56" step="0.5"></div>
+      <div class="input-group"><label class="input-label">Hip (in)</label><input type="number" id="m-hip" placeholder="e.g. 38" min="28" max="60" step="0.5"></div>
+      <div class="input-group"><label class="input-label">Shoulder (in)</label><input type="number" id="m-shoulder" placeholder="e.g. 18" min="12" max="30" step="0.5"></div>
+      <div class="input-group"><label class="input-label">Sleeve length (in)</label><input type="number" id="m-sleeve" placeholder="e.g. 25" min="18" max="40" step="0.5"></div>
+      <div class="input-group"><label class="input-label">Bicep (in)</label><input type="number" id="m-bicep" placeholder="e.g. 14" min="8" max="24" step="0.5"></div>
+      <div class="input-group"><label class="input-label">Wrist (in)</label><input type="number" id="m-wrist" placeholder="e.g. 7" min="5" max="12" step="0.5"></div>
+      <div class="input-group full"><label class="input-label">Shirt length (in)</label><input type="number" id="m-length" placeholder="e.g. 30" min="24" max="42" step="0.5"></div>
     </div>
-    <div class="err" id="measure-err">Please fill in all 6 measurements.</div>
+    <div class="err" id="measure-err">Please fill in all 9 measurements.</div>
     <button class="btn-dark" style="margin-top:16px;" onclick="saveMeasurements()">Save measurements</button>
     <button class="btn-ghost" onclick="closeMeasureModal()">Cancel</button>
   </div>
@@ -349,6 +352,7 @@ footer { background: var(--black); color: var(--white); padding: 40px 32px; }
     </div>
     <div class="nav-actions">
       <div id="nav-user-area" style="display:flex;align-items:center;gap:12px;"></div>
+      <a href="/measure" class="nav-btn" style="text-decoration:none;">📐 How to measure</a>
       <button class="nav-btn" id="nav-orders-btn" style="display:none;" onclick="goto('orders')">📦 My Orders</button>
       <button class="nav-btn" onclick="goto('cart')">🛒 Cart <span class="cart-badge" id="cart-count">0</span></button>
     </div>
@@ -422,9 +426,54 @@ footer { background: var(--black); color: var(--white); padding: 40px 32px; }
         <div class="how-step">
           <span class="how-num">03</span>
           <div class="how-step-title">We stitch and deliver</div>
-          <div class="how-step-desc">Your shirt is stitched to your exact measurements. Delivered in 7–10 days. Pay on delivery.</div>
+          <div class="how-step-desc">Your shirt is stitched to your exact measurements. Delivered within a week. Pay on delivery.</div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- RETURN POLICY -->
+  <div style="background:var(--white);border-top:1px solid var(--gray-200);padding:56px 32px;">
+    <div style="max-width:900px;margin:0 auto;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;" id="policy-grid">
+        <div>
+          <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray-400);margin-bottom:12px;font-family:'Arial',sans-serif;">Our policy</div>
+          <div style="font-size:24px;font-weight:700;letter-spacing:-0.5px;margin-bottom:16px;">No returns —<br>but we fix it for free</div>
+          <div style="font-size:14px;color:var(--gray-600);font-family:'Arial',sans-serif;line-height:1.8;">
+            Since every shirt is stitched specifically to your measurements, we are unable to accept returns. Each piece is made to order and cannot be resold.<br><br>
+            However, if your shirt has a fitting issue — we will fix it. Free of charge. Always.<br><br>
+            Just contact us within 7 days of delivery, send us a photo showing the issue, and we'll collect the shirt, get it altered, and deliver it back to you.
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="background:var(--green-light);border-radius:var(--radius-lg);padding:20px;">
+            <div style="font-size:14px;font-weight:700;margin-bottom:6px;color:var(--green);">✅ What we fix for free</div>
+            <div style="font-size:13px;color:var(--green);font-family:'Arial',sans-serif;line-height:1.7;">Shirt too tight or loose · Sleeves too long or short · Collar too tight · Shoulder fit issues · Length adjustments</div>
+          </div>
+          <div style="background:var(--gray-100);border-radius:var(--radius-lg);padding:20px;">
+            <div style="font-size:14px;font-weight:700;margin-bottom:6px;">📏 How to avoid issues</div>
+            <div style="font-size:13px;color:var(--gray-600);font-family:'Arial',sans-serif;line-height:1.7;">Double-check your measurements before ordering. Visit our <a href="/measure" style="color:var(--black);font-weight:600;">measurement guide</a> — three easy ways to get accurate measurements.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div style="background:var(--off-white);border-top:1px solid var(--gray-200);padding:56px 32px;">
+    <div style="max-width:900px;margin:0 auto;text-align:center;">
+      <div style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray-400);margin-bottom:12px;font-family:'Arial',sans-serif;">Need help?</div>
+      <div style="font-size:24px;font-weight:700;letter-spacing:-0.5px;margin-bottom:12px;">We're here for you</div>
+      <div style="font-size:14px;color:var(--gray-600);font-family:'Arial',sans-serif;margin-bottom:32px;line-height:1.7;">Order issue, fitting problem, or just a question — reach out and we'll sort it out.</div>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/917995883650" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--black);color:var(--white);padding:14px 28px;border-radius:var(--radius);font-size:14px;font-weight:600;font-family:'Arial',sans-serif;text-decoration:none;">
+          💬 WhatsApp us
+        </a>
+        <a href="mailto:hello@whysml.com" style="display:inline-flex;align-items:center;gap:8px;background:var(--white);color:var(--black);border:1px solid var(--gray-200);padding:14px 28px;border-radius:var(--radius);font-size:14px;font-weight:600;font-family:'Arial',sans-serif;text-decoration:none;">
+          ✉️ Email us
+        </a>
+      </div>
+      <div style="font-size:12px;color:var(--gray-400);font-family:'Arial',sans-serif;margin-top:16px;">We typically respond within a few hours · Mon–Sat, 9am–7pm</div>
     </div>
   </div>
 
@@ -436,7 +485,8 @@ footer { background: var(--black); color: var(--white); padding: 40px 32px; }
       </div>
       <div class="footer-right">
         © 2024 whySML · Hyderabad, India<br>
-        Custom-stitched shirts · Made to measure
+        <a href="/measure" style="color:var(--gray-600);font-size:12px;">How to measure</a> &nbsp;·&nbsp;
+        <span style="cursor:pointer;color:var(--gray-600);font-size:12px;" onclick="document.getElementById('policy-grid').scrollIntoView({behavior:'smooth'})">Return policy</span>
       </div>
     </div>
   </footer>
@@ -852,13 +902,12 @@ function updateCartBadge() {
   });
 }
 
-// ── PHONE AUTH — FIX 2: Proper recaptcha reset ────────────────
+// ── PHONE AUTH — Proper recaptcha reset ────────────────────
 function resetRecaptcha() {
   if (recaptchaVerifier) {
     try { recaptchaVerifier.clear(); } catch(e) {}
     recaptchaVerifier = null;
   }
-  // Clear the container
   const container = document.getElementById('recaptcha-container');
   if (container) container.innerHTML = '';
 }
@@ -867,7 +916,8 @@ function setupRecaptcha() {
   resetRecaptcha();
   recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
     size: 'invisible',
-    callback: () => {}
+    callback: () => {},
+    'expired-callback': () => { resetRecaptcha(); }
   });
   return recaptchaVerifier;
 }
@@ -884,6 +934,7 @@ async function sendOTP() {
 
   try {
     const verifier = setupRecaptcha();
+    await verifier.render();
     confirmationResult = await auth.signInWithPhoneNumber('+91' + ph, verifier);
     document.getElementById('otp-subtitle').textContent = 'Sent to +91 ' + ph.slice(0,5) + ' ' + ph.slice(5);
     [0,1,2,3,4,5].forEach(i => { document.getElementById('otp'+i).value = ''; });
@@ -1013,12 +1064,15 @@ function renderMeasureDisplay() {
     return;
   }
   el.innerHTML = `<div class="measure-grid">
-    <div class="measure-box"><div class="measure-val">${m.chest}"</div><div class="measure-lbl">Chest</div></div>
-    <div class="measure-box"><div class="measure-val">${m.waist}"</div><div class="measure-lbl">Waist</div></div>
-    <div class="measure-box"><div class="measure-val">${m.shoulder}"</div><div class="measure-lbl">Shoulder</div></div>
-    <div class="measure-box"><div class="measure-val">${m.sleeve}"</div><div class="measure-lbl">Sleeve</div></div>
-    <div class="measure-box"><div class="measure-val">${m.length}"</div><div class="measure-lbl">Length</div></div>
-    <div class="measure-box"><div class="measure-val">${m.neck}"</div><div class="measure-lbl">Neck</div></div>
+    <div class="measure-box"><div class="measure-val">${m.neck||'—'}"</div><div class="measure-lbl">Neck</div></div>
+    <div class="measure-box"><div class="measure-val">${m.chest||'—'}"</div><div class="measure-lbl">Chest</div></div>
+    <div class="measure-box"><div class="measure-val">${m.waist||'—'}"</div><div class="measure-lbl">Waist</div></div>
+    <div class="measure-box"><div class="measure-val">${m.hip||'—'}"</div><div class="measure-lbl">Hip</div></div>
+    <div class="measure-box"><div class="measure-val">${m.shoulder||'—'}"</div><div class="measure-lbl">Shoulder</div></div>
+    <div class="measure-box"><div class="measure-val">${m.sleeve||'—'}"</div><div class="measure-lbl">Sleeve</div></div>
+    <div class="measure-box"><div class="measure-val">${m.bicep||'—'}"</div><div class="measure-lbl">Bicep</div></div>
+    <div class="measure-box"><div class="measure-val">${m.wrist||'—'}"</div><div class="measure-lbl">Wrist</div></div>
+    <div class="measure-box"><div class="measure-val">${m.length||'—'}"</div><div class="measure-lbl">Length</div></div>
   </div><div class="info-box">✓ Saved to your profile — edit anytime before ordering</div>`;
 }
 
@@ -1064,15 +1118,16 @@ async function placeOrder() {
 function openMeasureModal() {
   const m = userProfile?.measurements;
   if (m) {
-    ['chest','waist','shoulder','sleeve','length','neck'].forEach(f => {
-      document.getElementById('m-' + f).value = m[f];
+    ['neck','chest','waist','hip','shoulder','sleeve','bicep','wrist','length'].forEach(f => {
+      const el = document.getElementById('m-' + f);
+      if (el) el.value = m[f] || '';
     });
   }
   document.getElementById('measureModal').classList.add('open');
 }
 function closeMeasureModal() { document.getElementById('measureModal').classList.remove('open'); }
 async function saveMeasurements() {
-  const fields = ['chest','waist','shoulder','sleeve','length','neck'];
+  const fields = ['neck','chest','waist','hip','shoulder','sleeve','bicep','wrist','length'];
   const vals = {};
   for (const f of fields) {
     const v = document.getElementById('m-' + f).value;
