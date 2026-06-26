@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How to Measure — whySML</title>
-<meta name="description" content="Three easy ways to get your measurements for your whySML custom shirt. No experience needed.">
+<title>How to Get Your Measurements — whySML</title>
+<meta name="description" content="Three easy ways to get your shirt measurements for whySML. No experience needed — pick what works best for you.">
 <style>
 :root {
   --black: #0a0a0a; --white: #fff; --off-white: #f7f6f4;
   --gray-100: #f0efed; --gray-200: #e2e0dc; --gray-400: #a8a49e;
   --gray-600: #6b6760; --gray-800: #2c2b29;
   --green: #1a6b4a; --green-light: #e8f3ee;
+  --whatsapp: #25D366;
   --radius: 4px; --radius-lg: 10px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,98 +21,115 @@ nav { background: var(--white); border-bottom: 1px solid var(--gray-200); paddin
 .logo { font-size: 22px; font-weight: 700; letter-spacing: -1px; color: var(--black); text-decoration: none; font-family: 'Georgia', serif; }
 .logo span { color: var(--gray-400); font-weight: 400; }
 .logo-tag { font-size: 11px; color: var(--gray-400); font-family: 'Arial', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+.nav-right { display: flex; gap: 20px; align-items: center; }
 .nav-link { font-size: 13px; color: var(--gray-600); font-family: 'Arial', sans-serif; text-decoration: none; }
 .nav-link:hover { color: var(--black); }
 
 /* HERO */
 .hero { background: var(--black); color: var(--white); padding: 64px 32px; text-align: center; }
 .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 16px; font-family: 'Arial', sans-serif; }
-.hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 700; letter-spacing: -1.5px; margin-bottom: 16px; }
-.hero p { font-size: 16px; color: var(--gray-400); max-width: 500px; margin: 0 auto; line-height: 1.7; font-family: 'Arial', sans-serif; }
+.hero h1 { font-size: clamp(30px, 5vw, 48px); font-weight: 700; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1; }
+.hero p { font-size: 15px; color: var(--gray-400); max-width: 520px; margin: 0 auto; line-height: 1.7; font-family: 'Arial', sans-serif; }
 
-/* OPTIONS */
-.options-section { max-width: 1000px; margin: 0 auto; padding: 56px 32px; }
-.options-title { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; text-align: center; }
-.options-sub { font-size: 14px; color: var(--gray-600); font-family: 'Arial', sans-serif; text-align: center; margin-bottom: 40px; }
+/* OPTIONS SELECTOR */
+.options-wrap { max-width: 1000px; margin: 0 auto; padding: 48px 32px 0; }
+.options-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; text-align: center; margin-bottom: 6px; }
+.options-sub { font-size: 14px; color: var(--gray-600); font-family: 'Arial', sans-serif; text-align: center; margin-bottom: 32px; }
+.options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media(max-width:700px) { .options-grid { grid-template-columns: 1fr; } }
 
-.options-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 56px; }
-@media(max-width: 700px) { .options-grid { grid-template-columns: 1fr; } }
-
-.option-card { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px 24px; cursor: pointer; transition: all 0.2s; text-align: center; }
-.option-card:hover { border-color: var(--black); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.option-card { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); padding: 24px 20px; cursor: pointer; transition: all 0.2s; text-align: center; position: relative; }
+.option-card:hover { border-color: var(--black); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
 .option-card.active { border-color: var(--black); background: var(--black); color: var(--white); }
-.option-icon { font-size: 40px; margin-bottom: 16px; display: block; }
-.option-num { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-family: 'Arial', sans-serif; background: var(--gray-100); color: var(--gray-600); padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; }
+.option-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+.option-num { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-family: 'Arial', sans-serif; background: var(--gray-100); color: var(--gray-600); padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
 .option-card.active .option-num { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
-.option-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.3px; }
-.option-desc { font-size: 13px; color: var(--gray-400); font-family: 'Arial', sans-serif; line-height: 1.6; }
-.option-card.active .option-desc { color: rgba(255,255,255,0.6); }
-.option-tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-top: 12px; font-family: 'Arial', sans-serif; }
-.tag-easy { background: var(--green-light); color: var(--green); }
-.tag-accurate { background: #DBEAFE; color: #1E40AF; }
-.tag-diy { background: #FEF3C7; color: #92400E; }
-.option-card.active .tag-easy, .option-card.active .tag-accurate, .option-card.active .tag-diy { background: rgba(255,255,255,0.15); color: var(--white); }
+.option-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.3px; }
+.option-desc { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-serif; line-height: 1.6; }
+.option-card.active .option-desc { color: rgba(255,255,255,0.55); }
+.rec-badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--green); color: var(--white); font-size: 10px; font-weight: 700; padding: 3px 12px; border-radius: 20px; font-family: 'Arial', sans-serif; white-space: nowrap; letter-spacing: 0.5px; }
 
-/* CONTENT PANELS */
-.content-panel { display: none; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 40px; }
-.content-panel.active { display: block; }
-.panel-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
-.panel-sub { font-size: 14px; color: var(--gray-600); font-family: 'Arial', sans-serif; margin-bottom: 32px; line-height: 1.6; }
+/* PANELS */
+.panels-wrap { max-width: 1000px; margin: 0 auto; padding: 32px 32px 0; }
+.panel { display: none; }
+.panel.active { display: block; }
+.panel-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 36px; margin-bottom: 0; }
+.panel-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+.panel-sub { font-size: 14px; color: var(--gray-600); font-family: 'Arial', sans-serif; line-height: 1.7; margin-bottom: 28px; }
+
+/* VIDEO */
+.video-wrap { margin-bottom: 32px; }
+.video-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-family: 'Arial', sans-serif; color: var(--gray-400); margin-bottom: 10px; }
+.video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-lg); border: 1px solid var(--gray-200); background: var(--black); }
+.video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: var(--radius-lg); }
 
 /* STEPS */
-.steps-list { display: flex; flex-direction: column; gap: 0; }
-.step-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--gray-200); align-items: flex-start; }
-.step-item:last-child { border-bottom: none; }
-.step-circle { width: 36px; height: 36px; border-radius: 50%; background: var(--black); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; font-family: 'Arial', sans-serif; }
-.step-content { flex: 1; }
-.step-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-.step-desc { font-size: 13px; color: var(--gray-600); font-family: 'Arial', sans-serif; line-height: 1.7; }
-.step-tip { font-size: 12px; color: var(--green); font-family: 'Arial', sans-serif; margin-top: 6px; font-style: italic; }
+.steps-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+.step-row { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--gray-200); align-items: flex-start; }
+.step-row:last-child { border-bottom: none; }
+.step-num { width: 32px; height: 32px; border-radius: 50%; background: var(--black); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; font-family: 'Arial', sans-serif; }
+.step-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.step-desc { font-size: 13px; color: var(--gray-600); font-family: 'Arial', sans-serif; line-height: 1.6; }
+.step-tip { font-size: 12px; color: var(--green); font-family: 'Arial', sans-serif; margin-top: 5px; font-style: italic; }
 
 /* MEASUREMENT TABLE */
-.measure-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
-.measure-table th { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Arial', sans-serif; padding: 10px 16px; text-align: left; border-bottom: 2px solid var(--gray-200); background: var(--gray-100); }
-.measure-table td { font-size: 13px; padding: 14px 16px; border-bottom: 1px solid var(--gray-200); font-family: 'Arial', sans-serif; vertical-align: top; }
-.measure-table tr:last-child td { border-bottom: none; }
-.measure-table tr:hover td { background: var(--gray-100); }
-.m-name { font-weight: 600; color: var(--black); white-space: nowrap; }
-.m-how { color: var(--gray-600); line-height: 1.6; }
-.m-why { color: var(--gray-400); font-size: 12px; font-style: italic; }
+.m-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif; }
+.m-table th { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--gray-200); background: var(--gray-100); }
+.m-table td { font-size: 13px; padding: 12px 14px; border-bottom: 1px solid var(--gray-200); vertical-align: top; line-height: 1.5; }
+.m-table tr:last-child td { border-bottom: none; }
+.m-table tr:hover td { background: var(--gray-100); }
+.m-name { font-weight: 700; white-space: nowrap; color: var(--black); }
+.m-how { color: var(--gray-600); }
 
-/* TAILOR SECTION */
-.tailor-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
-@media(max-width: 600px) { .tailor-cards { grid-template-columns: 1fr; } }
-.tailor-card { background: var(--gray-100); border-radius: var(--radius-lg); padding: 20px; }
-.tailor-card-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+/* TAILOR CARDS */
+.tailor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+@media(max-width:600px) { .tailor-grid { grid-template-columns: 1fr; } }
+.tailor-card { background: var(--gray-100); border-radius: var(--radius-lg); padding: 18px; }
+.tailor-card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
 .tailor-card-desc { font-size: 13px; color: var(--gray-600); font-family: 'Arial', sans-serif; line-height: 1.6; }
 
-/* INFO BOX */
-.info-box { background: var(--green-light); border-radius: var(--radius-lg); padding: 16px 20px; margin-top: 24px; display: flex; gap: 12px; }
-.info-box-icon { font-size: 20px; flex-shrink: 0; }
-.info-box-text { font-size: 13px; color: var(--green); font-family: 'Arial', sans-serif; line-height: 1.6; }
-.info-box-text strong { font-weight: 600; }
+/* SELF MEASURE TABLE */
+.self-table { width: 100%; border-collapse: collapse; font-family: 'Arial', sans-serif; margin-top: 20px; }
+.self-table th { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; text-align: left; border-bottom: 2px solid var(--gray-200); background: var(--gray-100); }
+.self-table td { font-size: 13px; padding: 14px; border-bottom: 1px solid var(--gray-200); vertical-align: top; line-height: 1.6; }
+.self-table tr:last-child td { border-bottom: none; }
+.self-table tr:hover td { background: var(--gray-100); }
+.s-name { font-weight: 700; color: var(--black); white-space: nowrap; width: 130px; }
+.s-how { color: var(--gray-600); }
+.s-range { color: var(--gray-400); font-size: 12px; white-space: nowrap; }
 
-.warn-box { background: #FEF3C7; border-radius: var(--radius-lg); padding: 16px 20px; margin-top: 16px; display: flex; gap: 12px; }
-.warn-box-text { font-size: 13px; color: #92400E; font-family: 'Arial', sans-serif; line-height: 1.6; }
+/* INFO / WARN BOXES */
+.info-box { background: var(--green-light); border-radius: var(--radius-lg); padding: 14px 18px; margin-top: 20px; display: flex; gap: 10px; font-family: 'Arial', sans-serif; font-size: 13px; color: var(--green); line-height: 1.6; }
+.warn-box { background: #FEF9E7; border: 1px solid #F9E79F; border-radius: var(--radius-lg); padding: 14px 18px; margin-top: 16px; font-family: 'Arial', sans-serif; font-size: 13px; color: #7D6608; line-height: 1.6; }
 
-/* MEASUREMENT VISUAL */
-.measure-visual { display: flex; flex-direction: column; gap: 0; }
-.mv-item { display: grid; grid-template-columns: 140px 1fr 200px; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--gray-200); }
-@media(max-width:600px){ .mv-item { grid-template-columns: 1fr; gap:8px; } }
-.mv-item:last-child { border-bottom: none; }
-.mv-name { font-size: 14px; font-weight: 700; }
-.mv-desc { font-size: 13px; color: var(--gray-600); font-family: 'Arial', sans-serif; line-height: 1.6; }
-.mv-note { font-size: 12px; color: var(--gray-400); font-family: 'Arial', sans-serif; font-style: italic; text-align: right; }
-@media(max-width:600px){ .mv-note { text-align:left; } }
+/* WHATSAPP SECTION */
+.whatsapp-section { max-width: 1000px; margin: 32px auto 0; padding: 0 32px; }
+.whatsapp-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 32px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.wa-left { flex: 1; min-width: 220px; }
+.wa-title { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 8px; }
+.wa-desc { font-size: 14px; color: var(--gray-600); font-family: 'Arial', sans-serif; line-height: 1.7; }
+.wa-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--whatsapp); color: var(--white); padding: 14px 28px; border-radius: var(--radius); font-size: 15px; font-weight: 700; text-decoration: none; font-family: 'Arial', sans-serif; transition: background 0.15s; white-space: nowrap; flex-shrink: 0; }
+.wa-btn:hover { background: #20b858; }
+.wa-icon { font-size: 22px; }
+.wa-note { font-size: 11px; color: var(--gray-400); font-family: 'Arial', sans-serif; margin-top: 8px; }
+
+/* TIPS SECTION */
+.tips-section { max-width: 1000px; margin: 32px auto 0; padding: 0 32px 56px; }
+.tips-card { background: var(--black); color: var(--white); border-radius: var(--radius-lg); padding: 32px; }
+.tips-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+.tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+.tip-item { }
+.tip-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.tip-desc { font-size: 13px; color: var(--gray-400); font-family: 'Arial', sans-serif; line-height: 1.6; }
 
 /* CTA */
-.cta-section { background: var(--black); color: var(--white); padding: 56px 32px; text-align: center; }
-.cta-title { font-size: 28px; font-weight: 700; letter-spacing: -1px; margin-bottom: 12px; }
-.cta-sub { font-size: 15px; color: var(--gray-400); font-family: 'Arial', sans-serif; margin-bottom: 28px; }
-.cta-btn { display: inline-block; background: var(--white); color: var(--black); padding: 14px 36px; font-size: 14px; font-weight: 700; border-radius: var(--radius); text-decoration: none; font-family: 'Arial', sans-serif; transition: background 0.15s; }
-.cta-btn:hover { background: var(--off-white); }
+.cta-section { background: var(--off-white); border-top: 1px solid var(--gray-200); padding: 48px 32px; text-align: center; }
+.cta-title { font-size: 26px; font-weight: 700; letter-spacing: -1px; margin-bottom: 10px; }
+.cta-sub { font-size: 14px; color: var(--gray-600); font-family: 'Arial', sans-serif; margin-bottom: 24px; }
+.cta-btn { display: inline-block; background: var(--black); color: var(--white); padding: 14px 36px; font-size: 14px; font-weight: 700; border-radius: var(--radius); text-decoration: none; font-family: 'Arial', sans-serif; }
+.cta-btn:hover { background: var(--gray-800); }
 
-footer { background: var(--black); color: var(--white); padding: 32px; text-align: center; }
+footer { background: var(--black); padding: 28px 32px; text-align: center; }
 footer p { font-size: 12px; color: var(--gray-600); font-family: 'Arial', sans-serif; }
 </style>
 </head>
@@ -122,289 +140,276 @@ footer p { font-size: 12px; color: var(--gray-600); font-family: 'Arial', sans-s
     <div class="logo">why<span>SML</span></div>
     <div class="logo-tag">Wear Your Size</div>
   </a>
-  <a href="/" class="nav-link">← Back to shop</a>
+  <div class="nav-right">
+    <a href="https://wa.me/917995883650" target="_blank" class="nav-link" style="color:var(--green);font-family:'Arial',sans-serif;font-weight:600;">💬 Need help?</a>
+    <a href="/" class="nav-link">← Back to shop</a>
+  </div>
 </nav>
 
 <div class="hero">
   <div class="hero-eyebrow">Getting your measurements right</div>
-  <h1>Three ways to<br>get measured</h1>
-  <p>Pick the method that works best for you. All three give your tailor everything needed to stitch a perfect fitting shirt.</p>
+  <h1>Pick the method<br>that works for you</h1>
+  <p>All three methods give your tailor everything needed to stitch a perfectly fitting shirt. Choose whichever feels easiest.</p>
 </div>
 
-<div class="options-section">
-  <div class="options-title">Choose your method</div>
-  <div class="options-sub">Not sure which to pick? We recommend Option 1 if you have a shirt that already fits you well.</div>
-
+<!-- OPTION SELECTOR -->
+<div class="options-wrap">
+  <div class="options-title">How would you like to get measured?</div>
+  <div class="options-sub">Not sure? We recommend Option 1 — it's the most accurate and easiest if you already have a shirt that fits you well.</div>
   <div class="options-grid">
-    <div class="option-card active" onclick="showPanel(1, this)">
+    <div class="option-card active" onclick="showPanel(1, this)" style="position:relative;">
+      <div class="rec-badge">✓ Recommended</div>
       <span class="option-icon">👔</span>
       <div class="option-num">Option 1</div>
       <div class="option-title">Use an existing shirt</div>
-      <div class="option-desc">Have a shirt that fits you perfectly? Lay it flat and measure it — we'll replicate that exact fit.</div>
-      <div class="option-tag tag-easy">Easiest & most accurate</div>
+      <div class="option-desc">Have a shirt that fits you well? Lay it flat and measure it — we'll replicate that exact fit.</div>
     </div>
     <div class="option-card" onclick="showPanel(2, this)">
       <span class="option-icon">✂️</span>
       <div class="option-num">Option 2</div>
       <div class="option-title">Visit a local tailor</div>
-      <div class="option-desc">Walk into any nearby tailor shop. Show them our measurement list and ask them to measure you — most do it free.</div>
-      <div class="option-tag tag-accurate">Most professional</div>
+      <div class="option-desc">Walk into any nearby tailor. Show them our list and ask them to measure you — most do it free in 5 minutes.</div>
     </div>
     <div class="option-card" onclick="showPanel(3, this)">
       <span class="option-icon">📏</span>
       <div class="option-num">Option 3</div>
       <div class="option-title">Measure yourself</div>
-      <div class="option-desc">Use a measuring tape at home. Follow our step-by-step guide. Better with a friend to help.</div>
-      <div class="option-tag tag-diy">Do it yourself</div>
+      <div class="option-desc">Use a tape measure at home. Watch our step-by-step video guide. Better with a friend to help.</div>
     </div>
   </div>
+</div>
+
+<!-- PANELS -->
+<div class="panels-wrap">
 
   <!-- PANEL 1: EXISTING SHIRT -->
-  <div class="content-panel active" id="panel-1">
-    <div class="panel-title">Measuring an existing shirt</div>
-    <div class="panel-sub">Find a shirt in your wardrobe that fits you the way you like — not too tight, not too loose. Lay it flat on a table or bed, button it up, and measure each part as shown below. The measurements from your shirt will be used directly by our tailor.</div>
+  <div class="panel active" id="panel-1">
+    <div class="panel-card">
+      <div class="panel-title">👔 Measuring an existing shirt</div>
+      <div class="panel-sub">Find a shirt in your wardrobe that fits you the way you like. Lay it flat on a table, button it up fully, and measure each part. The measurements from your shirt are used directly by our tailor to replicate that exact fit.</div>
 
-    <div class="warn-box">
-      <div class="warn-box-text">⚠️ <strong>Important:</strong> Make sure the shirt you pick actually fits you well. If you measure a shirt that's too big or too small, your new shirt will have the same problem. When in doubt, pick the shirt you reach for most often.</div>
-    </div>
-
-    <div class="steps-list" style="margin-top:24px;">
-      <div class="step-item">
-        <div class="step-circle">1</div>
-        <div class="step-content">
-          <div class="step-title">Lay the shirt flat, face up, fully buttoned</div>
-          <div class="step-desc">Place on a flat surface — table, bed, or floor. Smooth out all wrinkles. Button all buttons including the collar. The shirt should be lying completely flat with no folds.</div>
+      <div class="video-wrap">
+        <div class="video-label">📹 Watch how to do it — step by step</div>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/3rhenHIyqFc" title="How to measure your existing shirt" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
-      <div class="step-item">
-        <div class="step-circle">2</div>
-        <div class="step-content">
-          <div class="step-title">Use a flexible measuring tape</div>
-          <div class="step-desc">A tailor's tape measure works best. If you don't have one, a regular ruler and a piece of string works too — measure the string after.</div>
-          <div class="step-tip">💡 Available at any stationery or fabric shop for ₹10-20</div>
+
+      <div class="warn-box">⚠️ <strong>Important:</strong> Pick a shirt that actually fits you well — the one you reach for most often. If you measure a shirt that's too big or small, your new shirt will have the same problem.</div>
+
+      <div class="steps-title" style="margin-top:24px;">Before you start</div>
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Pick the right shirt</div>
+          <div class="step-desc">Choose a well-fitting shirt — ideally a formal or casual shirt similar to what you want to order. Button it up completely including the collar.</div>
         </div>
       </div>
-    </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Lay it flat with no wrinkles</div>
+          <div class="step-desc">Place the shirt face-up on a flat surface — bed, table or floor. Smooth out all folds. The shirt should lie completely flat.</div>
+          <div class="step-tip">💡 A tailor's measuring tape works best — available at any stationery shop for ₹15-20</div>
+        </div>
+      </div>
 
-    <table class="measure-table" style="margin-top:32px;">
-      <thead>
-        <tr>
-          <th>Measurement</th>
-          <th>How to measure on the shirt</th>
-          <th>Why it matters</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="m-name">Neck</td>
-          <td class="m-how">Unbutton the collar. Lay it flat. Measure from the center of the collar button to the far end of the buttonhole.</td>
-          <td class="m-why">Determines how the collar fits around your neck</td>
-        </tr>
-        <tr>
-          <td class="m-name">Chest</td>
-          <td class="m-how">Measure straight across the chest, from one armhole seam to the other. Then multiply by 2.</td>
-          <td class="m-why">How the shirt fits across your chest and back</td>
-        </tr>
-        <tr>
-          <td class="m-name">Waist</td>
-          <td class="m-how">Measure straight across the shirt about 18cm below the armhole seam. Then multiply by 2.</td>
-          <td class="m-why">How fitted or relaxed the shirt is at the stomach</td>
-        </tr>
-        <tr>
-          <td class="m-name">Hip</td>
-          <td class="m-how">Measure straight across the bottom of the shirt hem from side seam to side seam. Then multiply by 2.</td>
-          <td class="m-why">Important for longer shirts worn untucked</td>
-        </tr>
-        <tr>
-          <td class="m-name">Shoulder</td>
-          <td class="m-how">Measure from one shoulder seam point to the other across the back yoke of the shirt.</td>
-          <td class="m-why">Most critical measurement — wrong shoulder makes shirt look completely off</td>
-        </tr>
-        <tr>
-          <td class="m-name">Sleeve Length</td>
-          <td class="m-how">From the shoulder seam point, measure along the sleeve to the end of the cuff.</td>
-          <td class="m-why">How long the sleeves are</td>
-        </tr>
-        <tr>
-          <td class="m-name">Bicep</td>
-          <td class="m-how">Measure across the sleeve about 3cm below where it joins the shirt body. Then multiply by 2.</td>
-          <td class="m-why">Ensures sleeve isn't tight around the upper arm</td>
-        </tr>
-        <tr>
-          <td class="m-name">Wrist / Cuff</td>
-          <td class="m-how">Measure across the open cuff from edge to edge. Then multiply by 2.</td>
-          <td class="m-why">Ensures the cuff fastens comfortably</td>
-        </tr>
-        <tr>
-          <td class="m-name">Shirt Length</td>
-          <td class="m-how">Measure from the centre back of the collar down to the bottom hem of the shirt.</td>
-          <td class="m-why">Whether the shirt can be tucked in comfortably</td>
-        </tr>
-      </tbody>
-    </table>
+      <table class="m-table" style="margin-top:24px;">
+        <thead><tr><th>Measurement</th><th>How to measure on the shirt</th></tr></thead>
+        <tbody>
+          <tr><td class="m-name">Neck</td><td class="m-how">Unbutton the collar, lay flat. Measure from center of button to end of buttonhole.</td></tr>
+          <tr><td class="m-name">Chest</td><td class="m-how">Measure across the chest from armhole seam to armhole seam. Multiply by 2.</td></tr>
+          <tr><td class="m-name">Waist</td><td class="m-how">Measure across the shirt about 18cm below the armhole. Multiply by 2.</td></tr>
+          <tr><td class="m-name">Hip</td><td class="m-how">Measure across the bottom hem from side seam to side seam. Multiply by 2.</td></tr>
+          <tr><td class="m-name">Shoulder</td><td class="m-how">Measure from one shoulder seam point to the other across the back yoke.</td></tr>
+          <tr><td class="m-name">Sleeve length</td><td class="m-how">From the shoulder seam point, measure along the sleeve to the end of the cuff.</td></tr>
+          <tr><td class="m-name">Bicep</td><td class="m-how">Measure across the sleeve 3cm below where it joins the shirt body. Multiply by 2.</td></tr>
+          <tr><td class="m-name">Wrist / Cuff</td><td class="m-how">Measure across the open cuff from edge to edge. Multiply by 2.</td></tr>
+          <tr><td class="m-name">Shirt length</td><td class="m-how">From the centre back of the collar down to the bottom hem of the shirt.</td></tr>
+        </tbody>
+      </table>
 
-    <div class="info-box" style="margin-top:28px;">
-      <div class="info-box-icon">✅</div>
-      <div class="info-box-text"><strong>Double check before submitting:</strong> Go through each measurement twice. A small error in chest or shoulder measurement can significantly affect the fit. It takes 2 minutes and saves a lot of back and forth.</div>
+      <div class="info-box">✅ <strong>Double check before submitting:</strong> Go through each measurement twice before entering. A small error in chest or shoulder can significantly affect fit.</div>
     </div>
   </div>
 
   <!-- PANEL 2: TAILOR -->
-  <div class="content-panel" id="panel-2">
-    <div class="panel-title">Getting measured by a local tailor</div>
-    <div class="panel-sub">This is the most accurate method and honestly the easiest — just walk into any tailor shop near you. Most tailors will measure you in under 5 minutes, usually at no charge. You don't need to buy anything from them.</div>
+  <div class="panel" id="panel-2">
+    <div class="panel-card">
+      <div class="panel-title">✂️ Getting measured by a local tailor</div>
+      <div class="panel-sub">The most accurate method and honestly the easiest. Just walk into any tailor shop near you — the one in your neighbourhood market, a darzi, or a shop that does alterations. Most will measure you in under 5 minutes, free of charge.</div>
 
-    <div class="tailor-cards">
-      <div class="tailor-card">
-        <div class="tailor-card-title">🔍 Finding a tailor near you</div>
-        <div class="tailor-card-desc">Any local tailor shop works — the one in your neighbourhood market, a darzi, or even a shop that does alterations. You don't need a specialist. Just walk in and ask.</div>
+      <div class="tailor-grid">
+        <div class="tailor-card">
+          <div class="tailor-card-title">🔍 Finding a tailor</div>
+          <div class="tailor-card-desc">Any local tailor works. You don't need a specialist — just walk in and ask. They do this all day.</div>
+        </div>
+        <div class="tailor-card">
+          <div class="tailor-card-title">💬 What to say</div>
+          <div class="tailor-card-desc">"Bhai, mujhe shirt ke measurements chahiye — neck, chest, waist, hip, shoulder, sleeve, bicep, wrist aur shirt length." Show them this page if needed.</div>
+        </div>
+        <div class="tailor-card">
+          <div class="tailor-card-title">📐 Ask for inches</div>
+          <div class="tailor-card-desc">Say "inches mein chahiye" — our system uses inches. If they give centimetres, divide each by 2.54 to convert.</div>
+        </div>
+        <div class="tailor-card">
+          <div class="tailor-card-title">💰 Will they charge?</div>
+          <div class="tailor-card-desc">Most won't charge for just measurements. Some may ask ₹20-50. Either way it's worth it for a perfect fit.</div>
+        </div>
       </div>
-      <div class="tailor-card">
-        <div class="tailor-card-title">💬 What to say</div>
-        <div class="tailor-card-desc">"Bhai, mujhe shirt ke measurements chahiye — neck, chest, waist, hip, shoulder, sleeve, bicep, wrist aur shirt length." Show them this page if needed.</div>
-      </div>
-      <div class="tailor-card">
-        <div class="tailor-card-title">📝 How to record</div>
-        <div class="tailor-card-desc">Ask the tailor to call out each measurement while you note it down on your phone. Or take a photo of their measurement slip if they write it down.</div>
-      </div>
-      <div class="tailor-card">
-        <div class="tailor-card-title">💰 Will they charge?</div>
-        <div class="tailor-card-desc">Most tailors won't charge for just measurements. Some may ask ₹20-50. Either way it's worth it for a perfectly fitting shirt.</div>
-      </div>
-    </div>
 
-    <div class="steps-list" style="margin-top:32px;">
-      <div class="step-item">
-        <div class="step-circle">1</div>
-        <div class="step-content">
+      <div class="steps-title">Step by step</div>
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
           <div class="step-title">Show the tailor this measurement list</div>
-          <div class="step-desc">Ask them to take these 9 measurements: Neck, Chest, Waist, Hip, Shoulder, Sleeve Length, Bicep, Wrist, Shirt Length. You can screenshot this page and show it to them.</div>
+          <div class="step-desc">Ask them to take exactly these 9 measurements: Neck, Chest, Waist, Hip, Shoulder, Sleeve Length, Bicep, Wrist, Shirt Length. Screenshot this page and show it to them.</div>
         </div>
       </div>
-      <div class="step-item">
-        <div class="step-circle">2</div>
-        <div class="step-content">
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
           <div class="step-title">Tell them it's for a shirt — not a suit</div>
-          <div class="step-desc">Shirt measurements are taken slightly differently from suit measurements. Make sure they know it's for a shirt so they use the right technique.</div>
+          <div class="step-desc">Shirt measurements are taken differently from suit measurements. Make sure they know so they use the correct technique.</div>
         </div>
       </div>
-      <div class="step-item">
-        <div class="step-circle">3</div>
-        <div class="step-content">
-          <div class="step-title">Note down each measurement in inches</div>
-          <div class="step-desc">Our system uses inches. If the tailor gives measurements in centimetres, divide each by 2.54 to convert. Or ask them to measure directly in inches.</div>
-          <div class="step-tip">💡 Simply say "inches mein chahiye" if they measure in cm</div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Note down each measurement</div>
+          <div class="step-desc">Write down each measurement as the tailor calls it out, or take a photo of their slip. Then enter these numbers when you checkout on whySML.</div>
         </div>
       </div>
-      <div class="step-item">
-        <div class="step-circle">4</div>
-        <div class="step-content">
-          <div class="step-title">Enter the measurements when you order</div>
-          <div class="step-desc">Once you've placed shirts in your cart and proceed to checkout, you'll be asked to enter these measurements. They're saved to your profile permanently — you'll never need to enter them again.</div>
+      <div class="step-row">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Tell them your fit preference</div>
+          <div class="step-desc">Let the tailor know if you prefer slim fit, regular fit, or relaxed. They can note this for context. Add the same preference in your order notes on whySML.</div>
+          <div class="step-tip">💡 Your measurements are saved to your profile — you'll never need to enter them again for future orders</div>
         </div>
       </div>
-    </div>
 
-    <div class="info-box">
-      <div class="info-box-icon">🎯</div>
-      <div class="info-box-text"><strong>Pro tip:</strong> Tell the tailor how you like your shirts to fit — slim fit, regular fit, or relaxed. They can adjust the measurements slightly based on your preference. Then add a note in your order telling us your preference too.</div>
+      <div class="info-box">🎯 <strong>Pro tip:</strong> This is the method we recommend for first-time customers who want absolute confidence in their measurements before ordering.</div>
     </div>
   </div>
 
   <!-- PANEL 3: SELF MEASURE -->
-  <div class="content-panel" id="panel-3">
-    <div class="panel-title">Measuring yourself at home</div>
-    <div class="panel-sub">You'll need a flexible measuring tape (available at any fabric or stationery shop for ₹10-20). Having a friend help makes this much easier and more accurate — especially for chest and shoulder measurements.</div>
+  <div class="panel" id="panel-3">
+    <div class="panel-card">
+      <div class="panel-title">📏 Measuring yourself at home</div>
+      <div class="panel-sub">You'll need a flexible measuring tape (available at any fabric or stationery shop for ₹15-20). Having a friend or family member help makes this much easier and more accurate — especially for chest and shoulder.</div>
 
-    <div class="warn-box">
-      <div class="warn-box-text">⚠️ <strong>Before you start:</strong> Wear a thin, fitted t-shirt or vest. Don't measure over thick clothing. Stand straight with your arms relaxed at your sides. Don't hold your breath or suck in your stomach — measure normally.</div>
-    </div>
+      <div class="video-wrap">
+        <div class="video-label">📹 Watch how to measure yourself — step by step</div>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/_NeNgq0DhUI" title="How to measure yourself for a custom shirt" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
 
-    <div class="measure-visual" style="margin-top:32px;">
-      <div class="mv-item">
-        <div class="mv-name">1. Neck</div>
-        <div class="mv-desc">Wrap the tape around the base of your neck — where your shirt collar sits, just below your Adam's apple. Keep one finger between the tape and your neck for comfort room. The tape should feel snug but not tight.</div>
-        <div class="mv-note">Typical range:<br>14" – 18"</div>
-      </div>
-      <div class="mv-item">
-        <div class="mv-name">2. Chest</div>
-        <div class="mv-desc">Wrap the tape around the fullest part of your chest, just under your arms and across your shoulder blades. Keep the tape parallel to the ground. Breathe normally — don't expand your chest. A friend helps here.</div>
-        <div class="mv-note">Typical range:<br>34" – 52"</div>
-      </div>
-      <div class="mv-item">
-        <div class="mv-name">3. Waist</div>
-        <div class="mv-desc">Wrap the tape around your natural waist — roughly where you'd wear a belt, or about 2-3 inches above your belly button. Stand relaxed, don't hold your breath. This is your shirt waist, not your trouser waist.</div>
-        <div class="mv-note">Typical range:<br>28" – 48"</div>
-      </div>
-      <div class="mv-item">
-        <div class="mv-name">4. Hip</div>
-        <div class="mv-desc">Wrap the tape around the widest part of your hips and seat, usually about 8-9 inches below your natural waist. Keep the tape parallel to the ground. Important if you wear shirts untucked.</div>
-        <div class="mv-note">Typical range:<br>34" – 54"</div>
-      </div>
-      <div class="mv-item">
-        <div class="mv-name">5. Shoulder</div>
-        <div class="mv-desc">Measure from the edge of one shoulder to the edge of the other, straight across your upper back. The shoulder point is where your shoulder meets your arm — you can feel a slight ridge. Best done by a friend.</div>
-        <div class="mv-note">Typical range:<br>16" – 22"</div>
-      </div>
-      <div class="mv-item">
-        <div class="mv-name">6. Sleeve Length</div>
-        <div class="mv-desc">Bend your arm slightly at the elbow. Start from the shoulder point, go over the elbow, and measure to your wrist bone. The bent elbow method gives a more accurate sleeve length than measuring with a straight arm.</div>
-        <div class="mv-note">Typical range:<br>22" – 36"</div>
-      </div>
-      <div class="mv-item">
-        <div class="mv-name">7. Bicep</div>
-        <div class="mv-desc">Flex your arm slightly and wrap the tape around the fullest part of your upper arm. Don't flex hard — just a natural, relaxed flex. The tape should be snug but you should be able to slip a finger underneath.</div>
-        <div class="mv-note">Typical range:<br>12" – 20"</div>
-      </div>
-      <div class="mv-item">
-        <div class="mv-name">8. Wrist</div>
-        <div class="mv-desc">Wrap the tape around your wrist just below the wrist bone, where a watch would sit. Keep the tape snug but comfortable. This determines your cuff size.</div>
-        <div class="mv-note">Typical range:<br>6" – 9"</div>
-      </div>
-      <div class="mv-item">
-        <div class="mv-name">9. Shirt Length</div>
-        <div class="mv-desc">Stand straight. Place the tape at the top of your shoulder, near the base of your neck, and measure straight down to where you want the shirt to end. For a shirt you'll tuck in, measure to about mid-hip. For untucked, measure to where you want the hem.</div>
-        <div class="mv-note">Typical range:<br>26" – 34"</div>
-      </div>
-    </div>
+      <div class="warn-box">⚠️ <strong>Before you start:</strong> Wear a thin fitted t-shirt or vest. Stand straight with arms relaxed. Don't suck in your stomach — measure normally. Keep the tape snug but not tight.</div>
 
-    <div class="info-box" style="margin-top:28px;">
-      <div class="info-box-icon">👥</div>
-      <div class="info-box-text"><strong>Better with a friend:</strong> Chest, shoulder and sleeve measurements are difficult to do accurately alone. Ask a family member or friend to hold the tape for you — it makes a significant difference in accuracy. It only takes 5 minutes.</div>
-    </div>
+      <table class="self-table" style="margin-top:24px;">
+        <thead><tr><th>Measurement</th><th>How to measure on your body</th><th>Typical range</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="s-name">1. Neck</td>
+            <td class="s-how">Wrap tape around the base of your neck just below the Adam's apple. Keep one finger between tape and neck for comfort room.</td>
+            <td class="s-range">14"–18"</td>
+          </tr>
+          <tr>
+            <td class="s-name">2. Chest</td>
+            <td class="s-how">Wrap tape around the fullest part of your chest, just under your arms. Keep tape parallel to floor. Breathe normally. A friend helps here.</td>
+            <td class="s-range">34"–52"</td>
+          </tr>
+          <tr>
+            <td class="s-name">3. Waist</td>
+            <td class="s-how">Around your natural waist — where you'd wear a belt, about 2-3 inches above belly button. Stand relaxed, don't hold your breath.</td>
+            <td class="s-range">28"–48"</td>
+          </tr>
+          <tr>
+            <td class="s-name">4. Hip</td>
+            <td class="s-how">Around the widest part of your hips and seat, about 8-9 inches below your natural waist. Keep tape parallel to floor.</td>
+            <td class="s-range">34"–54"</td>
+          </tr>
+          <tr>
+            <td class="s-name">5. Shoulder</td>
+            <td class="s-how">From the edge of one shoulder to the other, straight across your upper back. The shoulder point is where your shoulder meets your arm. Best done by a friend.</td>
+            <td class="s-range">16"–22"</td>
+          </tr>
+          <tr>
+            <td class="s-name">6. Sleeve</td>
+            <td class="s-how">Bend your arm slightly. Start from the shoulder point, go over the elbow, to your wrist bone. The bent elbow method gives the most accurate result.</td>
+            <td class="s-range">22"–36"</td>
+          </tr>
+          <tr>
+            <td class="s-name">7. Bicep</td>
+            <td class="s-how">Flex your arm slightly — not hard, just natural. Wrap tape around the fullest part of your upper arm. Should be snug but not tight.</td>
+            <td class="s-range">12"–20"</td>
+          </tr>
+          <tr>
+            <td class="s-name">8. Wrist</td>
+            <td class="s-how">Around your wrist just below the wrist bone, where a watch would sit. Keep snug but comfortable.</td>
+            <td class="s-range">6"–9"</td>
+          </tr>
+          <tr>
+            <td class="s-name">9. Shirt length</td>
+            <td class="s-how">Stand straight. From top of shoulder near neck, measure straight down to where you want the shirt to end. For tucked shirts, measure to mid-hip.</td>
+            <td class="s-range">26"–34"</td>
+          </tr>
+        </tbody>
+      </table>
 
-    <div class="warn-box">
-      <div class="warn-box-text">📱 <strong>No measuring tape?</strong> Visit any nearby tailor and ask them to measure you (Option 2 above). It's free, takes 5 minutes, and is more accurate than measuring yourself.</div>
+      <div class="info-box">👥 <strong>Better with a friend:</strong> Chest, shoulder and sleeve are difficult to measure accurately alone. Ask someone to hold the tape — it only takes 5 minutes and makes a big difference in accuracy.</div>
     </div>
   </div>
 
-  <!-- COMMON TIPS -->
-  <div style="background:var(--black);color:var(--white);border-radius:var(--radius-lg);padding:32px;margin-top:8px;">
-    <div style="font-size:18px;font-weight:700;letter-spacing:-0.5px;margin-bottom:20px;">Tips for all methods</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;">
-      <div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">✅ Measure twice</div>
-        <div style="font-size:13px;color:var(--gray-400);font-family:'Arial',sans-serif;line-height:1.6;">Always check each measurement twice before entering it. A small error is the most common reason for fit issues.</div>
+</div>
+
+<!-- WHATSAPP HELP -->
+<div class="whatsapp-section" style="margin-top:32px;">
+  <div class="whatsapp-card">
+    <div class="wa-left">
+      <div class="wa-title">Not sure about your measurements?</div>
+      <div class="wa-desc">Don't worry — just WhatsApp us. We'll guide you through the process personally, answer any questions, and make sure your measurements are correct before you order. We typically respond within a few hours.</div>
+      <div class="wa-note">Mon–Sat · 9am–7pm · Usually responds within 2 hours</div>
+    </div>
+    <div>
+      <a href="https://wa.me/917995883650?text=Hi%20whySML%2C%20I%20need%20help%20with%20my%20measurements" target="_blank" class="wa-btn">
+        <span class="wa-icon">💬</span> WhatsApp us
+      </a>
+      <div style="font-size:11px;color:var(--gray-400);font-family:'Arial',sans-serif;margin-top:8px;text-align:center;">+91 79958 83650</div>
+    </div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div class="tips-section">
+  <div class="tips-card">
+    <div class="tips-title">Tips that apply to all methods</div>
+    <div class="tips-grid">
+      <div class="tip-item">
+        <div class="tip-title">✅ Always measure twice</div>
+        <div class="tip-desc">Check each measurement twice before entering. A small error is the most common reason for fit issues and easily avoidable.</div>
       </div>
-      <div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">📐 Use inches</div>
-        <div style="font-size:13px;color:var(--gray-400);font-family:'Arial',sans-serif;line-height:1.6;">Our system uses inches. If you have centimetres, divide by 2.54 to convert. Most Indian tailors can measure in both.</div>
+      <div class="tip-item">
+        <div class="tip-title">📐 Use inches</div>
+        <div class="tip-desc">Our system uses inches. If you get centimetres, divide each by 2.54 to convert. Or just ask the tailor to measure in inches.</div>
       </div>
-      <div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">💾 Saved forever</div>
-        <div style="font-size:13px;color:var(--gray-400);font-family:'Arial',sans-serif;line-height:1.6;">Once you enter your measurements, they're saved to your profile. Every future order uses the same measurements — you never enter them again.</div>
+      <div class="tip-item">
+        <div class="tip-title">💾 Saved forever</div>
+        <div class="tip-desc">Once entered, your measurements are saved to your profile. Every future shirt order uses the same measurements automatically.</div>
       </div>
-      <div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:6px;">🔧 Free alterations</div>
-        <div style="font-size:13px;color:var(--gray-400);font-family:'Arial',sans-serif;line-height:1.6;">If your shirt doesn't fit right, we'll alter it for free. Just contact us within 7 days of delivery and we'll collect and fix it.</div>
+      <div class="tip-item">
+        <div class="tip-title">🔧 Free alterations</div>
+        <div class="tip-desc">If your shirt doesn't fit right, we'll collect it and alter it free. Contact us within 7 days of delivery and we'll sort it out.</div>
       </div>
     </div>
   </div>
 </div>
 
 <div class="cta-section">
-  <div class="cta-title">Ready to order your perfect shirt?</div>
-  <div class="cta-sub">You have your measurements. Now pick your fabric and place your order.</div>
+  <div class="cta-title">Got your measurements? Let's go.</div>
+  <div class="cta-sub">Pick your fabric and place your order — your perfect fitting shirt is waiting.</div>
   <a href="/" class="cta-btn">Shop shirts →</a>
 </div>
 
@@ -415,10 +420,12 @@ footer p { font-size: 12px; color: var(--gray-600); font-family: 'Arial', sans-s
 <script>
 function showPanel(num, card) {
   document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.content-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   card.classList.add('active');
   document.getElementById('panel-' + num).classList.add('active');
-  document.getElementById('panel-' + num).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => {
+    document.getElementById('panel-' + num).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
 }
 </script>
 </body>
