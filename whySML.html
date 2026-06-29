@@ -271,6 +271,139 @@ footer { background: var(--black); color: var(--white); padding: 40px 32px; }
 .footer-logo span { color: var(--gray-400); font-weight: 400; }
 .footer-tagline { font-size: 12px; color: var(--gray-600); font-family: 'Arial', sans-serif; font-style: italic; margin-top: 4px; }
 .footer-right { font-size: 12px; color: var(--gray-600); font-family: 'Arial', sans-serif; text-align: right; line-height: 1.8; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+
+/* TABLET (768px and below) */
+@media(max-width:768px) {
+  nav { padding: 0 16px; height: 56px; }
+  .logo { font-size: 20px; }
+  .logo-tagline { display: none; }
+  .nav-actions { gap: 12px; }
+  .nav-btn { font-size: 12px; gap: 4px; }
+  .nav-user { font-size: 12px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .hero { padding: 56px 20px; }
+  .hero h1 { letter-spacing: -1px; }
+  .hero-tagline { font-size: 18px; }
+  .hero p { font-size: 14px; }
+  .btn-white, .btn-outline { padding: 12px 24px; font-size: 13px; }
+
+  .tagline-banner { padding: 12px 16px; }
+  .tagline-banner p { font-size: 12px; }
+
+  .main { padding: 32px 16px; }
+  .section-header { flex-direction: column; gap: 4px; align-items: flex-start; }
+
+  .wys-section { padding: 40px 20px; }
+  .wys-title { font-size: 26px; }
+
+  .how-section { padding: 48px 20px; }
+  .how-title { font-size: 26px; }
+  .how-header { margin-bottom: 32px; }
+
+  .page-wrap { padding: 24px 16px; }
+  .page-title { font-size: 22px; margin-bottom: 20px; }
+
+  .success-card { padding: 32px 20px; }
+  .success-title { font-size: 22px; }
+
+  .modal { padding: 24px 20px; }
+  .modal-title { font-size: 18px; }
+  .measure-grid { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+  footer { padding: 32px 20px; }
+  .footer-right { text-align: left; }
+}
+
+/* MOBILE (480px and below) */
+@media(max-width:480px) {
+  /* NAV — hide "How to measure" text, show icon only on very small */
+  nav { padding: 0 14px; height: 52px; }
+  .logo { font-size: 18px; }
+  .nav-actions { gap: 8px; }
+  .nav-btn { font-size: 11px; }
+  .nav-btn.logout { padding: 4px 8px; font-size: 11px; }
+  /* Hide "How to measure" nav link on mobile — accessible via footer */
+  .nav-btn[href="/measure"] { display: none; }
+
+  /* HERO */
+  .hero { padding: 40px 16px; }
+  .hero-eyebrow { display: none; }
+  .hero-tagline { font-size: 16px; }
+  .hero p { font-size: 13px; margin-bottom: 24px; }
+  .hero-btns { flex-direction: column; align-items: center; gap: 8px; }
+  .btn-white, .btn-outline { width: 100%; max-width: 240px; padding: 12px 20px; font-size: 13px; }
+
+  /* SHIRT GRID — 2 columns, tighter */
+  .shirt-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .shirt-img { height: 180px; }
+  .shirt-name { font-size: 13px; }
+  .shirt-desc { display: none; }
+  .shirt-price { font-size: 15px; }
+  .shirt-price-sub { display: none; }
+  .atc-btn { padding: 8px 12px; font-size: 11px; }
+  .shirt-info { padding: 10px 12px 12px; }
+
+  /* WYS SECTION */
+  .wys-section { padding: 32px 16px; margin-top: 32px; }
+  .wys-title { font-size: 22px; }
+  .wys-sub { font-size: 13px; }
+  .wys-num { font-size: 36px; }
+
+  /* HOW IT WORKS */
+  .how-section { padding: 40px 16px; }
+  .how-title { font-size: 22px; }
+  .how-num { font-size: 36px; }
+
+  /* RETURN POLICY */
+  #policy-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+
+  /* CONTACT */
+  .hero-btns { gap: 10px; }
+
+  /* AUTH */
+  .auth-card { padding: 28px 20px; }
+  .auth-title { font-size: 18px; }
+  .otp-digit { width: 42px; height: 50px; font-size: 20px; }
+  .otp-row { gap: 6px; }
+
+  /* CART */
+  .cart-item { gap: 10px; }
+  .cart-thumb { width: 64px; height: 64px; font-size: 28px; }
+  .cart-item-name { font-size: 13px; }
+
+  /* CHECKOUT */
+  .steps { overflow-x: auto; padding-bottom: 4px; }
+  .step-tab { font-size: 11px; margin-right: 16px; white-space: nowrap; }
+
+  /* MEASUREMENT MODAL */
+  .measure-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .measure-box { padding: 8px; }
+  .measure-val { font-size: 15px; }
+
+  /* ORDERS */
+  .order-measure-grid { grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .order-measure-val { font-size: 14px; }
+
+  /* MODAL */
+  .modal-overlay { padding: 12px; align-items: flex-end; }
+  .modal { border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-height: 95vh; padding: 24px 16px; }
+
+  /* PAGE */
+  .page-wrap { padding: 20px 14px; }
+  .page-title { font-size: 20px; }
+
+  /* SUCCESS */
+  .success-card { padding: 28px 16px; }
+  .success-title { font-size: 20px; }
+  .success-sub { font-size: 13px; margin-bottom: 20px; }
+
+  /* FOOTER */
+  footer { padding: 28px 16px; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .footer-right { text-align: left; }
+}
 </style>
 </head>
 <body>
