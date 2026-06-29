@@ -133,6 +133,51 @@ input:focus{border-color:var(--black);}
 @keyframes spin{to{transform:rotate(360deg);}}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--black);color:var(--white);padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s;pointer-events:none;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:768px){
+  .admin-nav{padding:0 16px;height:52px;}
+  .admin-logo{font-size:15px;}
+  .nav-right{gap:8px;}
+  .nav-stat{display:none;}
+  .logout-btn{padding:4px 10px;font-size:11px;}
+  .admin-tabs{padding:0 16px;}
+  .tab-btn{padding:12px 14px;font-size:12px;}
+  .filters{padding:10px 16px;gap:6px;}
+  .search-input{width:100%;margin-left:0;margin-top:8px;}
+  .admin-main{padding:16px;}
+  .stats-row{grid-template-columns:1fr 1fr;gap:12px;}
+  .stat-val{font-size:24px;}
+  /* Orders table — stack on tablet */
+  .orders-table{overflow-x:auto;}
+  .table-header{display:none;}
+  .order-row{display:flex;flex-direction:column;gap:10px;padding:16px;}
+  /* Fabric grid */
+  .fabric-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+  /* Tailor table — scroll */
+  .tailor-table{overflow-x:auto;}
+  .tailor-row{grid-template-columns:1fr 100px 80px 100px 100px 120px;padding:12px 16px;}
+  .tailor-header-cell{font-size:10px;}
+}
+@media(max-width:480px){
+  .admin-nav{padding:0 12px;}
+  .admin-logo em{display:none;}
+  .admin-tabs{padding:0 12px;overflow-x:auto;}
+  .tab-btn{padding:10px 12px;font-size:11px;white-space:nowrap;}
+  .filters{padding:10px 12px;}
+  .filter-btn{padding:5px 10px;font-size:11px;}
+  .admin-main{padding:12px;}
+  .stats-row{grid-template-columns:1fr 1fr;gap:10px;}
+  .stat-card{padding:12px;}
+  .stat-val{font-size:20px;}
+  .stat-label{font-size:11px;}
+  /* Fabric grid — 1 col on small mobile */
+  .fabric-grid{grid-template-columns:1fr;}
+  /* Tailor table */
+  .tailor-row{display:flex;flex-direction:column;gap:8px;padding:14px 12px;}
+  .tailor-row.header{display:none;}
+  .login-card{padding:28px 20px;}
+}
 </style>
 </head>
 <body>
