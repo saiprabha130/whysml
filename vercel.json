@@ -3,6 +3,8 @@
     { "source": "/", "destination": "/whySML.html" },
     { "source": "/admin", "destination": "/whySML-admin.html" },
     { "source": "/admin/", "destination": "/whySML-admin.html" },
+    { "source": "/tailor", "destination": "/whySML-tailor.html" },
+    { "source": "/tailor/", "destination": "/whySML-tailor.html" },
     { "source": "/measure", "destination": "/measure.html" },
     { "source": "/measure/", "destination": "/measure.html" }
   ],
