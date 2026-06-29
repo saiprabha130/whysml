@@ -468,16 +468,35 @@ function renderFabrics() {
     return;
   }
 
-  grid.innerHTML = items.map(f => `
+  grid.innerHTML = items.map(f => {
+    const tailorPrice = f.tailorPrice || f.price || 0;
+    const sellingPrice = f.sellingPrice || '';
+    const margin = sellingPrice ? sellingPrice - tailorPrice : 0;
+    return `
     <div class="fabric-card">
       <div class="fabric-img">${f.imageUrl?`<img src="${f.imageUrl}" alt="${f.name}">`:'<span style="font-size:48px;">🧵</span>'}</div>
       <div class="fabric-info">
         <div class="fabric-name">${f.name}</div>
-        <div class="fabric-tailor">By ${f.tailorShop||'Unknown tailor'}</div>
-        <div class="fabric-price">₹${Number(f.price||0).toLocaleString()} · ${formatDate(f.createdAt)}</div>
+        <div class="fabric-tailor">By ${f.tailorShop||'Unknown tailor'} · ${formatDate(f.createdAt)}</div>
+        <div style="margin:10px 0;padding:10px;background:var(--gray-100);border-radius:var(--radius);font-size:12px;font-family:'Arial',sans-serif;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="color:var(--gray-600);">Tailor's cost</span>
+            <strong>₹${Number(tailorPrice).toLocaleString()}</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="color:var(--gray-600);">Selling price (₹)</span>
+            <input type="number" id="sp-${f.id}" value="${sellingPrice}" placeholder="Set price" min="${tailorPrice}"
+              style="width:110px;border:1px solid var(--gray-200);border-radius:var(--radius);padding:4px 8px;font-size:13px;text-align:right;outline:none;"
+              oninput="updateMargin('${f.id}',${tailorPrice})">
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <span style="color:var(--gray-600);">Your margin</span>
+            <strong id="margin-val-${f.id}" style="color:var(--green);">${sellingPrice ? '₹'+Number(margin).toLocaleString() : '—'}</strong>
+          </div>
+        </div>
         <div class="fabric-actions">
           ${!f.active && !f.rejected
-            ? `<button class="btn-approve" onclick="approveFabric('${f.id}')">✅ Approve</button>
+            ? `<button class="btn-approve" onclick="approveFabric('${f.id}',${tailorPrice})">✅ Approve & go live</button>
                <button class="btn-reject" onclick="rejectFabric('${f.id}')">✗ Reject</button>`
             : f.active
               ? `<button class="btn-hide" onclick="hideFabric('${f.id}')">Hide from site</button>`
@@ -485,25 +504,47 @@ function renderFabrics() {
           }
         </div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
-async function approveFabric(id) {
+function updateMargin(fabricId, tailorPrice) {
+  const sp = parseFloat(document.getElementById('sp-'+fabricId).value) || 0;
+  const margin = sp - tailorPrice;
+  const el = document.getElementById('margin-val-'+fabricId);
+  if (el) {
+    el.textContent = sp > 0 ? '₹'+margin.toLocaleString() : '—';
+    el.style.color = margin >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+}
+
+async function approveFabric(id, tailorPrice) {
+  const spInput = document.getElementById('sp-'+id);
+  const sellingPrice = parseFloat(spInput?.value);
+  if (!sellingPrice || sellingPrice < tailorPrice) {
+    showToast('Please set a selling price higher than the tailor\'s cost (₹'+tailorPrice+') before approving.');
+    spInput?.focus();
+    return;
+  }
   try {
-    await db.collection('fabrics').doc(id).update({ active: true, rejected: false });
-    // Also add to shirts collection for the customer site
+    await db.collection('fabrics').doc(id).update({ active:true, rejected:false, sellingPrice });
     const fab = allFabrics.find(f=>f.id===id);
     if (fab) {
       await db.collection('shirts').doc(id).set({
-        name: fab.name, price: fab.price, imageUrl: fab.imageUrl||null,
-        tailorId: fab.tailorId, tailorShop: fab.tailorShop,
-        active: true, createdAt: fab.createdAt
+        name: fab.name,
+        price: sellingPrice,        // customer sees selling price
+        tailorPrice: tailorPrice,   // your cost reference
+        imageUrl: fab.imageUrl||null,
+        tailorId: fab.tailorId,
+        tailorShop: fab.tailorShop,
+        active: true,
+        createdAt: fab.createdAt
       });
     }
     const f = allFabrics.find(f=>f.id===id);
-    if(f){ f.active=true; f.rejected=false; }
+    if(f){ f.active=true; f.rejected=false; f.sellingPrice=sellingPrice; }
     loadFabrics();
-    showToast('Fabric approved and live on site!');
+    showToast('Fabric approved at ₹'+sellingPrice+' — live on site!');
   } catch(e){ showToast('Error: '+e.message); }
 }
 
