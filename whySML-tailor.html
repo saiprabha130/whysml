@@ -10,219 +10,124 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
 :root {
-  --black: #0a0a0a; --white: #fff; --off-white: #f7f6f4;
-  --gray-100: #f0efed; --gray-200: #e2e0dc; --gray-400: #a8a49e;
-  --gray-600: #6b6760; --gray-800: #2c2b29;
-  --green: #1a6b4a; --green-light: #e8f3ee;
-  --red: #c0392b; --red-light: #fdf0ee;
-  --blue: #1e40af; --blue-light: #dbeafe;
-  --amber: #92400e; --amber-light: #fef3c7;
-  --radius: 4px; --radius-lg: 10px;
+  --black:#0a0a0a;--white:#fff;--off-white:#f7f6f4;
+  --gray-100:#f0efed;--gray-200:#e2e0dc;--gray-400:#a8a49e;
+  --gray-600:#6b6760;--gray-800:#2c2b29;
+  --green:#1a6b4a;--green-light:#e8f3ee;
+  --red:#c0392b;--red-light:#fdf0ee;
+  --blue:#1e40af;--blue-light:#dbeafe;
+  --amber:#92400e;--amber-light:#fef3c7;
+  --radius:4px;--radius-lg:10px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Arial', sans-serif; background: var(--off-white); color: var(--black); min-height: 100vh; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Arial',sans-serif;background:var(--off-white);color:var(--black);min-height:100vh;}
+.screen{display:none;min-height:100vh;flex-direction:column;}
+.screen.active{display:flex;}
 
-/* SCREENS */
-.screen { display: none; min-height: 100vh; flex-direction: column; }
-.screen.active { display: flex; }
+nav{background:var(--black);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-logo{font-size:18px;font-weight:700;color:var(--white);letter-spacing:-0.5px;font-family:'Georgia',serif;}
+.nav-logo span{color:var(--gray-400);font-weight:400;}
+.nav-logo em{font-style:normal;font-size:11px;background:var(--green);color:var(--white);padding:2px 8px;border-radius:20px;margin-left:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;vertical-align:middle;}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-name{font-size:13px;color:var(--gray-400);}
+.nav-logout{background:none;border:1px solid var(--gray-600);color:var(--gray-400);padding:5px 12px;border-radius:var(--radius);font-size:12px;cursor:pointer;transition:all 0.15s;}
+.nav-logout:hover{border-color:var(--white);color:var(--white);}
 
-/* NAV */
-nav { background: var(--black); padding: 0 24px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.nav-logo { font-size: 18px; font-weight: 700; color: var(--white); letter-spacing: -0.5px; font-family: 'Georgia', serif; }
-.nav-logo span { color: var(--gray-400); font-weight: 400; }
-.nav-logo em { font-style: normal; font-size: 11px; background: var(--green); color: var(--white); padding: 2px 8px; border-radius: 20px; margin-left: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; vertical-align: middle; }
-.nav-right { display: flex; align-items: center; gap: 16px; }
-.nav-name { font-size: 13px; color: var(--gray-400); }
-.nav-logout { background: none; border: 1px solid var(--gray-600); color: var(--gray-400); padding: 5px 12px; border-radius: var(--radius); font-size: 12px; cursor: pointer; transition: all 0.15s; }
-.nav-logout:hover { border-color: var(--white); color: var(--white); }
+.auth-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px;background:var(--black);}
+.auth-card{background:var(--white);border-radius:var(--radius-lg);padding:40px;width:100%;max-width:400px;}
+.auth-logo{font-size:22px;font-weight:700;letter-spacing:-1px;margin-bottom:4px;font-family:'Georgia',serif;}
+.auth-logo span{color:var(--gray-400);font-weight:400;}
+.auth-badge{display:inline-block;font-size:11px;background:var(--green);color:var(--white);padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;}
+.auth-title{font-size:20px;font-weight:700;margin-bottom:6px;}
+.auth-sub{font-size:13px;color:var(--gray-600);margin-bottom:24px;line-height:1.6;}
 
-/* AUTH */
-.auth-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: var(--black); }
-.auth-card { background: var(--white); border-radius: var(--radius-lg); padding: 40px; width: 100%; max-width: 400px; }
-.auth-logo { font-size: 22px; font-weight: 700; letter-spacing: -1px; margin-bottom: 4px; font-family: 'Georgia', serif; }
-.auth-logo span { color: var(--gray-400); font-weight: 400; }
-.auth-badge { display: inline-block; font-size: 11px; background: var(--green); color: var(--white); padding: 3px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 24px; }
-.auth-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
-.auth-sub { font-size: 13px; color: var(--gray-600); margin-bottom: 24px; line-height: 1.6; }
+.input-group{margin-bottom:14px;}
+.input-label{font-size:11px;font-weight:600;color:var(--gray-600);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;display:block;}
+.input-row{display:flex;gap:8px;}
+.input-prefix{background:var(--gray-100);border:1px solid var(--gray-200);border-radius:var(--radius);padding:0 12px;font-size:14px;color:var(--gray-600);display:flex;align-items:center;white-space:nowrap;}
+input[type="tel"],input[type="text"],input[type="number"]{width:100%;border:1px solid var(--gray-200);border-radius:var(--radius);padding:11px 14px;font-size:14px;color:var(--black);background:var(--white);outline:none;transition:border-color 0.15s;font-family:'Arial',sans-serif;}
+input:focus{border-color:var(--black);}
+input[readonly]{background:var(--gray-100);color:var(--gray-600);cursor:not-allowed;}
+.otp-row{display:flex;gap:10px;justify-content:center;margin:20px 0;}
+.otp-digit{width:48px;height:56px;border:1px solid var(--gray-200);border-radius:var(--radius);font-size:22px;font-weight:700;text-align:center;font-family:'Arial',sans-serif;outline:none;transition:border-color 0.15s;}
+.otp-digit:focus{border-color:var(--black);}
 
-/* INPUTS */
-.input-group { margin-bottom: 14px; }
-.input-label { font-size: 11px; font-weight: 600; color: var(--gray-600); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
-.input-row { display: flex; gap: 8px; }
-.input-prefix { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 0 12px; font-size: 14px; color: var(--gray-600); display: flex; align-items: center; white-space: nowrap; }
-input[type="tel"], input[type="text"], input[type="number"] { width: 100%; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 11px 14px; font-size: 14px; color: var(--black); background: var(--white); outline: none; transition: border-color 0.15s; font-family: 'Arial', sans-serif; }
-input:focus { border-color: var(--black); }
-input[readonly] { background: var(--gray-100); color: var(--gray-600); cursor: not-allowed; }
-.otp-row { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
-.otp-digit { width: 48px; height: 56px; border: 1px solid var(--gray-200); border-radius: var(--radius); font-size: 22px; font-weight: 700; text-align: center; font-family: 'Arial', sans-serif; outline: none; transition: border-color 0.15s; }
-.otp-digit:focus { border-color: var(--black); }
+.btn-dark{background:var(--black);color:var(--white);border:none;padding:13px;font-size:14px;font-weight:600;cursor:pointer;border-radius:var(--radius);width:100%;transition:background 0.15s;margin-top:8px;font-family:'Arial',sans-serif;}
+.btn-dark:hover{background:var(--gray-800);}
+.btn-dark:disabled{background:var(--gray-400);cursor:not-allowed;}
+.btn-ghost{background:transparent;color:var(--gray-600);border:1px solid var(--gray-200);padding:12px;font-size:14px;cursor:pointer;border-radius:var(--radius);width:100%;margin-top:10px;font-family:'Arial',sans-serif;transition:all 0.15s;}
+.btn-ghost:hover{border-color:var(--gray-400);color:var(--black);}
+.btn-green{background:var(--green);color:var(--white);border:none;padding:13px;font-size:14px;font-weight:600;cursor:pointer;border-radius:var(--radius);width:100%;transition:background 0.15s;font-family:'Arial',sans-serif;}
+.btn-green:hover{background:#155a3e;}
+.btn-green:disabled{background:var(--gray-400);cursor:not-allowed;}
 
-/* BUTTONS */
-.btn-dark { background: var(--black); color: var(--white); border: none; padding: 13px; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: var(--radius); width: 100%; transition: background 0.15s; margin-top: 8px; font-family: 'Arial', sans-serif; }
-.btn-dark:hover { background: var(--gray-800); }
-.btn-dark:disabled { background: var(--gray-400); cursor: not-allowed; }
-.btn-ghost { background: transparent; color: var(--gray-600); border: 1px solid var(--gray-200); padding: 12px; font-size: 14px; cursor: pointer; border-radius: var(--radius); width: 100%; margin-top: 10px; font-family: 'Arial', sans-serif; transition: all 0.15s; }
-.btn-ghost:hover { border-color: var(--gray-400); color: var(--black); }
-.btn-green { background: var(--green); color: var(--white); border: none; padding: 13px; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: var(--radius); width: 100%; transition: background 0.15s; font-family: 'Arial', sans-serif; }
-.btn-green:hover { background: #155a3e; }
+.err{font-size:12px;color:var(--red);margin-top:6px;display:none;}
+.err.show{display:block;}
 
-/* ERR */
-.err { font-size: 12px; color: var(--red); margin-top: 6px; display: none; }
-.err.show { display: block; }
+.dash-wrap{flex:1;max-width:800px;margin:0 auto;width:100%;padding:32px 24px;}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
+@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr;}}
+.stat-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:20px;}
+.stat-val{font-size:32px;font-weight:700;letter-spacing:-1px;font-family:'Georgia',serif;}
+.stat-val.green{color:var(--green);}
+.stat-val.amber{color:var(--amber);}
+.stat-label{font-size:12px;color:var(--gray-400);margin-top:4px;}
 
-/* DASHBOARD */
-.dash-wrap { flex: 1; max-width: 800px; margin: 0 auto; width: 100%; padding: 32px 24px; }
+.code-box{background:var(--black);color:var(--white);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.code-label{font-size:11px;color:var(--gray-400);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.code-val{font-size:28px;font-weight:700;letter-spacing:4px;font-family:'Georgia',serif;}
+.code-desc{font-size:12px;color:var(--gray-600);margin-top:4px;}
+.copy-btn{background:var(--white);color:var(--black);border:none;padding:10px 20px;border-radius:var(--radius);font-size:13px;font-weight:600;cursor:pointer;font-family:'Arial',sans-serif;transition:background 0.15s;}
+.copy-btn:hover{background:var(--gray-100);}
 
-/* STATS */
-.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
-@media(max-width:600px){ .stats-row { grid-template-columns: 1fr 1fr; } }
-.stat-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 20px; }
-.stat-val { font-size: 32px; font-weight: 700; letter-spacing: -1px; font-family: 'Georgia', serif; }
-.stat-val.green { color: var(--green); }
-.stat-val.amber { color: var(--amber); }
-.stat-label { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px;}
+@media(max-width:500px){.action-grid{grid-template-columns:1fr;}}
+.action-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:28px 24px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.action-card:hover{border-color:var(--black);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.action-icon{font-size:36px;margin-bottom:12px;}
+.action-title{font-size:16px;font-weight:700;margin-bottom:6px;}
+.action-desc{font-size:13px;color:var(--gray-600);line-height:1.5;}
 
-/* REFERRAL CODE */
-.code-box { background: var(--black); color: var(--white); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-.code-left { }
-.code-label { font-size: 11px; color: var(--gray-400); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
-.code-val { font-size: 28px; font-weight: 700; letter-spacing: 4px; font-family: 'Georgia', serif; }
-.code-desc { font-size: 12px; color: var(--gray-600); margin-top: 4px; }
-.copy-btn { background: var(--white); color: var(--black); border: none; padding: 10px 20px; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Arial', sans-serif; transition: background 0.15s; }
-.copy-btn:hover { background: var(--gray-100); }
+.section-title{font-size:16px;font-weight:700;margin-bottom:16px;}
+.ref-list{display:flex;flex-direction:column;gap:10px;}
+.ref-item{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.ref-name{font-size:14px;font-weight:700;}
+.ref-date{font-size:12px;color:var(--gray-400);margin-top:2px;}
+.ref-status{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;}
+.status-pending{background:var(--amber-light);color:var(--amber);}
+.status-earned{background:var(--green-light);color:var(--green);}
+.empty-state{text-align:center;padding:40px 24px;color:var(--gray-400);font-size:14px;}
 
-/* ACTION BUTTONS */
-.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
-@media(max-width:500px){ .action-grid { grid-template-columns: 1fr; } }
-.action-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px 24px; cursor: pointer; transition: all 0.2s; text-align: center; }
-.action-card:hover { border-color: var(--black); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
-.action-icon { font-size: 36px; margin-bottom: 12px; }
-.action-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
-.action-desc { font-size: 13px; color: var(--gray-600); line-height: 1.5; }
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:24px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--white);border-radius:var(--radius-lg);padding:32px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;}
+.modal-title{font-size:20px;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;}
+.modal-sub{font-size:13px;color:var(--gray-400);margin-bottom:24px;line-height:1.6;}
+.measure-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px;}
+.measure-item label{font-size:11px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;display:block;}
 
-/* REFERRAL LIST */
-.section-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-.ref-list { display: flex; flex-direction: column; gap: 10px; }
-.ref-item { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-.ref-name { font-size: 14px; font-weight: 700; }
-.ref-date { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
-.ref-status { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
-.status-pending { background: var(--amber-light); color: var(--amber); }
-.status-earned { background: var(--green-light); color: var(--green); }
-.empty-state { text-align: center; padding: 40px 24px; color: var(--gray-400); font-size: 14px; }
+.photo-upload{border:2px dashed var(--gray-200);border-radius:var(--radius-lg);padding:32px;text-align:center;cursor:pointer;transition:border-color 0.15s;background:var(--gray-100);}
+.photo-upload:hover{border-color:var(--black);}
+.photo-upload.has-photo{border-style:solid;border-color:var(--green);}
+.photo-preview{width:100%;max-height:200px;object-fit:cover;border-radius:var(--radius);margin-top:12px;display:none;}
 
-/* MODAL */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
-.modal-overlay.open { display: flex; }
-.modal { background: var(--white); border-radius: var(--radius-lg); padding: 32px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; }
-.modal-title { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
-.modal-sub { font-size: 13px; color: var(--gray-400); margin-bottom: 24px; line-height: 1.6; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.form-grid .full { grid-column: 1/-1; }
-.measure-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 4px; }
-.measure-item { }
-.measure-item label { font-size: 11px; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block; }
-
-/* FABRIC UPLOAD */
-.photo-upload { border: 2px dashed var(--gray-200); border-radius: var(--radius-lg); padding: 32px; text-align: center; cursor: pointer; transition: border-color 0.15s; background: var(--gray-100); }
-.photo-upload:hover { border-color: var(--black); }
-.photo-upload.has-photo { border-style: solid; border-color: var(--green); }
-.photo-preview { width: 100%; max-height: 200px; object-fit: cover; border-radius: var(--radius); margin-top: 12px; display: none; }
-
-/* TOAST */
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--black); color: var(--white); padding: 12px 24px; border-radius: 100px; font-size: 13px; font-weight: 500; z-index: 999; transition: transform 0.3s; pointer-events: none; white-space: nowrap; }
-.toast.show { transform: translateX(-50%) translateY(0); }
-.spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* OTP VERIFY MODAL for customer */
-.otp-verify-wrap { text-align: center; }
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--black);color:var(--white);padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s;pointer-events:none;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
 </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN: LANDING (choose login or signup)
-═══════════════════════════════════════════ -->
-<div class="screen active" id="screen-landing">
+<!-- ═══ SCREEN: LOGIN (unified — handles both new and existing) ═══ -->
+<div class="screen active" id="screen-login">
   <div class="auth-wrap">
     <div class="auth-card">
       <div class="auth-logo">why<span>SML</span></div>
       <div class="auth-badge">Tailor Portal</div>
       <div class="auth-title">Welcome, tailor partner</div>
-      <div class="auth-sub">Refer customers, upload fabrics, track your earnings — all in one place.</div>
-      <button class="btn-dark" onclick="goto('screen-login')">Sign in to my account</button>
-      <button class="btn-ghost" onclick="goto('screen-signup')">New tailor? Register here</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN: SIGNUP
-═══════════════════════════════════════════ -->
-<div class="screen" id="screen-signup">
-  <div class="auth-wrap">
-    <div class="auth-card">
-      <div class="auth-logo">why<span>SML</span></div>
-      <div class="auth-badge">New Registration</div>
-      <div class="auth-title">Register your shop</div>
-      <div class="auth-sub">Create your tailor account. We'll send an OTP to verify your number.</div>
-      <div class="input-group">
-        <label class="input-label">Shop name</label>
-        <input type="text" id="signup-shop" placeholder="e.g. Raju Tailors, Hyderabad">
-      </div>
-      <div class="input-group">
-        <label class="input-label">Your mobile number</label>
-        <div class="input-row">
-          <div class="input-prefix">🇮🇳 +91</div>
-          <input type="tel" id="signup-phone" placeholder="98765 43210" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
-        </div>
-      </div>
-      <div id="signup-recaptcha"></div>
-      <div class="err" id="signup-err">Please fill all fields correctly.</div>
-      <button class="btn-green" id="signup-btn" onclick="tailorSignup()">Send OTP →</button>
-      <button class="btn-ghost" onclick="goto('screen-landing')">← Back</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN: SIGNUP OTP
-═══════════════════════════════════════════ -->
-<div class="screen" id="screen-signup-otp">
-  <div class="auth-wrap">
-    <div class="auth-card">
-      <div class="auth-logo">why<span>SML</span></div>
-      <div class="auth-badge">Verify Number</div>
-      <div class="auth-title">Enter OTP</div>
-      <div class="auth-sub" id="signup-otp-sub">Sent to your number</div>
-      <div class="otp-row">
-        <input class="otp-digit" maxlength="1" id="sotp0" oninput="otpIn('s',0)" onkeydown="otpKey('s',event,0)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="sotp1" oninput="otpIn('s',1)" onkeydown="otpKey('s',event,1)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="sotp2" oninput="otpIn('s',2)" onkeydown="otpKey('s',event,2)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="sotp3" oninput="otpIn('s',3)" onkeydown="otpKey('s',event,3)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="sotp4" oninput="otpIn('s',4)" onkeydown="otpKey('s',event,4)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="sotp5" oninput="otpIn('s',5)" onkeydown="otpKey('s',event,5)" inputmode="numeric">
-      </div>
-      <div class="err" id="signup-otp-err">Incorrect OTP. Please try again.</div>
-      <button class="btn-green" id="signup-verify-btn" onclick="verifySignupOTP()">Verify & create account</button>
-      <button class="btn-ghost" onclick="goto('screen-signup')">← Change number</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN: LOGIN
-═══════════════════════════════════════════ -->
-<div class="screen" id="screen-login">
-  <div class="auth-wrap">
-    <div class="auth-card">
-      <div class="auth-logo">why<span>SML</span></div>
-      <div class="auth-badge">Tailor Portal</div>
-      <div class="auth-title">Sign in</div>
-      <div class="auth-sub">Enter your registered mobile number to receive an OTP.</div>
+      <div class="auth-sub">Enter your mobile number. We'll send an OTP to verify — new or existing, same process.</div>
       <div class="input-group">
         <label class="input-label">Mobile number</label>
         <div class="input-row">
@@ -232,40 +137,53 @@ input[readonly] { background: var(--gray-100); color: var(--gray-600); cursor: n
       </div>
       <div id="login-recaptcha"></div>
       <div class="err" id="login-err">Please enter a valid 10-digit number.</div>
-      <button class="btn-dark" id="login-btn" onclick="tailorLogin()">Send OTP →</button>
-      <button class="btn-ghost" onclick="goto('screen-landing')">← Back</button>
+      <button class="btn-green" id="login-btn" onclick="sendLoginOTP()">Send OTP →</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN: LOGIN OTP
-═══════════════════════════════════════════ -->
-<div class="screen" id="screen-login-otp">
+<!-- ═══ SCREEN: OTP ═══ -->
+<div class="screen" id="screen-otp">
   <div class="auth-wrap">
     <div class="auth-card">
       <div class="auth-logo">why<span>SML</span></div>
       <div class="auth-badge">Tailor Portal</div>
       <div class="auth-title">Enter OTP</div>
-      <div class="auth-sub" id="login-otp-sub">Sent to your number</div>
+      <div class="auth-sub" id="otp-sub">Sent to your number</div>
       <div class="otp-row">
-        <input class="otp-digit" maxlength="1" id="lotp0" oninput="otpIn('l',0)" onkeydown="otpKey('l',event,0)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="lotp1" oninput="otpIn('l',1)" onkeydown="otpKey('l',event,1)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="lotp2" oninput="otpIn('l',2)" onkeydown="otpKey('l',event,2)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="lotp3" oninput="otpIn('l',3)" onkeydown="otpKey('l',event,3)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="lotp4" oninput="otpIn('l',4)" onkeydown="otpKey('l',event,4)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="lotp5" oninput="otpIn('l',5)" onkeydown="otpKey('l',event,5)" inputmode="numeric">
+        <input class="otp-digit" maxlength="1" id="otp0" oninput="otpIn(0)" onkeydown="otpKey(event,0)" inputmode="numeric">
+        <input class="otp-digit" maxlength="1" id="otp1" oninput="otpIn(1)" onkeydown="otpKey(event,1)" inputmode="numeric">
+        <input class="otp-digit" maxlength="1" id="otp2" oninput="otpIn(2)" onkeydown="otpKey(event,2)" inputmode="numeric">
+        <input class="otp-digit" maxlength="1" id="otp3" oninput="otpIn(3)" onkeydown="otpKey(event,3)" inputmode="numeric">
+        <input class="otp-digit" maxlength="1" id="otp4" oninput="otpIn(4)" onkeydown="otpKey(event,4)" inputmode="numeric">
+        <input class="otp-digit" maxlength="1" id="otp5" oninput="otpIn(5)" onkeydown="otpKey(event,5)" inputmode="numeric">
       </div>
-      <div class="err" id="login-otp-err">Incorrect OTP. Please try again.</div>
-      <button class="btn-dark" id="login-verify-btn" onclick="verifyLoginOTP()">Verify & sign in</button>
-      <button class="btn-ghost" onclick="goto('screen-login')">← Change number</button>
+      <div class="err" id="otp-err">Incorrect OTP. Please try again.</div>
+      <button class="btn-green" id="otp-verify-btn" onclick="verifyOTP()">Verify →</button>
+      <button class="btn-ghost" onclick="goBackToLogin()">← Change number</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN: DASHBOARD
-═══════════════════════════════════════════ -->
+<!-- ═══ SCREEN: NEW USER — ask shop name ═══ -->
+<div class="screen" id="screen-newuser">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-logo">why<span>SML</span></div>
+      <div class="auth-badge">Almost there!</div>
+      <div class="auth-title">What's your shop name?</div>
+      <div class="auth-sub">This appears on your profile and helps customers identify you. You can't change it later so enter it correctly.</div>
+      <div class="input-group">
+        <label class="input-label">Shop name</label>
+        <input type="text" id="shop-name-input" placeholder="e.g. Raju Tailors, Hyderabad" autocomplete="off">
+      </div>
+      <div class="err" id="shopname-err">Please enter your shop name.</div>
+      <button class="btn-green" id="shopname-btn" onclick="saveShopName()">Complete registration →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: DASHBOARD ═══ -->
 <div class="screen" id="screen-dashboard">
   <nav>
     <div class="nav-logo">why<span>SML</span> <em>Tailor</em></div>
@@ -275,8 +193,6 @@ input[readonly] { background: var(--gray-100); color: var(--gray-600); cursor: n
     </div>
   </nav>
   <div class="dash-wrap">
-
-    <!-- Stats -->
     <div class="stats-row">
       <div class="stat-card">
         <div class="stat-val" id="stat-referred">0</div>
@@ -292,17 +208,15 @@ input[readonly] { background: var(--gray-100); color: var(--gray-600); cursor: n
       </div>
     </div>
 
-    <!-- Referral code -->
     <div class="code-box">
-      <div class="code-left">
+      <div>
         <div class="code-label">Your referral code</div>
         <div class="code-val" id="referral-code">——</div>
-        <div class="code-desc">Share this code with customers or use it when referring them below</div>
+        <div class="code-desc">Shown on your dashboard — used to track your referrals</div>
       </div>
       <button class="copy-btn" onclick="copyCode()">Copy code</button>
     </div>
 
-    <!-- Action buttons -->
     <div class="action-grid">
       <div class="action-card" onclick="openReferModal()">
         <div class="action-icon">👤</div>
@@ -312,27 +226,20 @@ input[readonly] { background: var(--gray-100); color: var(--gray-600); cursor: n
       <div class="action-card" onclick="openFabricModal()">
         <div class="action-icon">🧵</div>
         <div class="action-title">Add a fabric</div>
-        <div class="action-desc">Upload a fabric photo and price — we'll review and list it on the site</div>
+        <div class="action-desc">Upload fabric photo and your cost — we'll review and list it</div>
       </div>
     </div>
 
-    <!-- Referral list -->
-    <div class="section-title">
-      <span>Your referred customers</span>
-    </div>
-    <div id="ref-list"></div>
-
+    <div class="section-title">Your referred customers</div>
+    <div id="ref-list"><div class="empty-state">Loading...</div></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     MODAL: REFER CUSTOMER
-═══════════════════════════════════════════ -->
+<!-- ═══ MODAL: REFER CUSTOMER ═══ -->
 <div class="modal-overlay" id="referModal">
   <div class="modal">
     <div class="modal-title">Refer a customer</div>
-    <div class="modal-sub">Enter the customer's details and measurements. We'll send them an OTP to verify and create their account.</div>
-
+    <div class="modal-sub">Enter the customer's details and measurements. We'll send an OTP to their phone to verify and create their account.</div>
     <div class="input-group">
       <label class="input-label">Customer full name</label>
       <input type="text" id="cust-name" placeholder="e.g. Ramesh Kumar">
@@ -344,93 +251,58 @@ input[readonly] { background: var(--gray-100); color: var(--gray-600); cursor: n
         <input type="tel" id="cust-phone" placeholder="98765 43210" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
       </div>
     </div>
-
     <div class="input-group" style="margin-top:8px;">
       <label class="input-label">Measurements (all in inches)</label>
       <div class="measure-grid">
-        <div class="measure-item">
-          <label>Neck</label>
-          <input type="number" id="m-neck" placeholder="15" min="12" max="22" step="0.5">
-        </div>
-        <div class="measure-item">
-          <label>Chest</label>
-          <input type="number" id="m-chest" placeholder="40" min="28" max="60" step="0.5">
-        </div>
-        <div class="measure-item">
-          <label>Waist</label>
-          <input type="number" id="m-waist" placeholder="34" min="24" max="56" step="0.5">
-        </div>
-        <div class="measure-item">
-          <label>Hip</label>
-          <input type="number" id="m-hip" placeholder="38" min="28" max="60" step="0.5">
-        </div>
-        <div class="measure-item">
-          <label>Shoulder</label>
-          <input type="number" id="m-shoulder" placeholder="18" min="12" max="30" step="0.5">
-        </div>
-        <div class="measure-item">
-          <label>Sleeve</label>
-          <input type="number" id="m-sleeve" placeholder="25" min="18" max="40" step="0.5">
-        </div>
-        <div class="measure-item">
-          <label>Bicep</label>
-          <input type="number" id="m-bicep" placeholder="14" min="8" max="24" step="0.5">
-        </div>
-        <div class="measure-item">
-          <label>Wrist</label>
-          <input type="number" id="m-wrist" placeholder="7" min="5" max="12" step="0.5">
-        </div>
-        <div class="measure-item">
-          <label>Length</label>
-          <input type="number" id="m-length" placeholder="30" min="24" max="42" step="0.5">
-        </div>
+        <div class="measure-item"><label>Neck</label><input type="number" id="m-neck" placeholder="15" min="12" max="22" step="0.5"></div>
+        <div class="measure-item"><label>Chest</label><input type="number" id="m-chest" placeholder="40" min="28" max="60" step="0.5"></div>
+        <div class="measure-item"><label>Waist</label><input type="number" id="m-waist" placeholder="34" min="24" max="56" step="0.5"></div>
+        <div class="measure-item"><label>Hip</label><input type="number" id="m-hip" placeholder="38" min="28" max="60" step="0.5"></div>
+        <div class="measure-item"><label>Shoulder</label><input type="number" id="m-shoulder" placeholder="18" min="12" max="30" step="0.5"></div>
+        <div class="measure-item"><label>Sleeve</label><input type="number" id="m-sleeve" placeholder="25" min="18" max="40" step="0.5"></div>
+        <div class="measure-item"><label>Bicep</label><input type="number" id="m-bicep" placeholder="14" min="8" max="24" step="0.5"></div>
+        <div class="measure-item"><label>Wrist</label><input type="number" id="m-wrist" placeholder="7" min="5" max="12" step="0.5"></div>
+        <div class="measure-item"><label>Length</label><input type="number" id="m-length" placeholder="30" min="24" max="42" step="0.5"></div>
       </div>
     </div>
-
-    <div class="err" id="refer-err">Please fill in all fields correctly.</div>
+    <div class="err" id="refer-err">Please fill in all fields.</div>
     <button class="btn-green" style="margin-top:16px;" id="refer-btn" onclick="submitReferral()">Send OTP to customer →</button>
     <button class="btn-ghost" onclick="closeReferModal()">Cancel</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     MODAL: CUSTOMER OTP VERIFY
-═══════════════════════════════════════════ -->
+<!-- ═══ MODAL: CUSTOMER OTP ═══ -->
 <div class="modal-overlay" id="custOtpModal">
-  <div class="modal">
-    <div class="otp-verify-wrap">
-      <div class="modal-title">Customer OTP verification</div>
-      <div class="modal-sub" id="cust-otp-sub">Ask the customer to check their phone and enter the OTP below.</div>
-      <div class="otp-row" style="justify-content:center;">
-        <input class="otp-digit" maxlength="1" id="cotp0" oninput="otpIn('c',0)" onkeydown="otpKey('c',event,0)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="cotp1" oninput="otpIn('c',1)" onkeydown="otpKey('c',event,1)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="cotp2" oninput="otpIn('c',2)" onkeydown="otpKey('c',event,2)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="cotp3" oninput="otpIn('c',3)" onkeydown="otpKey('c',event,3)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="cotp4" oninput="otpIn('c',4)" onkeydown="otpKey('c',event,4)" inputmode="numeric">
-        <input class="otp-digit" maxlength="1" id="cotp5" oninput="otpIn('c',5)" onkeydown="otpKey('c',event,5)" inputmode="numeric">
-      </div>
-      <div class="err" id="cust-otp-err" style="text-align:center;">Incorrect OTP. Please try again.</div>
-      <button class="btn-green" id="cust-verify-btn" onclick="verifyCustOTP()">Verify & create account</button>
-      <button class="btn-ghost" onclick="closeCustOtpModal()">← Back</button>
+  <div class="modal" style="text-align:center;">
+    <div class="modal-title">Customer OTP verification</div>
+    <div class="modal-sub" id="cust-otp-sub">Ask the customer to check their phone and enter the OTP below.</div>
+    <div class="otp-row">
+      <input class="otp-digit" maxlength="1" id="cotp0" oninput="cOtpIn(0)" onkeydown="cOtpKey(event,0)" inputmode="numeric">
+      <input class="otp-digit" maxlength="1" id="cotp1" oninput="cOtpIn(1)" onkeydown="cOtpKey(event,1)" inputmode="numeric">
+      <input class="otp-digit" maxlength="1" id="cotp2" oninput="cOtpIn(2)" onkeydown="cOtpKey(event,2)" inputmode="numeric">
+      <input class="otp-digit" maxlength="1" id="cotp3" oninput="cOtpIn(3)" onkeydown="cOtpKey(event,3)" inputmode="numeric">
+      <input class="otp-digit" maxlength="1" id="cotp4" oninput="cOtpIn(4)" onkeydown="cOtpKey(event,4)" inputmode="numeric">
+      <input class="otp-digit" maxlength="1" id="cotp5" oninput="cOtpIn(5)" onkeydown="cOtpKey(event,5)" inputmode="numeric">
     </div>
+    <div class="err" id="cust-otp-err" style="text-align:center;">Incorrect OTP. Please try again.</div>
+    <button class="btn-green" id="cust-verify-btn" onclick="verifyCustOTP()">Verify & create account</button>
+    <button class="btn-ghost" onclick="closeCustOtpModal()">← Back</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     MODAL: ADD FABRIC
-═══════════════════════════════════════════ -->
+<!-- ═══ MODAL: ADD FABRIC ═══ -->
 <div class="modal-overlay" id="fabricModal">
   <div class="modal">
     <div class="modal-title">Add a fabric</div>
-    <div class="modal-sub">Upload a photo of the fabric and set the stitching price. We'll review it and add it to the whySML catalogue.</div>
-
+    <div class="modal-sub">Upload a clear photo of the fabric and enter your total cost (fabric + stitching). We'll review it and set the customer-facing price before listing it.</div>
     <div class="input-group">
       <label class="input-label">Fabric name</label>
       <input type="text" id="fab-name" placeholder="e.g. Blue Oxford Check">
     </div>
     <div class="input-group">
-      <label class="input-label">Stitching price (₹)</label>
-      <input type="number" id="fab-price" placeholder="e.g. 1299" min="500" max="9999">
+      <label class="input-label">Your cost — fabric + stitching combined (₹)</label>
+      <input type="number" id="fab-price" placeholder="e.g. 1000" min="300" max="9999">
+      <div style="font-size:11px;color:var(--gray-400);margin-top:5px;">This is what you charge us. We'll set the customer price separately to cover our costs.</div>
     </div>
     <div class="input-group">
       <label class="input-label">Fabric photo</label>
@@ -444,7 +316,6 @@ input[readonly] { background: var(--gray-100); color: var(--gray-600); cursor: n
       </div>
       <input type="file" id="fab-input" accept="image/*" style="display:none;" onchange="handleFabricPhoto(event)">
     </div>
-
     <div class="err" id="fabric-err">Please fill all fields and upload a photo.</div>
     <button class="btn-green" style="margin-top:16px;" id="fabric-btn" onclick="submitFabric()">Submit for review →</button>
     <button class="btn-ghost" onclick="closeFabricModal()">Cancel</button>
@@ -452,187 +323,87 @@ input[readonly] { background: var(--gray-100); color: var(--gray-600); cursor: n
 </div>
 
 <script>
-// ── FIREBASE ──────────────────────────────────────────────────
 const firebaseConfig = {
-  apiKey: "AIzaSyA7oNwbaHZZcPPYlP8sNabbqvqKi-MocAY",
-  authDomain: "whysml.firebaseapp.com",
-  projectId: "whysml",
-  storageBucket: "whysml.firebasestorage.app",
-  messagingSenderId: "364291879195",
-  appId: "1:364291879195:web:c2e946a162fcb54bcd63be"
+  apiKey:"AIzaSyA7oNwbaHZZcPPYlP8sNabbqvqKi-MocAY",
+  authDomain:"whysml.firebaseapp.com",
+  projectId:"whysml",
+  storageBucket:"whysml.firebasestorage.app",
+  messagingSenderId:"364291879195",
+  appId:"1:364291879195:web:c2e946a162fcb54bcd63be"
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ── STATE ─────────────────────────────────────────────────────
 let tailorData = null;
-let signupConfirmation = null;
 let loginConfirmation = null;
 let custConfirmation = null;
 let pendingCustData = null;
 let fabPhotoBase64 = null;
-let signupRV = null, loginRV = null, custRV = null;
+let loginRV = null;
+let custRV = null;
 
 // ── HELPERS ───────────────────────────────────────────────────
-function goto(screenId) {
+function goto(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(screenId).classList.add('active');
+  document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
-
 function generateReferralCode(shopName, phone) {
-  const prefix = shopName.replace(/\s+/g,'').substring(0,3).toUpperCase();
+  const prefix = shopName.replace(/\s+/g,'').replace(/[^a-zA-Z]/g,'').substring(0,3).toUpperCase() || 'SHP';
   const suffix = phone.slice(-4);
   return prefix + suffix;
 }
-
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
-
-function resetRV(rv) {
-  if (rv) { try { rv.clear(); } catch(e) {} }
-  return null;
+function resetRV(rv) { if(rv){try{rv.clear();}catch(e){}} return null; }
+function clearOtpInputs(prefix) {
+  [0,1,2,3,4,5].forEach(i => { document.getElementById(prefix+i).value = ''; });
+  document.getElementById(prefix+'0').focus();
 }
 
-// ── OTP HELPERS ───────────────────────────────────────────────
-function otpIn(prefix, i) {
-  const val = document.getElementById(prefix+'otp'+i).value.replace(/\D/g,'');
-  document.getElementById(prefix+'otp'+i).value = val;
-  if (val && i < 5) document.getElementById(prefix+'otp'+(i+1)).focus();
-  const full = [0,1,2,3,4,5].map(n => document.getElementById(prefix+'otp'+n).value).join('');
-  if (full.length === 6) {
-    if (prefix === 's') verifySignupOTP();
-    if (prefix === 'l') verifyLoginOTP();
-    if (prefix === 'c') verifyCustOTP();
-  }
+// ── OTP INPUT HANDLING ────────────────────────────────────────
+function otpIn(i) {
+  const val = document.getElementById('otp'+i).value.replace(/\D/g,'');
+  document.getElementById('otp'+i).value = val;
+  if (val && i < 5) document.getElementById('otp'+(i+1)).focus();
+  const full = [0,1,2,3,4,5].map(n => document.getElementById('otp'+n).value).join('');
+  if (full.length === 6) verifyOTP();
 }
-function otpKey(prefix, e, i) {
-  if (e.key === 'Backspace' && !document.getElementById(prefix+'otp'+i).value && i > 0)
-    document.getElementById(prefix+'otp'+(i-1)).focus();
+function otpKey(e, i) {
+  if (e.key==='Backspace' && !document.getElementById('otp'+i).value && i>0) document.getElementById('otp'+(i-1)).focus();
 }
-function clearOtp(prefix) {
-  [0,1,2,3,4,5].forEach(i => { document.getElementById(prefix+'otp'+i).value = ''; });
-  document.getElementById(prefix+'otp0').focus();
+function cOtpIn(i) {
+  const val = document.getElementById('cotp'+i).value.replace(/\D/g,'');
+  document.getElementById('cotp'+i).value = val;
+  if (val && i < 5) document.getElementById('cotp'+(i+1)).focus();
+  const full = [0,1,2,3,4,5].map(n => document.getElementById('cotp'+n).value).join('');
+  if (full.length === 6) verifyCustOTP();
+}
+function cOtpKey(e, i) {
+  if (e.key==='Backspace' && !document.getElementById('cotp'+i).value && i>0) document.getElementById('cotp'+(i-1)).focus();
 }
 
 // ── AUTH STATE ────────────────────────────────────────────────
 auth.onAuthStateChanged(async user => {
   if (!user) return;
-  // Check if this user is a tailor
   try {
     const doc = await db.collection('tailors').doc(user.uid).get();
     if (doc.exists) {
       tailorData = { uid: user.uid, ...doc.data() };
-      await showDashboard();
-    } else {
-      // Logged in but not a tailor — sign out
-      await auth.signOut();
+      showDashboard();
     }
-  } catch(e) {
-    console.error(e);
-  }
+    // If doc doesn't exist, user just verified OTP — verifyOTP() handles it
+  } catch(e) { console.error(e); }
 });
 
-// ── SIGNUP ────────────────────────────────────────────────────
-async function tailorSignup() {
-  const shop = document.getElementById('signup-shop').value.trim();
-  const phone = document.getElementById('signup-phone').value.replace(/\D/g,'');
-  const err = document.getElementById('signup-err');
-
-  if (!shop || phone.length !== 10) {
-    err.textContent = 'Please enter shop name and a valid 10-digit number.';
-    err.classList.add('show'); return;
-  }
-
-  // Check if phone already registered as tailor
-  try {
-    const existing = await db.collection('tailors').where('phone', '==', '+91'+phone).get();
-    if (!existing.empty) {
-      err.textContent = 'A tailor account with this number already exists. Please sign in.';
-      err.classList.add('show'); return;
-    }
-  } catch(e) {}
-
-  err.classList.remove('show');
-  const btn = document.getElementById('signup-btn');
-  btn.innerHTML = '<span class="spinner"></span>Sending OTP...';
-  btn.disabled = true;
-
-  try {
-    signupRV = resetRV(signupRV);
-    const container = document.getElementById('signup-recaptcha');
-    container.innerHTML = '';
-    signupRV = new firebase.auth.RecaptchaVerifier('signup-recaptcha', {
-      size: 'invisible', callback: () => {},
-      'expired-callback': () => { signupRV = resetRV(signupRV); }
-    });
-    await signupRV.render();
-    signupConfirmation = await auth.signInWithPhoneNumber('+91'+phone, signupRV);
-    document.getElementById('signup-otp-sub').textContent = 'Sent to +91 ' + phone.slice(0,5) + ' ' + phone.slice(5);
-    // Store pending data
-    sessionStorage.setItem('pending_signup', JSON.stringify({ shop, phone: '+91'+phone }));
-    goto('screen-signup-otp');
-    setTimeout(() => document.getElementById('sotp0').focus(), 300);
-    showToast('OTP sent!');
-  } catch(e) {
-    console.error(e);
-    err.textContent = 'Error sending OTP. Please try again.';
-    err.classList.add('show');
-    signupRV = resetRV(signupRV);
-  } finally {
-    btn.innerHTML = 'Send OTP →';
-    btn.disabled = false;
-  }
-}
-
-async function verifySignupOTP() {
-  if (!signupConfirmation) { goto('screen-signup'); return; }
-  const otp = [0,1,2,3,4,5].map(i => document.getElementById('sotp'+i).value).join('');
-  if (otp.length < 6) return;
-
-  const btn = document.getElementById('signup-verify-btn');
-  btn.innerHTML = '<span class="spinner"></span>Verifying...';
-  btn.disabled = true;
-  document.getElementById('signup-otp-err').classList.remove('show');
-
-  try {
-    const result = await signupConfirmation.confirm(otp);
-    const user = result.user;
-    const pending = JSON.parse(sessionStorage.getItem('pending_signup') || '{}');
-    const refCode = generateReferralCode(pending.shop, pending.phone);
-
-    await db.collection('tailors').doc(user.uid).set({
-      shopName: pending.shop,
-      phone: pending.phone,
-      referralCode: refCode,
-      totalReferred: 0,
-      pendingEarnings: 0,
-      paidEarnings: 0,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    tailorData = { uid: user.uid, shopName: pending.shop, phone: pending.phone, referralCode: refCode, totalReferred: 0, pendingEarnings: 0, paidEarnings: 0 };
-    sessionStorage.removeItem('pending_signup');
-    showToast('Account created! Welcome to whySML.');
-    await showDashboard();
-  } catch(e) {
-    document.getElementById('signup-otp-err').classList.add('show');
-    clearOtp('s');
-  } finally {
-    btn.innerHTML = 'Verify & create account';
-    btn.disabled = false;
-  }
-}
-
-// ── LOGIN ─────────────────────────────────────────────────────
-async function tailorLogin() {
+// ── UNIFIED LOGIN FLOW ────────────────────────────────────────
+async function sendLoginOTP() {
   const phone = document.getElementById('login-phone').value.replace(/\D/g,'');
   const err = document.getElementById('login-err');
   if (phone.length !== 10) { err.classList.add('show'); return; }
@@ -652,11 +423,14 @@ async function tailorLogin() {
     });
     await loginRV.render();
     loginConfirmation = await auth.signInWithPhoneNumber('+91'+phone, loginRV);
-    document.getElementById('login-otp-sub').textContent = 'Sent to +91 ' + phone.slice(0,5) + ' ' + phone.slice(5);
-    goto('screen-login-otp');
-    setTimeout(() => document.getElementById('lotp0').focus(), 300);
+    document.getElementById('otp-sub').textContent = 'Sent to +91 ' + phone.slice(0,5) + ' ' + phone.slice(5);
+    [0,1,2,3,4,5].forEach(i => { document.getElementById('otp'+i).value = ''; });
+    document.getElementById('otp-err').classList.remove('show');
+    goto('screen-otp');
+    setTimeout(() => document.getElementById('otp0').focus(), 300);
     showToast('OTP sent!');
   } catch(e) {
+    console.error(e);
     err.textContent = 'Error sending OTP. Please try again.';
     err.classList.add('show');
     loginRV = resetRV(loginRV);
@@ -666,34 +440,81 @@ async function tailorLogin() {
   }
 }
 
-async function verifyLoginOTP() {
+function goBackToLogin() {
+  loginRV = resetRV(loginRV);
+  loginConfirmation = null;
+  goto('screen-login');
+}
+
+async function verifyOTP() {
   if (!loginConfirmation) { goto('screen-login'); return; }
-  const otp = [0,1,2,3,4,5].map(i => document.getElementById('lotp'+i).value).join('');
+  const otp = [0,1,2,3,4,5].map(i => document.getElementById('otp'+i).value).join('');
   if (otp.length < 6) return;
 
-  const btn = document.getElementById('login-verify-btn');
+  const btn = document.getElementById('otp-verify-btn');
   btn.innerHTML = '<span class="spinner"></span>Verifying...';
   btn.disabled = true;
-  document.getElementById('login-otp-err').classList.remove('show');
+  document.getElementById('otp-err').classList.remove('show');
 
   try {
     const result = await loginConfirmation.confirm(otp);
     const user = result.user;
+
+    // Check if tailor exists
     const doc = await db.collection('tailors').doc(user.uid).get();
-    if (!doc.exists) {
-      await auth.signOut();
-      document.getElementById('login-otp-err').textContent = 'No tailor account found. Please register first.';
-      document.getElementById('login-otp-err').classList.add('show');
-      clearOtp('l');
-      return;
+    if (doc.exists) {
+      // Existing tailor — go straight to dashboard
+      tailorData = { uid: user.uid, ...doc.data() };
+      showToast('Welcome back, ' + (tailorData.shopName || '') + '!');
+      showDashboard();
+    } else {
+      // New tailor — ask for shop name
+      goto('screen-newuser');
+      setTimeout(() => document.getElementById('shop-name-input').focus(), 300);
     }
-    tailorData = { uid: user.uid, ...doc.data() };
-    await showDashboard();
   } catch(e) {
-    document.getElementById('login-otp-err').classList.add('show');
-    clearOtp('l');
+    document.getElementById('otp-err').classList.add('show');
+    clearOtpInputs('otp');
   } finally {
-    btn.innerHTML = 'Verify & sign in';
+    btn.innerHTML = 'Verify →';
+    btn.disabled = false;
+  }
+}
+
+async function saveShopName() {
+  const shop = document.getElementById('shop-name-input').value.trim();
+  const err = document.getElementById('shopname-err');
+  if (!shop) { err.classList.add('show'); return; }
+  err.classList.remove('show');
+
+  const btn = document.getElementById('shopname-btn');
+  btn.innerHTML = '<span class="spinner"></span>Saving...';
+  btn.disabled = true;
+
+  try {
+    const user = auth.currentUser;
+    if (!user) { goto('screen-login'); return; }
+
+    const refCode = generateReferralCode(shop, user.phoneNumber || '');
+    const data = {
+      shopName: shop,
+      phone: user.phoneNumber,
+      referralCode: refCode,
+      totalReferred: 0,
+      pendingEarnings: 0,
+      paidEarnings: 0,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    await db.collection('tailors').doc(user.uid).set(data);
+    tailorData = { uid: user.uid, ...data };
+    showToast('Welcome to whySML, ' + shop + '! 🎉');
+    showDashboard();
+  } catch(e) {
+    console.error(e);
+    err.textContent = 'Error saving. Please try again.';
+    err.classList.add('show');
+  } finally {
+    btn.innerHTML = 'Complete registration →';
     btn.disabled = false;
   }
 }
@@ -701,18 +522,20 @@ async function verifyLoginOTP() {
 async function tailorLogout() {
   await auth.signOut();
   tailorData = null;
-  goto('screen-landing');
+  loginRV = resetRV(loginRV);
+  document.getElementById('login-phone').value = '';
+  goto('screen-login');
   showToast('Signed out');
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────
-async function showDashboard() {
+function showDashboard() {
   goto('screen-dashboard');
   document.getElementById('nav-shop-name').textContent = tailorData.shopName || '';
   document.getElementById('referral-code').textContent = tailorData.referralCode || '——';
   document.getElementById('stat-referred').textContent = tailorData.totalReferred || 0;
-  document.getElementById('stat-pending').textContent = '₹' + ((tailorData.pendingEarnings || 0)).toLocaleString();
-  document.getElementById('stat-paid').textContent = '₹' + ((tailorData.paidEarnings || 0)).toLocaleString();
+  document.getElementById('stat-pending').textContent = '₹' + (tailorData.pendingEarnings || 0).toLocaleString();
+  document.getElementById('stat-paid').textContent = '₹' + (tailorData.paidEarnings || 0).toLocaleString();
   loadReferrals();
 }
 
@@ -720,19 +543,14 @@ async function loadReferrals() {
   const wrap = document.getElementById('ref-list');
   wrap.innerHTML = '<div class="empty-state">Loading...</div>';
   try {
-    const snap = await db.collection('users')
-      .where('referredBy', '==', tailorData.uid)
-      .orderBy('createdAt', 'desc')
-      .get();
-
+    const snap = await db.collection('users').where('referredBy','==',tailorData.uid).orderBy('createdAt','desc').get();
     if (snap.empty) {
       wrap.innerHTML = '<div class="empty-state">No referrals yet. Refer your first customer using the button above!</div>';
       return;
     }
-
     const items = [];
     snap.forEach(doc => items.push(doc.data()));
-    wrap.innerHTML = items.map(c => `
+    wrap.innerHTML = '<div class="ref-list">' + items.map(c => `
       <div class="ref-item">
         <div>
           <div class="ref-name">${c.name || 'Customer'}</div>
@@ -741,7 +559,7 @@ async function loadReferrals() {
         <span class="ref-status ${c.firstOrderDelivered ? 'status-earned' : 'status-pending'}">
           ${c.firstOrderDelivered ? '✅ ₹50 earned' : '⏳ Pending first order'}
         </span>
-      </div>`).join('');
+      </div>`).join('') + '</div>';
   } catch(e) {
     wrap.innerHTML = '<div class="empty-state">Could not load referrals.</div>';
   }
@@ -750,23 +568,19 @@ async function loadReferrals() {
 function formatDate(ts) {
   if (!ts) return '—';
   const d = ts.toDate ? ts.toDate() : new Date(ts);
-  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  return d.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
 }
-
 function copyCode() {
-  const code = tailorData?.referralCode || '';
-  navigator.clipboard.writeText(code).then(() => showToast('Referral code copied!'));
+  navigator.clipboard.writeText(tailorData?.referralCode || '').then(() => showToast('Referral code copied!'));
 }
 
 // ── REFER CUSTOMER ────────────────────────────────────────────
 function openReferModal() {
-  document.getElementById('referModal').classList.add('open');
-  // Reset form
   ['cust-name','cust-phone','m-neck','m-chest','m-waist','m-hip','m-shoulder','m-sleeve','m-bicep','m-wrist','m-length'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
+    const el = document.getElementById(id); if(el) el.value = '';
   });
   document.getElementById('refer-err').classList.remove('show');
+  document.getElementById('referModal').classList.add('open');
 }
 function closeReferModal() { document.getElementById('referModal').classList.remove('open'); }
 
@@ -780,21 +594,16 @@ async function submitReferral() {
     err.classList.add('show'); return;
   }
 
-  // Validate all 9 measurements
   const mFields = ['neck','chest','waist','hip','shoulder','sleeve','bicep','wrist','length'];
   const measurements = {};
   for (const f of mFields) {
     const v = document.getElementById('m-'+f).value;
-    if (!v) {
-      err.textContent = 'Please enter all 9 measurements.';
-      err.classList.add('show'); return;
-    }
+    if (!v) { err.textContent = 'Please enter all 9 measurements.'; err.classList.add('show'); return; }
     measurements[f] = parseFloat(v);
   }
 
-  // Check if customer number already exists
   try {
-    const existing = await db.collection('users').where('phone', '==', '+91'+phone).get();
+    const existing = await db.collection('users').where('phone','==','+91'+phone).get();
     if (!existing.empty) {
       err.textContent = 'An account with this phone number already exists.';
       err.classList.add('show'); return;
@@ -802,19 +611,14 @@ async function submitReferral() {
   } catch(e) {}
 
   err.classList.remove('show');
-
   const btn = document.getElementById('refer-btn');
-  btn.innerHTML = '<span class="spinner"></span>Sending OTP to customer...';
+  btn.innerHTML = '<span class="spinner"></span>Sending OTP...';
   btn.disabled = true;
 
   try {
-    // Store pending customer data
-    pendingCustData = { name, phone: '+91'+phone, measurements, referredBy: tailorData.uid, tailorCode: tailorData.referralCode };
+    pendingCustData = { name, phone:'+91'+phone, measurements, referredBy:tailorData.uid, tailorCode:tailorData.referralCode };
 
-    // Send OTP to customer phone — need a fresh recaptcha
     custRV = resetRV(custRV);
-
-    // Create invisible recaptcha in the cust otp modal
     const existingDiv = document.getElementById('cust-recaptcha');
     if (existingDiv) existingDiv.remove();
     const rcDiv = document.createElement('div');
@@ -822,13 +626,12 @@ async function submitReferral() {
     document.getElementById('custOtpModal').querySelector('.modal').appendChild(rcDiv);
 
     custRV = new firebase.auth.RecaptchaVerifier('cust-recaptcha', {
-      size: 'invisible', callback: () => {},
-      'expired-callback': () => { custRV = resetRV(custRV); }
+      size:'invisible', callback:()=>{},
+      'expired-callback':()=>{ custRV = resetRV(custRV); }
     });
     await custRV.render();
     custConfirmation = await auth.signInWithPhoneNumber('+91'+phone, custRV);
 
-    // Close refer modal, open OTP modal
     closeReferModal();
     document.getElementById('cust-otp-sub').textContent = `Ask ${name} to check their phone (+91 ${phone.slice(0,5)} ${phone.slice(5)}) and enter the OTP below.`;
     [0,1,2,3,4,5].forEach(i => { document.getElementById('cotp'+i).value = ''; });
@@ -848,9 +651,7 @@ async function submitReferral() {
 
 function closeCustOtpModal() {
   document.getElementById('custOtpModal').classList.remove('open');
-  custConfirmation = null;
-  pendingCustData = null;
-  custRV = resetRV(custRV);
+  custConfirmation = null; pendingCustData = null; custRV = resetRV(custRV);
 }
 
 async function verifyCustOTP() {
@@ -867,7 +668,6 @@ async function verifyCustOTP() {
     const result = await custConfirmation.confirm(otp);
     const user = result.user;
 
-    // Save customer to Firestore
     await db.collection('users').doc(user.uid).set({
       name: pendingCustData.name,
       phone: pendingCustData.phone,
@@ -878,32 +678,26 @@ async function verifyCustOTP() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    // Update tailor referral count
     await db.collection('tailors').doc(tailorData.uid).update({
       totalReferred: firebase.firestore.FieldValue.increment(1)
     });
 
-    // Sign out the customer and sign back in as tailor
-    // (Firebase signed in the customer — we need to re-auth the tailor)
-    // Store tailor UID and sign out
-    const tailorUid = tailorData.uid;
-    await auth.signOut();
-
-    // The tailor needs to re-login — show a message
-    closeCustOtpModal();
-    showToast('Customer account created! Please sign in again.');
-    // Update local stats
     tailorData.totalReferred = (tailorData.totalReferred || 0) + 1;
-    document.getElementById('stat-referred').textContent = tailorData.totalReferred;
-    loadReferrals();
 
-    // Auto redirect to login after 2 seconds
-    setTimeout(() => { goto('screen-login'); }, 2000);
+    // Sign the customer out, re-login tailor
+    await auth.signOut();
+    closeCustOtpModal();
+    showToast('✅ ' + pendingCustData.name + '\'s account created! Sign in again to continue.');
+    pendingCustData = null;
+
+    // Update stat display and redirect to login after short delay
+    document.getElementById('stat-referred').textContent = tailorData.totalReferred;
+    setTimeout(() => goto('screen-login'), 2000);
 
   } catch(e) {
     console.error(e);
     document.getElementById('cust-otp-err').classList.add('show');
-    clearOtp('c');
+    clearOtpInputs('cotp');
   } finally {
     btn.innerHTML = 'Verify & create account';
     btn.disabled = false;
@@ -912,27 +706,24 @@ async function verifyCustOTP() {
 
 // ── ADD FABRIC ────────────────────────────────────────────────
 function openFabricModal() {
-  document.getElementById('fabricModal').classList.add('open');
-  document.getElementById('fab-name').value = '';
-  document.getElementById('fab-price').value = '';
+  ['fab-name','fab-price'].forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('fab-preview').style.display = 'none';
   document.getElementById('fab-placeholder').style.display = 'block';
   document.getElementById('fab-upload-area').classList.remove('has-photo');
   document.getElementById('fab-input').value = '';
   document.getElementById('fabric-err').classList.remove('show');
   fabPhotoBase64 = null;
+  document.getElementById('fabricModal').classList.add('open');
 }
 function closeFabricModal() { document.getElementById('fabricModal').classList.remove('open'); }
 
 function handleFabricPhoto(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = (ev) => {
     fabPhotoBase64 = ev.target.result;
     const preview = document.getElementById('fab-preview');
-    preview.src = fabPhotoBase64;
-    preview.style.display = 'block';
+    preview.src = fabPhotoBase64; preview.style.display = 'block';
     document.getElementById('fab-placeholder').style.display = 'none';
     document.getElementById('fab-upload-area').classList.add('has-photo');
   };
@@ -945,7 +736,7 @@ async function submitFabric() {
   const err = document.getElementById('fabric-err');
 
   if (!name || !price || !fabPhotoBase64) {
-    err.textContent = 'Please fill in name, price and upload a photo.';
+    err.textContent = 'Please fill in name, your cost and upload a photo.';
     err.classList.add('show'); return;
   }
   err.classList.remove('show');
@@ -955,7 +746,6 @@ async function submitFabric() {
   btn.disabled = true;
 
   try {
-    // Upload photo to Cloudinary via API
     const uploadRes = await fetch('/api/upload-image', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -969,12 +759,13 @@ async function submitFabric() {
 
     await db.collection('fabrics').add({
       name,
-      price: Number(price),
+      tailorPrice: Number(price),  // tailor's cost (fabric + stitching)
+      sellingPrice: null,          // admin will set this before approving
       imageUrl: uploadData.success ? uploadData.url : null,
-      imageBase64: uploadData.success ? null : fabPhotoBase64,
       tailorId: tailorData.uid,
       tailorShop: tailorData.shopName,
-      active: false, // goes to admin for review
+      active: false,
+      rejected: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
@@ -990,11 +781,9 @@ async function submitFabric() {
   }
 }
 
-// ── MODAL CLOSE ON BACKDROP ───────────────────────────────────
 ['referModal','fabricModal'].forEach(id => {
   document.getElementById(id).addEventListener('click', e => {
-    if (e.target === document.getElementById(id))
-      document.getElementById(id).classList.remove('open');
+    if(e.target === document.getElementById(id)) document.getElementById(id).classList.remove('open');
   });
 });
 </script>
