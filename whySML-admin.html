@@ -5,154 +5,137 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>whySML — Admin</title>
 <meta name="robots" content="noindex, nofollow">
-
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
 <style>
 :root {
-  --black: #0a0a0a; --white: #fff; --off-white: #f7f6f4;
-  --gray-100: #f0efed; --gray-200: #e2e0dc; --gray-400: #a8a49e;
-  --gray-600: #6b6760; --gray-800: #2c2b29;
-  --green: #1a6b4a; --green-light: #e8f3ee;
-  --red: #c0392b; --red-light: #fdf0ee;
-  --blue: #1e40af; --blue-light: #dbeafe;
-  --amber: #92400e; --amber-light: #fef3c7;
-  --radius: 4px; --radius-lg: 10px;
+  --black:#0a0a0a;--white:#fff;--off-white:#f7f6f4;
+  --gray-100:#f0efed;--gray-200:#e2e0dc;--gray-400:#a8a49e;
+  --gray-600:#6b6760;--gray-800:#2c2b29;
+  --green:#1a6b4a;--green-light:#e8f3ee;
+  --red:#c0392b;--red-light:#fdf0ee;
+  --blue:#1e40af;--blue-light:#dbeafe;
+  --amber:#92400e;--amber-light:#fef3c7;
+  --radius:4px;--radius-lg:10px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Arial', sans-serif; background: var(--off-white); color: var(--black); min-height: 100vh; }
-.screen { display: none; min-height: 100vh; flex-direction: column; }
-.screen.active { display: flex; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Arial',sans-serif;background:var(--off-white);color:var(--black);min-height:100vh;}
+.screen{display:none;min-height:100vh;flex-direction:column;}
+.screen.active{display:flex;}
+.login-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px;background:var(--black);}
+.login-card{background:var(--white);border-radius:var(--radius-lg);padding:40px;width:100%;max-width:380px;}
+.login-logo{font-size:22px;font-weight:700;letter-spacing:-1px;margin-bottom:4px;font-family:'Georgia',serif;}
+.login-logo span{color:var(--gray-400);font-weight:400;}
+.login-badge{display:inline-block;font-size:11px;background:var(--black);color:var(--white);padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;}
+.login-title{font-size:20px;font-weight:700;margin-bottom:6px;}
+.login-sub{font-size:13px;color:var(--gray-600);margin-bottom:24px;line-height:1.6;}
+.input-group{margin-bottom:14px;}
+.input-label{font-size:11px;font-weight:600;color:var(--gray-600);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;display:block;}
+input[type="password"],input[type="text"],input[type="email"]{width:100%;border:1px solid var(--gray-200);border-radius:var(--radius);padding:11px 14px;font-size:14px;color:var(--black);background:var(--white);outline:none;transition:border-color 0.15s;}
+input:focus{border-color:var(--black);}
+.btn-dark{background:var(--black);color:var(--white);border:none;padding:13px;font-size:14px;font-weight:600;cursor:pointer;border-radius:var(--radius);width:100%;transition:background 0.15s;margin-top:8px;}
+.btn-dark:hover{background:var(--gray-800);}
+.btn-dark:disabled{background:var(--gray-400);cursor:not-allowed;}
+.err{font-size:12px;color:var(--red);margin-top:8px;display:none;}
+.err.show{display:block;}
+.admin-nav{background:var(--black);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.admin-logo{font-size:18px;font-weight:700;color:var(--white);letter-spacing:-0.5px;font-family:'Georgia',serif;}
+.admin-logo span{color:var(--gray-400);}
+.admin-logo em{font-style:normal;font-size:11px;background:var(--red);color:var(--white);padding:2px 8px;border-radius:20px;margin-left:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;vertical-align:middle;}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-stat{font-size:12px;color:var(--gray-400);}
+.nav-stat strong{color:var(--white);}
+.logout-btn{background:none;border:1px solid var(--gray-600);color:var(--gray-400);padding:5px 12px;border-radius:var(--radius);font-size:12px;cursor:pointer;transition:all 0.15s;}
+.logout-btn:hover{border-color:var(--white);color:var(--white);}
+.admin-tabs{background:var(--white);border-bottom:1px solid var(--gray-200);padding:0 24px;display:flex;gap:0;overflow-x:auto;}
+.tab-btn{padding:14px 20px;font-size:13px;font-weight:500;color:var(--gray-400);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.15s;white-space:nowrap;}
+.tab-btn:hover{color:var(--black);}
+.tab-btn.active{color:var(--black);border-bottom-color:var(--black);}
+.tab-btn .badge{display:inline-block;background:var(--red);color:var(--white);font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:6px;}
+.filters{background:var(--white);border-bottom:1px solid var(--gray-200);padding:12px 24px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.filter-btn{background:transparent;border:1px solid var(--gray-200);color:var(--gray-600);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.15s;}
+.filter-btn:hover{border-color:var(--black);color:var(--black);}
+.filter-btn.active{background:var(--black);color:var(--white);border-color:var(--black);}
+.filter-count{display:inline-block;background:var(--gray-200);color:var(--gray-600);font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;margin-left:4px;}
+.filter-btn.active .filter-count{background:rgba(255,255,255,0.2);color:var(--white);}
+.search-input{margin-left:auto;border:1px solid var(--gray-200);border-radius:var(--radius);padding:7px 12px;font-size:13px;outline:none;width:220px;}
+.search-input:focus{border-color:var(--black);}
+.admin-main{flex:1;padding:24px;max-width:1300px;margin:0 auto;width:100%;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+@media(max-width:700px){.stats-row{grid-template-columns:repeat(2,1fr);}}
+.stat-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:16px 20px;}
+.stat-val{font-size:28px;font-weight:700;letter-spacing:-1px;font-family:'Georgia',serif;}
+.stat-label{font-size:12px;color:var(--gray-400);margin-top:2px;}
+.orders-table{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden;}
+.table-header{display:grid;grid-template-columns:130px 1fr 160px 120px 150px 140px;padding:10px 20px;background:var(--gray-100);border-bottom:1px solid var(--gray-200);}
+@media(max-width:900px){.table-header{display:none;}}
+.th{font-size:11px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;}
+.order-row{display:grid;grid-template-columns:130px 1fr 160px 120px 150px 140px;padding:16px 20px;border-bottom:1px solid var(--gray-200);align-items:start;transition:background 0.1s;}
+@media(max-width:900px){.order-row{display:flex;flex-direction:column;gap:10px;}}
+.order-row:last-child{border-bottom:none;}
+.order-row:hover{background:var(--gray-100);}
+.cell-id{font-size:13px;font-weight:700;}
+.cell-date{font-size:11px;color:var(--gray-400);margin-top:2px;}
+.customer-name{font-size:13px;font-weight:600;}
+.customer-phone{font-size:12px;color:var(--gray-400);margin-top:2px;}
+.customer-address{font-size:11px;color:var(--gray-600);margin-top:4px;line-height:1.4;}
+.item-chip{display:inline-block;font-size:11px;background:var(--gray-100);color:var(--gray-600);padding:2px 8px;border-radius:2px;margin-bottom:3px;margin-right:3px;}
+.cell-total{font-size:14px;font-weight:700;font-family:'Georgia',serif;}
+.cod-tag{display:block;font-size:11px;color:var(--gray-400);font-weight:400;margin-top:2px;}
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;}
+.s-processing{background:var(--amber-light);color:var(--amber);}
+.s-intransit{background:var(--blue-light);color:var(--blue);}
+.s-delivered{background:var(--green-light);color:var(--green);}
+.s-returned{background:var(--red-light);color:var(--red);}
+.status-select{width:100%;border:1px solid var(--gray-200);border-radius:var(--radius);padding:7px 10px;font-size:12px;font-weight:500;cursor:pointer;outline:none;background:var(--white);}
+.update-btn{width:100%;background:var(--black);color:var(--white);border:none;padding:7px;font-size:12px;font-weight:600;cursor:pointer;border-radius:var(--radius);margin-top:6px;transition:background 0.15s;}
+.update-btn:hover{background:var(--gray-800);}
+.update-btn.saved{background:var(--green);}
+.measure-toggle{font-size:11px;color:var(--gray-400);cursor:pointer;text-decoration:underline;margin-top:6px;display:inline-block;}
+.measure-mini{display:none;margin-top:6px;font-size:11px;color:var(--gray-600);line-height:1.8;background:var(--gray-100);padding:6px 10px;border-radius:var(--radius);}
+.measure-mini.open{display:block;}
+.table-empty{padding:60px 24px;text-align:center;color:var(--gray-400);}
 
-.login-wrap { flex:1; display:flex; align-items:center; justify-content:center; padding:40px 24px; background:var(--black); }
-.login-card { background:var(--white); border-radius:var(--radius-lg); padding:40px; width:100%; max-width:380px; }
-.login-logo { font-size:22px; font-weight:700; letter-spacing:-1px; margin-bottom:4px; font-family:'Georgia',serif; }
-.login-logo span { color:var(--gray-400); font-weight:400; }
-.login-badge { display:inline-block; font-size:11px; background:var(--black); color:var(--white); padding:3px 10px; border-radius:20px; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:24px; }
-.login-title { font-size:20px; font-weight:700; margin-bottom:6px; }
-.login-sub { font-size:13px; color:var(--gray-600); margin-bottom:24px; line-height:1.6; }
-.input-group { margin-bottom:14px; }
-.input-label { font-size:11px; font-weight:600; color:var(--gray-600); letter-spacing:0.5px; text-transform:uppercase; margin-bottom:6px; display:block; }
-input[type="password"], input[type="text"], input[type="email"], input[type="number"] { width:100%; border:1px solid var(--gray-200); border-radius:var(--radius); padding:11px 14px; font-size:14px; color:var(--black); background:var(--white); outline:none; transition:border-color 0.15s; }
-input:focus, textarea:focus, select:focus { border-color:var(--black); }
-textarea { width:100%; border:1px solid var(--gray-200); border-radius:var(--radius); padding:10px 12px; font-size:13px; color:var(--black); background:var(--white); outline:none; resize:vertical; min-height:80px; font-family:'Arial',sans-serif; }
-select { width:100%; border:1px solid var(--gray-200); border-radius:var(--radius); padding:10px 12px; font-size:13px; color:var(--black); background:var(--white); outline:none; }
-.btn-dark { background:var(--black); color:var(--white); border:none; padding:13px; font-size:14px; font-weight:600; cursor:pointer; border-radius:var(--radius); width:100%; transition:background 0.15s; margin-top:8px; }
-.btn-dark:hover { background:var(--gray-800); }
-.btn-dark:disabled { background:var(--gray-400); cursor:not-allowed; }
-.err { font-size:12px; color:var(--red); margin-top:8px; display:none; }
-.err.show { display:block; }
+/* FABRIC APPROVAL */
+.fabric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:16px;}
+.fabric-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden;}
+.fabric-img{height:200px;display:flex;align-items:center;justify-content:center;background:var(--gray-100);overflow:hidden;}
+.fabric-img img{width:100%;height:100%;object-fit:cover;}
+.fabric-info{padding:14px;}
+.fabric-name{font-size:14px;font-weight:700;margin-bottom:2px;}
+.fabric-tailor{font-size:12px;color:var(--gray-400);margin-bottom:4px;}
+.fabric-price{font-size:13px;color:var(--gray-600);margin-bottom:12px;}
+.fabric-actions{display:flex;gap:8px;}
+.btn-approve{background:var(--green);color:var(--white);border:none;padding:8px 14px;font-size:12px;font-weight:600;border-radius:var(--radius);cursor:pointer;flex:1;}
+.btn-approve:hover{background:#155a3e;}
+.btn-reject{background:var(--red-light);color:var(--red);border:1px solid #f5c4b3;padding:8px 14px;font-size:12px;font-weight:600;border-radius:var(--radius);cursor:pointer;flex:1;}
+.btn-reject:hover{background:#fae5e2;}
+.btn-hide{background:var(--gray-100);color:var(--gray-600);border:1px solid var(--gray-200);padding:8px 14px;font-size:12px;font-weight:600;border-radius:var(--radius);cursor:pointer;flex:1;}
 
-.admin-nav { background:var(--black); padding:0 24px; height:56px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
-.admin-logo { font-size:18px; font-weight:700; color:var(--white); letter-spacing:-0.5px; font-family:'Georgia',serif; }
-.admin-logo span { color:var(--gray-400); }
-.admin-logo em { font-style:normal; font-size:11px; background:var(--red); color:var(--white); padding:2px 8px; border-radius:20px; margin-left:8px; font-family:'Arial',sans-serif; font-weight:600; letter-spacing:1px; text-transform:uppercase; vertical-align:middle; }
-.nav-right { display:flex; align-items:center; gap:16px; }
-.nav-stat { font-size:12px; color:var(--gray-400); }
-.nav-stat strong { color:var(--white); }
-.logout-btn { background:none; border:1px solid var(--gray-600); color:var(--gray-400); padding:5px 12px; border-radius:var(--radius); font-size:12px; cursor:pointer; transition:all 0.15s; }
-.logout-btn:hover { border-color:var(--white); color:var(--white); }
+/* TAILOR TABLE */
+.tailor-table{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden;}
+.tailor-row{display:grid;grid-template-columns:1fr 140px 100px 120px 120px 130px;padding:14px 20px;border-bottom:1px solid var(--gray-200);align-items:center;}
+@media(max-width:800px){.tailor-row{display:flex;flex-direction:column;gap:8px;}}
+.tailor-row:last-child{border-bottom:none;}
+.tailor-row:hover{background:var(--gray-100);}
+.tailor-row.header{background:var(--gray-100);border-bottom:1px solid var(--gray-200);}
+.tailor-header-cell{font-size:11px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.5px;}
+.tailor-shop{font-size:13px;font-weight:700;}
+.tailor-phone{font-size:12px;color:var(--gray-400);margin-top:2px;}
+.tailor-code{font-size:12px;font-weight:700;font-family:'Georgia',serif;color:var(--blue);}
+.pay-btn{background:var(--green-light);color:var(--green);border:none;padding:6px 12px;font-size:11px;font-weight:700;border-radius:var(--radius);cursor:pointer;}
+.pay-btn:hover{background:#c8e8d8;}
 
-.admin-tabs { background:var(--white); border-bottom:1px solid var(--gray-200); padding:0 24px; display:flex; gap:0; }
-.tab-btn { padding:14px 20px; font-size:13px; font-weight:500; color:var(--gray-400); border:none; background:none; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.15s; }
-.tab-btn:hover { color:var(--black); }
-.tab-btn.active { color:var(--black); border-bottom-color:var(--black); }
-
-.filters { background:var(--white); border-bottom:1px solid var(--gray-200); padding:12px 24px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
-.filter-btn { background:transparent; border:1px solid var(--gray-200); color:var(--gray-600); padding:6px 14px; border-radius:20px; font-size:12px; font-weight:500; cursor:pointer; transition:all 0.15s; }
-.filter-btn:hover { border-color:var(--black); color:var(--black); }
-.filter-btn.active { background:var(--black); color:var(--white); border-color:var(--black); }
-.filter-count { display:inline-block; background:var(--gray-200); color:var(--gray-600); font-size:10px; font-weight:700; padding:1px 6px; border-radius:10px; margin-left:4px; }
-.filter-btn.active .filter-count { background:rgba(255,255,255,0.2); color:var(--white); }
-.search-input { margin-left:auto; border:1px solid var(--gray-200); border-radius:var(--radius); padding:7px 12px; font-size:13px; outline:none; width:220px; }
-.search-input:focus { border-color:var(--black); }
-
-.admin-main { flex:1; padding:24px; max-width:1300px; margin:0 auto; width:100%; }
-.tab-content { display:none; }
-.tab-content.active { display:block; }
-
-.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
-@media(max-width:700px){ .stats-row { grid-template-columns:repeat(2,1fr); } }
-.stat-card { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:16px 20px; }
-.stat-val { font-size:28px; font-weight:700; letter-spacing:-1px; font-family:'Georgia',serif; }
-.stat-label { font-size:12px; color:var(--gray-400); margin-top:2px; }
-
-.orders-table { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg); overflow:hidden; }
-.table-header { display:grid; grid-template-columns:130px 1fr 160px 120px 150px 140px; padding:10px 20px; background:var(--gray-100); border-bottom:1px solid var(--gray-200); }
-@media(max-width:900px){ .table-header { display:none; } }
-.th { font-size:11px; font-weight:600; color:var(--gray-400); text-transform:uppercase; letter-spacing:0.5px; }
-.order-row { display:grid; grid-template-columns:130px 1fr 160px 120px 150px 140px; padding:16px 20px; border-bottom:1px solid var(--gray-200); align-items:start; transition:background 0.1s; }
-@media(max-width:900px){ .order-row { display:flex; flex-direction:column; gap:10px; } }
-.order-row:last-child { border-bottom:none; }
-.order-row:hover { background:var(--gray-100); }
-.cell-id { font-size:13px; font-weight:700; }
-.cell-date { font-size:11px; color:var(--gray-400); margin-top:2px; }
-.customer-name { font-size:13px; font-weight:600; }
-.customer-phone { font-size:12px; color:var(--gray-400); margin-top:2px; }
-.customer-address { font-size:11px; color:var(--gray-600); margin-top:4px; line-height:1.4; }
-.item-chip { display:inline-block; font-size:11px; background:var(--gray-100); color:var(--gray-600); padding:2px 8px; border-radius:2px; margin-bottom:3px; margin-right:3px; }
-.cell-total { font-size:14px; font-weight:700; font-family:'Georgia',serif; }
-.cod-tag { display:block; font-size:11px; color:var(--gray-400); font-weight:400; margin-top:2px; }
-.status-badge { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:600; padding:4px 10px; border-radius:20px; }
-.s-processing { background:var(--amber-light); color:var(--amber); }
-.s-intransit { background:var(--blue-light); color:var(--blue); }
-.s-delivered { background:var(--green-light); color:var(--green); }
-.s-returned { background:var(--red-light); color:var(--red); }
-.status-select { width:100%; border:1px solid var(--gray-200); border-radius:var(--radius); padding:7px 10px; font-size:12px; font-weight:500; cursor:pointer; outline:none; background:var(--white); }
-.update-btn { width:100%; background:var(--black); color:var(--white); border:none; padding:7px; font-size:12px; font-weight:600; cursor:pointer; border-radius:var(--radius); margin-top:6px; transition:background 0.15s; }
-.update-btn:hover { background:var(--gray-800); }
-.update-btn.saved { background:var(--green); }
-.measure-toggle { font-size:11px; color:var(--gray-400); cursor:pointer; text-decoration:underline; margin-top:6px; display:inline-block; }
-.measure-mini { display:none; margin-top:6px; font-size:11px; color:var(--gray-600); line-height:1.8; background:var(--gray-100); padding:6px 10px; border-radius:var(--radius); }
-.measure-mini.open { display:block; }
-.table-empty { padding:60px 24px; text-align:center; color:var(--gray-400); }
-
-/* SHIRTS TAB */
-.add-shirt-form { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:24px; margin-bottom:24px; }
-.form-title { font-size:16px; font-weight:700; margin-bottom:4px; }
-.form-subtitle { font-size:13px; color:var(--gray-400); margin-bottom:20px; }
-.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-.form-grid .full { grid-column:1/-1; }
-label.form-label { font-size:11px; font-weight:600; color:var(--gray-600); letter-spacing:0.5px; text-transform:uppercase; margin-bottom:5px; display:block; }
-
-/* PHOTO UPLOAD */
-.photos-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-@media(max-width:600px){ .photos-grid { grid-template-columns:repeat(2,1fr); } }
-.photo-slot { border:2px dashed var(--gray-200); border-radius:var(--radius-lg); aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:border-color 0.15s; position:relative; overflow:hidden; background:var(--gray-100); }
-.photo-slot:hover { border-color:var(--black); }
-.photo-slot.has-photo { border-style:solid; border-color:var(--green); }
-.photo-slot img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; }
-.photo-slot-label { font-size:11px; color:var(--gray-400); margin-top:6px; text-align:center; line-height:1.4; z-index:1; }
-.photo-slot-icon { font-size:28px; z-index:1; }
-.photo-slot .remove-photo { position:absolute; top:6px; right:6px; background:var(--red); color:var(--white); border:none; border-radius:50%; width:22px; height:22px; font-size:14px; cursor:pointer; display:none; align-items:center; justify-content:center; z-index:2; line-height:1; }
-.photo-slot.has-photo .remove-photo { display:flex; }
-.main-badge { position:absolute; bottom:6px; left:6px; background:var(--black); color:var(--white); font-size:10px; font-weight:600; padding:2px 6px; border-radius:2px; z-index:2; }
-
-.shirts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; margin-top:16px; }
-.shirt-admin-card { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius-lg); overflow:hidden; }
-.shirt-admin-img { height:180px; display:flex; align-items:center; justify-content:center; background:var(--gray-100); font-size:48px; overflow:hidden; }
-.shirt-admin-img img { width:100%; height:100%; object-fit:cover; }
-.shirt-admin-info { padding:12px; }
-.shirt-admin-name { font-size:14px; font-weight:700; margin-bottom:2px; }
-.shirt-admin-price { font-size:12px; color:var(--gray-600); margin-bottom:10px; }
-.active-toggle { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--gray-600); margin-bottom:8px; }
-.toggle { width:36px; height:20px; background:var(--gray-200); border-radius:10px; cursor:pointer; position:relative; transition:background 0.2s; border:none; flex-shrink:0; }
-.toggle.on { background:var(--green); }
-.toggle::after { content:''; width:16px; height:16px; background:white; border-radius:50%; position:absolute; top:2px; left:2px; transition:left 0.2s; }
-.toggle.on::after { left:18px; }
-.btn-sm-red { background:var(--red-light); color:var(--red); border:1px solid #f5c4b3; padding:6px 12px; font-size:12px; font-weight:600; border-radius:var(--radius); cursor:pointer; width:100%; }
-.btn-sm-red:hover { background:#fae5e2; }
-
-.spinner { width:16px; height:16px; border:2px solid rgba(255,255,255,0.3); border-top-color:white; border-radius:50%; animation:spin 0.7s linear infinite; display:inline-block; vertical-align:middle; margin-right:4px; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:var(--black); color:var(--white); padding:12px 24px; border-radius:100px; font-size:13px; font-weight:500; z-index:999; transition:transform 0.3s; pointer-events:none; white-space:nowrap; }
-.toast.show { transform:translateX(-50%) translateY(0); }
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle;margin-right:4px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--black);color:var(--white);padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s;pointer-events:none;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
-
 <div class="toast" id="toast"></div>
 
 <!-- LOGIN -->
@@ -161,8 +144,8 @@ label.form-label { font-size:11px; font-weight:600; color:var(--gray-600); lette
     <div class="login-card">
       <div class="login-logo">why<span>SML</span></div>
       <div class="login-badge">Admin Panel</div>
-      <div class="login-title">Sign in to manage orders</div>
-      <div class="login-sub">Enter your admin credentials to access the dashboard.</div>
+      <div class="login-title">Sign in</div>
+      <div class="login-sub">Enter your admin credentials.</div>
       <div class="input-group">
         <label class="input-label">Admin Email</label>
         <input type="email" id="admin-email" placeholder="admin@whysml.com" onkeydown="if(event.key==='Enter')adminLogin()">
@@ -173,7 +156,6 @@ label.form-label { font-size:11px; font-weight:600; color:var(--gray-600); lette
       </div>
       <div class="err" id="login-err">Incorrect email or password.</div>
       <button class="btn-dark" id="login-btn" onclick="adminLogin()">Sign in →</button>
-      <div style="font-size:11px;color:var(--gray-400);margin-top:16px;text-align:center;">whySML admin use only</div>
     </div>
   </div>
 </div>
@@ -191,7 +173,8 @@ label.form-label { font-size:11px; font-weight:600; color:var(--gray-600); lette
 
   <div class="admin-tabs">
     <button class="tab-btn active" onclick="switchTab('orders',this)">📦 Orders</button>
-    <button class="tab-btn" onclick="switchTab('shirts',this)">👔 Manage Shirts</button>
+    <button class="tab-btn" onclick="switchTab('fabrics',this)" id="tab-fabrics-btn">🧵 Fabrics <span class="badge" id="pending-fab-count" style="display:none;">0</span></button>
+    <button class="tab-btn" onclick="switchTab('tailors',this)">✂️ Tailors</button>
   </div>
 
   <!-- ORDERS TAB -->
@@ -209,7 +192,7 @@ label.form-label { font-size:11px; font-weight:600; color:var(--gray-600); lette
         <div class="stat-card"><div class="stat-val" id="s-total">0</div><div class="stat-label">Total orders</div></div>
         <div class="stat-card"><div class="stat-val" id="s-processing">0</div><div class="stat-label">Processing</div></div>
         <div class="stat-card"><div class="stat-val" id="s-intransit">0</div><div class="stat-label">In transit</div></div>
-        <div class="stat-card"><div class="stat-val" id="s-revenue">₹0</div><div class="stat-label">Total revenue (COD)</div></div>
+        <div class="stat-card"><div class="stat-val" id="s-revenue">₹0</div><div class="stat-label">Total revenue</div></div>
       </div>
       <div class="orders-table">
         <div class="table-header">
@@ -221,94 +204,52 @@ label.form-label { font-size:11px; font-weight:600; color:var(--gray-600); lette
     </div>
   </div>
 
-  <!-- SHIRTS TAB -->
-  <div id="tab-shirts" class="tab-content">
+  <!-- FABRICS TAB -->
+  <div id="tab-fabrics" class="tab-content">
     <div class="admin-main">
-      <div class="add-shirt-form">
-        <div class="form-title">Add new shirt</div>
-        <div class="form-subtitle">Upload real fabric photos — customers will see exactly what they're ordering</div>
-
-        <div class="form-grid">
-          <div>
-            <label class="form-label">Shirt name</label>
-            <input type="text" id="s-name" placeholder="e.g. Blue Oxford Check">
-          </div>
-          <div>
-            <label class="form-label">Price (₹)</label>
-            <input type="number" id="s-price" placeholder="e.g. 1299">
-          </div>
-          <div class="full">
-            <label class="form-label">Description</label>
-            <textarea id="s-desc" placeholder="Describe the fabric — material, pattern, occasion it suits..."></textarea>
-          </div>
-          <div>
-            <label class="form-label">Shirt type</label>
-            <select id="s-type">
-              <option value="formal">Formal</option>
-              <option value="casual">Casual</option>
-            </select>
-          </div>
-          <div>
-            <label class="form-label">Badge (optional)</label>
-            <input type="text" id="s-badge" placeholder="e.g. New, Best seller">
-          </div>
-          <div class="full">
-            <label class="form-label">Fabric photos — upload up to 4 photos</label>
-            <div class="photos-grid" style="margin-top:8px;">
-              <div class="photo-slot" id="slot-0" onclick="document.getElementById('pi-0').click()">
-                <span class="photo-slot-icon">📸</span>
-                <span class="photo-slot-label">Main photo<br>(required)</span>
-                <div class="main-badge">Main</div>
-                <button class="remove-photo" onclick="removePhoto(event,0)">×</button>
-                <input type="file" id="pi-0" accept="image/*" style="display:none;" onchange="handlePhoto(0,event)">
-              </div>
-              <div class="photo-slot" id="slot-1" onclick="document.getElementById('pi-1').click()">
-                <span class="photo-slot-icon">📸</span>
-                <span class="photo-slot-label">Photo 2<br>(optional)</span>
-                <button class="remove-photo" onclick="removePhoto(event,1)">×</button>
-                <input type="file" id="pi-1" accept="image/*" style="display:none;" onchange="handlePhoto(1,event)">
-              </div>
-              <div class="photo-slot" id="slot-2" onclick="document.getElementById('pi-2').click()">
-                <span class="photo-slot-icon">📸</span>
-                <span class="photo-slot-label">Photo 3<br>(optional)</span>
-                <button class="remove-photo" onclick="removePhoto(event,2)">×</button>
-                <input type="file" id="pi-2" accept="image/*" style="display:none;" onchange="handlePhoto(2,event)">
-              </div>
-              <div class="photo-slot" id="slot-3" onclick="document.getElementById('pi-3').click()">
-                <span class="photo-slot-icon">📸</span>
-                <span class="photo-slot-label">Photo 4<br>(optional)</span>
-                <button class="remove-photo" onclick="removePhoto(event,3)">×</button>
-                <input type="file" id="pi-3" accept="image/*" style="display:none;" onchange="handlePhoto(3,event)">
-              </div>
-            </div>
-            <div style="font-size:11px;color:var(--gray-400);margin-top:8px;line-height:1.6;">
-              📌 Take clear close-up photos of the actual fabric showing the pattern and texture. The main photo appears on the home page. Customers will see exactly what they are ordering — no surprises on delivery.
-            </div>
-          </div>
-        </div>
-
-        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn-dark" style="max-width:180px;" id="publish-btn" onclick="publishShirt()">Publish shirt →</button>
-          <button class="btn-dark" style="max-width:140px;background:var(--gray-600);" onclick="clearForm()">Clear</button>
-        </div>
-        <div id="publish-status" style="font-size:13px;margin-top:12px;color:var(--green);display:none;font-weight:500;"></div>
+      <div style="margin-bottom:20px;">
+        <div style="font-size:18px;font-weight:700;margin-bottom:4px;">Fabric submissions</div>
+        <div style="font-size:13px;color:var(--gray-400);">Review fabrics uploaded by tailors. Approve to make live on whysml.com or reject to remove.</div>
       </div>
+      <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+        <button class="filter-btn active" onclick="filterFabrics('pending',this)">⏳ Pending review</button>
+        <button class="filter-btn" onclick="filterFabrics('active',this)">✅ Live on site</button>
+        <button class="filter-btn" onclick="filterFabrics('all',this)">All fabrics</button>
+      </div>
+      <div class="fabric-grid" id="fabric-grid"><div class="table-empty"><p>Loading fabrics...</p></div></div>
+    </div>
+  </div>
 
-      <div style="font-size:16px;font-weight:700;margin-bottom:4px;">Published shirts</div>
-      <div style="font-size:13px;color:var(--gray-400);margin-bottom:16px;">Toggle visibility or remove shirts from the store</div>
-      <div class="shirts-grid" id="shirts-grid"><div style="color:var(--gray-400);font-size:13px;padding:20px 0;">Loading shirts...</div></div>
+  <!-- TAILORS TAB -->
+  <div id="tab-tailors" class="tab-content">
+    <div class="admin-main">
+      <div style="margin-bottom:20px;">
+        <div style="font-size:18px;font-weight:700;margin-bottom:4px;">Tailor partners</div>
+        <div style="font-size:13px;color:var(--gray-400);">All registered tailors. Mark earnings as paid once you've transferred via UPI.</div>
+      </div>
+      <div class="tailor-table">
+        <div class="tailor-row header">
+          <div class="tailor-header-cell">Shop</div>
+          <div class="tailor-header-cell">Referral code</div>
+          <div class="tailor-header-cell">Referred</div>
+          <div class="tailor-header-cell">Pending</div>
+          <div class="tailor-header-cell">Paid</div>
+          <div class="tailor-header-cell">Action</div>
+        </div>
+        <div id="tailors-list"><div class="table-empty"><p>Loading tailors...</p></div></div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyA7oNwbaHZZcPPYlP8sNabbqvqKi-MocAY",
-  authDomain: "whysml.firebaseapp.com",
-  projectId: "whysml",
-  storageBucket: "whysml.firebasestorage.app",
-  messagingSenderId: "364291879195",
-  appId: "1:364291879195:web:c2e946a162fcb54bcd63be"
+  apiKey:"AIzaSyA7oNwbaHZZcPPYlP8sNabbqvqKi-MocAY",
+  authDomain:"whysml.firebaseapp.com",
+  projectId:"whysml",
+  storageBucket:"whysml.firebasestorage.app",
+  messagingSenderId:"364291879195",
+  appId:"1:364291879195:web:c2e946a162fcb54bcd63be"
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -316,12 +257,11 @@ const db = firebase.firestore();
 
 const ADMIN_UID = 'QnYtiD8hUpQxQeU8jI6TnYSzBKr1';
 let allOrders = [], filteredOrders = [], currentFilter = 'all';
-let photos = [null, null, null, null]; // base64 for each slot
+let allFabrics = [], fabricFilter = 'pending';
 
-// ── AUTH ──────────────────────────────────────────────────────
 auth.onAuthStateChanged(user => {
   if (user && user.uid === ADMIN_UID) showDashboard();
-  else if (user) { auth.signOut(); showLoginErr('This account does not have admin access.'); }
+  else if (user) { auth.signOut(); showLoginErr('Not authorised.'); }
 });
 
 async function adminLogin() {
@@ -340,27 +280,25 @@ async function adminLogin() {
     btn.innerHTML = 'Sign in →'; btn.disabled = false;
   }
 }
-function showLoginErr(msg) { const e = document.getElementById('login-err'); e.textContent = msg; e.classList.add('show'); }
+function showLoginErr(msg) { const e=document.getElementById('login-err'); e.textContent=msg; e.classList.add('show'); }
 async function adminLogout() {
   await auth.signOut();
-  document.getElementById('admin-email').value = '';
-  document.getElementById('admin-pass').value = '';
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('admin-email').value='';
+  document.getElementById('admin-pass').value='';
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-login').classList.add('active');
-  const btn = document.getElementById('login-btn');
-  btn.innerHTML = 'Sign in →'; btn.disabled = false;
+  document.getElementById('login-btn').innerHTML='Sign in →';
+  document.getElementById('login-btn').disabled=false;
 }
 function showDashboard() {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-dashboard').classList.add('active');
-  loadOrders(); loadShirtsAdmin();
+  loadOrders(); loadFabrics(); loadTailors();
 }
-
-// ── TABS ──────────────────────────────────────────────────────
 function switchTab(tab, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
   btn.classList.add('active');
 }
 
@@ -369,78 +307,78 @@ async function loadOrders() {
   try {
     const snap = await db.collection('orders').get();
     allOrders = [];
-    snap.forEach(doc => allOrders.push({...doc.data(), docId: doc.id}));
+    snap.forEach(doc => allOrders.push({...doc.data(), docId:doc.id}));
     allOrders.sort((a,b) => {
-      const ta = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(0);
-      const tb = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(0);
-      return tb - ta;
+      const ta=a.createdAt?.toDate?a.createdAt.toDate():new Date(0);
+      const tb=b.createdAt?.toDate?b.createdAt.toDate():new Date(0);
+      return tb-ta;
     });
     filteredOrders = [...allOrders];
     updateStats(); updateFilterCounts(); renderOrdersTable();
   } catch(e) {
-    document.getElementById('orders-list').innerHTML = `<div class="table-empty"><p style="color:var(--red);">Error: ${e.message}</p></div>`;
+    document.getElementById('orders-list').innerHTML=`<div class="table-empty"><p style="color:var(--red);">Error: ${e.message}</p></div>`;
   }
 }
 function updateStats() {
-  const total = allOrders.length;
-  const processing = allOrders.filter(o => (o.status||'processing')==='processing').length;
-  const intransit = allOrders.filter(o => o.status==='intransit').length;
-  const revenue = allOrders.filter(o => o.status!=='returned').reduce((s,o) => s+(o.total||0), 0);
-  document.getElementById('s-total').textContent = total;
-  document.getElementById('s-processing').textContent = processing;
-  document.getElementById('s-intransit').textContent = intransit;
-  document.getElementById('s-revenue').textContent = '₹'+revenue.toLocaleString();
-  document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-revenue').textContent = '₹'+revenue.toLocaleString();
+  const total=allOrders.length;
+  const processing=allOrders.filter(o=>(o.status||'processing')==='processing').length;
+  const intransit=allOrders.filter(o=>o.status==='intransit').length;
+  const revenue=allOrders.filter(o=>o.status!=='returned').reduce((s,o)=>s+(o.total||0),0);
+  document.getElementById('s-total').textContent=total;
+  document.getElementById('s-processing').textContent=processing;
+  document.getElementById('s-intransit').textContent=intransit;
+  document.getElementById('s-revenue').textContent='₹'+revenue.toLocaleString();
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-revenue').textContent='₹'+revenue.toLocaleString();
 }
 function updateFilterCounts() {
-  document.getElementById('fc-all').textContent = allOrders.length;
-  document.getElementById('fc-processing').textContent = allOrders.filter(o => (o.status||'processing')==='processing').length;
-  document.getElementById('fc-intransit').textContent = allOrders.filter(o => o.status==='intransit').length;
-  document.getElementById('fc-delivered').textContent = allOrders.filter(o => o.status==='delivered').length;
-  document.getElementById('fc-returned').textContent = allOrders.filter(o => o.status==='returned').length;
+  document.getElementById('fc-all').textContent=allOrders.length;
+  document.getElementById('fc-processing').textContent=allOrders.filter(o=>(o.status||'processing')==='processing').length;
+  document.getElementById('fc-intransit').textContent=allOrders.filter(o=>o.status==='intransit').length;
+  document.getElementById('fc-delivered').textContent=allOrders.filter(o=>o.status==='delivered').length;
+  document.getElementById('fc-returned').textContent=allOrders.filter(o=>o.status==='returned').length;
 }
 function filterOrders(filter, btn) {
-  currentFilter = filter;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  currentFilter=filter;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active'); applyFilters();
 }
 function searchOrders(q) { applyFilters(q); }
 function applyFilters(query) {
-  const q = (query || document.querySelector('.search-input')?.value || '').toLowerCase();
-  filteredOrders = allOrders.filter(o => {
-    const mf = currentFilter==='all' || (o.status||'processing')===currentFilter;
-    const ms = !q || (o.orderId||'').toLowerCase().includes(q) || (o.customerName||'').toLowerCase().includes(q) || (o.phone||'').includes(q);
-    return mf && ms;
+  const q=(query||document.querySelector('.search-input')?.value||'').toLowerCase();
+  filteredOrders=allOrders.filter(o=>{
+    const mf=currentFilter==='all'||(o.status||'processing')===currentFilter;
+    const ms=!q||(o.orderId||'').toLowerCase().includes(q)||(o.customerName||'').toLowerCase().includes(q)||(o.phone||'').includes(q);
+    return mf&&ms;
   });
   renderOrdersTable();
 }
 function getStatusInfo(s) {
-  s = (s||'processing').toLowerCase();
-  if (s==='delivered') return {cls:'s-delivered',icon:'✅',label:'Delivered'};
-  if (s==='intransit') return {cls:'s-intransit',icon:'🚚',label:'In Transit'};
-  if (s==='returned') return {cls:'s-returned',icon:'↩️',label:'Returned'};
-  return {cls:'s-processing',icon:'⏳',label:'Processing'};
+  s=(s||'processing').toLowerCase();
+  if(s==='delivered') return{cls:'s-delivered',icon:'✅',label:'Delivered'};
+  if(s==='intransit') return{cls:'s-intransit',icon:'🚚',label:'In Transit'};
+  if(s==='returned') return{cls:'s-returned',icon:'↩️',label:'Returned'};
+  return{cls:'s-processing',icon:'⏳',label:'Processing'};
 }
 function formatDate(ts) {
-  if (!ts) return '—';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
+  if(!ts) return '—';
+  const d=ts.toDate?ts.toDate():new Date(ts);
   return d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
 }
 function renderOrdersTable() {
-  const wrap = document.getElementById('orders-list');
-  if (!filteredOrders.length) { wrap.innerHTML=`<div class="table-empty"><p>No orders found</p></div>`; return; }
-  wrap.innerHTML = filteredOrders.map((o,i) => {
-    const st = getStatusInfo(o.status);
-    const addr = o.address||{}, items = o.items||[], m = o.measurements||{};
-    return `<div class="order-row">
+  const wrap=document.getElementById('orders-list');
+  if(!filteredOrders.length){wrap.innerHTML=`<div class="table-empty"><p>No orders found</p></div>`;return;}
+  wrap.innerHTML=filteredOrders.map((o,i)=>{
+    const st=getStatusInfo(o.status);
+    const addr=o.address||{}, items=o.items||[], m=o.measurements||{};
+    return`<div class="order-row">
       <div><div class="cell-id">${o.orderId||'—'}</div><div class="cell-date">${formatDate(o.createdAt)}</div></div>
       <div>
         <div class="customer-name">${o.customerName||'—'}</div>
         <div class="customer-phone">${o.phone||'—'}</div>
         <div class="customer-address">${addr.line1||''}, ${addr.city||''} – ${addr.pin||''}, ${addr.state||''}</div>
         ${m.chest?`<span class="measure-toggle" onclick="toggleM('m-${i}')">Measurements ▾</span>
-        <div class="measure-mini" id="m-${i}">Chest:${m.chest}" · Waist:${m.waist}" · Shoulder:${m.shoulder}" · Sleeve:${m.sleeve}" · Length:${m.length}" · Neck:${m.neck}"</div>`:''}
+        <div class="measure-mini" id="m-${i}">Neck:${m.neck}" · Chest:${m.chest}" · Waist:${m.waist}" · Hip:${m.hip}" · Shoulder:${m.shoulder}" · Sleeve:${m.sleeve}" · Bicep:${m.bicep}" · Wrist:${m.wrist}" · Length:${m.length}"</div>`:''}
       </div>
       <div>${items.map(it=>`<div class="item-chip">${it.name}</div>`).join('')}</div>
       <div class="cell-total">₹${(o.total||0).toLocaleString()}<span class="cod-tag">Cash on delivery</span></div>
@@ -452,179 +390,192 @@ function renderOrdersTable() {
           <option value="delivered" ${o.status==='delivered'?'selected':''}>✅ Delivered</option>
           <option value="returned" ${o.status==='returned'?'selected':''}>↩️ Returned</option>
         </select>
-        <button class="update-btn" id="ubtn-${i}" onclick="updateStatus('${o.orderId}',${i})">Update</button>
+        <button class="update-btn" id="ubtn-${i}" onclick="updateStatus('${o.orderId}','${o.referredBy||''}',${i})">Update</button>
       </div>
     </div>`;
   }).join('');
 }
-function toggleM(id) { document.getElementById(id).classList.toggle('open'); }
-async function updateStatus(orderId, idx) {
-  const newStatus = document.getElementById('sel-'+idx).value;
-  const btn = document.getElementById('ubtn-'+idx);
+function toggleM(id){document.getElementById(id).classList.toggle('open');}
+
+async function updateStatus(orderId, referredBy, idx) {
+  const newStatus=document.getElementById('sel-'+idx).value;
+  const btn=document.getElementById('ubtn-'+idx);
   btn.innerHTML='<span class="spinner"></span>'; btn.disabled=true;
   try {
     await db.collection('orders').doc(orderId).update({status:newStatus});
     filteredOrders[idx].status=newStatus;
-    const ai = allOrders.findIndex(o=>o.orderId===orderId);
+    const ai=allOrders.findIndex(o=>o.orderId===orderId);
     if(ai>=0) allOrders[ai].status=newStatus;
+
+    // If delivered and has a referrer — mark tailor earnings as pending
+    if (newStatus === 'delivered' && referredBy) {
+      const userSnap = await db.collection('users').where('referredBy','==',referredBy).get();
+      // Check if this is their first delivered order
+      const orderSnap = await db.collection('orders')
+        .where('userId','==',filteredOrders[idx].userId)
+        .where('status','==','delivered')
+        .get();
+      if (orderSnap.size === 1) { // This is the first delivered order
+        await db.collection('tailors').doc(referredBy).update({
+          pendingEarnings: firebase.firestore.FieldValue.increment(50)
+        });
+        // Mark user's firstOrderDelivered
+        const userDoc = await db.collection('users').where('referredBy','==',referredBy).where('phone','==',filteredOrders[idx].phone).get();
+        if (!userDoc.empty) {
+          await db.collection('users').doc(userDoc.docs[0].id).update({ firstOrderDelivered: true });
+        }
+      }
+    }
+
     btn.innerHTML='✓ Updated'; btn.classList.add('saved');
     updateStats(); updateFilterCounts();
     showToast('Order '+orderId+' → '+newStatus);
     setTimeout(()=>{btn.innerHTML='Update';btn.classList.remove('saved');btn.disabled=false;},2000);
-  } catch(e) { btn.innerHTML='Update'; btn.disabled=false; showToast('Error: '+e.message); }
+  } catch(e){btn.innerHTML='Update';btn.disabled=false;showToast('Error: '+e.message);}
 }
 
-// ── SHIRTS ────────────────────────────────────────────────────
-async function loadShirtsAdmin() {
-  const grid = document.getElementById('shirts-grid');
+// ── FABRICS ───────────────────────────────────────────────────
+async function loadFabrics() {
   try {
-    const snap = await db.collection('shirts').get();
-    if (snap.empty) { grid.innerHTML=`<div style="color:var(--gray-400);font-size:13px;padding:20px 0;">No shirts added yet. Add your first shirt above.</div>`; return; }
-    const shirts = [];
-    snap.forEach(doc => shirts.push({id:doc.id,...doc.data()}));
-    grid.innerHTML = shirts.map(s => `
-      <div class="shirt-admin-card">
-        <div class="shirt-admin-img">
-          ${s.imageUrl?`<img src="${s.imageUrl}" alt="${s.name}">`:(s.emoji||'👔')}
+    const snap = await db.collection('fabrics').orderBy('createdAt','desc').get();
+    allFabrics = [];
+    snap.forEach(doc => allFabrics.push({id:doc.id,...doc.data()}));
+    const pendingCount = allFabrics.filter(f=>!f.active && !f.rejected).length;
+    const badge = document.getElementById('pending-fab-count');
+    if (pendingCount > 0) { badge.textContent = pendingCount; badge.style.display = 'inline'; }
+    else badge.style.display = 'none';
+    renderFabrics();
+  } catch(e) {
+    document.getElementById('fabric-grid').innerHTML=`<div class="table-empty"><p style="color:var(--red);">Error: ${e.message}</p></div>`;
+  }
+}
+
+function filterFabrics(filter, btn) {
+  fabricFilter = filter;
+  document.querySelectorAll('#tab-fabrics .filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFabrics();
+}
+
+function renderFabrics() {
+  const grid = document.getElementById('fabric-grid');
+  let items = allFabrics;
+  if (fabricFilter === 'pending') items = allFabrics.filter(f => !f.active && !f.rejected);
+  if (fabricFilter === 'active') items = allFabrics.filter(f => f.active);
+
+  if (!items.length) {
+    grid.innerHTML = `<div class="table-empty" style="grid-column:1/-1;"><p>${fabricFilter==='pending'?'No fabrics pending review.':'No fabrics found.'}</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map(f => `
+    <div class="fabric-card">
+      <div class="fabric-img">${f.imageUrl?`<img src="${f.imageUrl}" alt="${f.name}">`:'<span style="font-size:48px;">🧵</span>'}</div>
+      <div class="fabric-info">
+        <div class="fabric-name">${f.name}</div>
+        <div class="fabric-tailor">By ${f.tailorShop||'Unknown tailor'}</div>
+        <div class="fabric-price">₹${Number(f.price||0).toLocaleString()} · ${formatDate(f.createdAt)}</div>
+        <div class="fabric-actions">
+          ${!f.active && !f.rejected
+            ? `<button class="btn-approve" onclick="approveFabric('${f.id}')">✅ Approve</button>
+               <button class="btn-reject" onclick="rejectFabric('${f.id}')">✗ Reject</button>`
+            : f.active
+              ? `<button class="btn-hide" onclick="hideFabric('${f.id}')">Hide from site</button>`
+              : `<span style="font-size:12px;color:var(--red);">Rejected</span>`
+          }
         </div>
-        <div class="shirt-admin-info">
-          <div class="shirt-admin-name">${s.name}</div>
-          <div class="shirt-admin-price">₹${Number(s.price).toLocaleString()} · ${s.shirtType||'formal'}</div>
-          <div class="active-toggle">
-            <button class="toggle ${s.active?'on':''}" id="tog-${s.id}" onclick="toggleActive('${s.id}',${!s.active})"></button>
-            <span>${s.active?'Visible on site':'Hidden'}</span>
-          </div>
-          <button class="btn-sm-red" onclick="deleteShirt('${s.id}')">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+async function approveFabric(id) {
+  try {
+    await db.collection('fabrics').doc(id).update({ active: true, rejected: false });
+    // Also add to shirts collection for the customer site
+    const fab = allFabrics.find(f=>f.id===id);
+    if (fab) {
+      await db.collection('shirts').doc(id).set({
+        name: fab.name, price: fab.price, imageUrl: fab.imageUrl||null,
+        tailorId: fab.tailorId, tailorShop: fab.tailorShop,
+        active: true, createdAt: fab.createdAt
+      });
+    }
+    const f = allFabrics.find(f=>f.id===id);
+    if(f){ f.active=true; f.rejected=false; }
+    loadFabrics();
+    showToast('Fabric approved and live on site!');
+  } catch(e){ showToast('Error: '+e.message); }
+}
+
+async function rejectFabric(id) {
+  if (!confirm('Reject this fabric?')) return;
+  try {
+    await db.collection('fabrics').doc(id).update({ active: false, rejected: true });
+    const f = allFabrics.find(f=>f.id===id);
+    if(f){ f.rejected=true; f.active=false; }
+    loadFabrics();
+    showToast('Fabric rejected.');
+  } catch(e){ showToast('Error: '+e.message); }
+}
+
+async function hideFabric(id) {
+  try {
+    await db.collection('fabrics').doc(id).update({ active: false });
+    await db.collection('shirts').doc(id).update({ active: false });
+    const f = allFabrics.find(f=>f.id===id);
+    if(f) f.active=false;
+    renderFabrics();
+    showToast('Fabric hidden from site.');
+  } catch(e){ showToast('Error: '+e.message); }
+}
+
+// ── TAILORS ───────────────────────────────────────────────────
+async function loadTailors() {
+  const wrap = document.getElementById('tailors-list');
+  try {
+    const snap = await db.collection('tailors').orderBy('createdAt','desc').get();
+    if (snap.empty) { wrap.innerHTML='<div class="table-empty"><p>No tailors registered yet.</p></div>'; return; }
+    const tailors = [];
+    snap.forEach(doc => tailors.push({id:doc.id,...doc.data()}));
+    wrap.innerHTML = tailors.map(t => `
+      <div class="tailor-row">
+        <div>
+          <div class="tailor-shop">${t.shopName||'—'}</div>
+          <div class="tailor-phone">${t.phone||'—'}</div>
+        </div>
+        <div class="tailor-code">${t.referralCode||'—'}</div>
+        <div style="font-size:13px;font-weight:700;">${t.totalReferred||0}</div>
+        <div style="font-size:13px;font-weight:700;color:var(--amber);">₹${(t.pendingEarnings||0).toLocaleString()}</div>
+        <div style="font-size:13px;font-weight:700;color:var(--green);">₹${(t.paidEarnings||0).toLocaleString()}</div>
+        <div>
+          ${(t.pendingEarnings||0) > 0
+            ? `<button class="pay-btn" onclick="markPaid('${t.id}',${t.pendingEarnings||0})">Mark ₹${t.pendingEarnings} paid</button>`
+            : `<span style="font-size:12px;color:var(--gray-400);">Nothing pending</span>`}
         </div>
       </div>`).join('');
-  } catch(e) { grid.innerHTML=`<div style="color:var(--red);font-size:13px;">Error: ${e.message}</div>`; }
-}
-async function toggleActive(id, active) {
-  try {
-    await db.collection('shirts').doc(id).update({active});
-    const tog = document.getElementById('tog-'+id);
-    if(tog){tog.classList.toggle('on',active);tog.nextElementSibling.textContent=active?'Visible on site':'Hidden';}
-    showToast(active?'Shirt visible on site':'Shirt hidden');
-  } catch(e){showToast('Error: '+e.message);}
-}
-async function deleteShirt(id) {
-  if(!confirm('Remove this shirt?')) return;
-  try { await db.collection('shirts').doc(id).delete(); showToast('Shirt removed'); loadShirtsAdmin(); }
-  catch(e){showToast('Error: '+e.message);}
-}
-
-// ── PHOTO UPLOAD ──────────────────────────────────────────────
-function handlePhoto(idx, e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    photos[idx] = ev.target.result;
-    const slot = document.getElementById('slot-'+idx);
-    slot.classList.add('has-photo');
-    // Remove old preview img if any
-    const oldImg = slot.querySelector('img');
-    if (oldImg) oldImg.remove();
-    const img = document.createElement('img');
-    img.src = ev.target.result;
-    img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';
-    slot.insertBefore(img, slot.querySelector('.remove-photo'));
-  };
-  reader.readAsDataURL(file);
-}
-function removePhoto(e, idx) {
-  e.stopPropagation();
-  photos[idx] = null;
-  const slot = document.getElementById('slot-'+idx);
-  slot.classList.remove('has-photo');
-  const img = slot.querySelector('img');
-  if (img) img.remove();
-  document.getElementById('pi-'+idx).value = '';
-}
-
-// ── PUBLISH SHIRT ─────────────────────────────────────────────
-async function publishShirt() {
-  const name = document.getElementById('s-name').value.trim();
-  const price = document.getElementById('s-price').value;
-  const desc = document.getElementById('s-desc').value.trim();
-  const shirtType = document.getElementById('s-type').value;
-  const badge = document.getElementById('s-badge').value.trim();
-
-  if (!name || !price || !desc) { showToast('Please fill in name, price and description'); return; }
-  if (!photos[0]) { showToast('Please upload at least the main photo'); return; }
-
-  const statusEl = document.getElementById('publish-status');
-  const btn = document.getElementById('publish-btn');
-  statusEl.style.display = 'block';
-  statusEl.textContent = 'Uploading photos...';
-  btn.disabled = true;
-
-  try {
-    // Upload all photos to Cloudinary via secure API
-    const uploadedUrls = [];
-    for (let i = 0; i < 4; i++) {
-      if (!photos[i]) continue;
-      statusEl.textContent = `Uploading photo ${i+1}...`;
-      const res = await fetch('/api/upload-image', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          imageBase64: photos[i],
-          folder: 'whysml/shirts',
-          publicId: 'shirt_'+name.toLowerCase().replace(/\s+/g,'_')+'_photo'+i+'_'+Date.now()
-        })
-      });
-      const data = await res.json();
-      if (data.success) uploadedUrls.push(data.url);
-    }
-
-    statusEl.textContent = 'Publishing to store...';
-
-    const shirtData = {
-      name, price: Number(price), desc, shirtType,
-      badge: badge || null,
-      imageUrl: uploadedUrls[0] || null,
-      allImages: uploadedUrls,
-      active: true,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    await db.collection('shirts').add(shirtData);
-    statusEl.textContent = '✅ Shirt published! Visible on whysml.com now.';
-    showToast('Shirt published successfully!');
-    clearForm();
-    loadShirtsAdmin();
-    setTimeout(() => { statusEl.style.display = 'none'; }, 4000);
   } catch(e) {
-    statusEl.textContent = '❌ Error: ' + e.message;
-    showToast('Error: ' + e.message);
-  } finally {
-    btn.disabled = false;
+    wrap.innerHTML=`<div class="table-empty"><p style="color:var(--red);">Error: ${e.message}</p></div>`;
   }
 }
 
-function clearForm() {
-  ['s-name','s-price','s-desc','s-badge'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('s-type').value = 'formal';
-  photos = [null, null, null, null];
-  for (let i = 0; i < 4; i++) {
-    const slot = document.getElementById('slot-'+i);
-    slot.classList.remove('has-photo');
-    const img = slot.querySelector('img');
-    if (img) img.remove();
-    document.getElementById('pi-'+i).value = '';
-  }
-  document.getElementById('publish-status').style.display = 'none';
+async function markPaid(tailorId, amount) {
+  if (!confirm(`Mark ₹${amount} as paid to this tailor?`)) return;
+  try {
+    await db.collection('tailors').doc(tailorId).update({
+      paidEarnings: firebase.firestore.FieldValue.increment(amount),
+      pendingEarnings: 0
+    });
+    showToast('Marked as paid!');
+    loadTailors();
+  } catch(e){ showToast('Error: '+e.message); }
 }
 
-// ── TOAST ─────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),3000);
 }
 </script>
 </body>
