@@ -1092,14 +1092,19 @@ async function placeOrder() {
     orderId, userId: currentUser.uid,
     customerName: userProfile.name || '',
     phone: currentUser.phoneNumber,
-    items: cart.map(i => ({ id: i.id, name: i.name, price: Number(i.price) })),
+    items: cart.map(i => ({
+      id: i.id, name: i.name, price: Number(i.price),
+      tailorId: i.tailorId || null, tailorShop: i.tailorShop || null
+    })),
     total, address: userProfile.address,
     measurements: userProfile.measurements,
+    referredBy: userProfile.referredBy || null,
+    tailorCode: userProfile.tailorCode || null,
     paymentMethod: 'COD', status: 'processing',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
-  try { await db.collection('orders').doc(orderId).set(orderData); } catch(e) { console.log('Order saved locally'); }
+  try { await db.collection('orders').doc(orderId).set(orderData); } catch(e) { console.log('Order save error:', e); }
 
   document.getElementById('success-receipt').innerHTML = `
     <div class="receipt-row"><span style="color:var(--gray-400);font-size:12px;">Order ID</span><span style="font-weight:700;">${orderId}</span></div>
