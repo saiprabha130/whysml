@@ -519,9 +519,9 @@ function renderFabrics() {
     const margin = sellingPrice ? sellingPrice - tailorPrice : 0;
     return `
     <div class="fabric-card">
-      <div class="fabric-img">${f.imageUrl?`<img src="${f.imageUrl}" alt="${f.name}">`:'<span style="font-size:48px;">🧵</span>'}</div>
+      <div class="fabric-img">${f.imageUrl?`<img src="${f.imageUrl}" alt="Fabric">`:'<span style="font-size:48px;">🧵</span>'}</div>
       <div class="fabric-info">
-        <div class="fabric-name">${f.name}</div>
+        <div class="fabric-name">${f.material || 'Fabric'} · ${f.shirtType === 'both' ? 'Formal & Casual' : f.shirtType === 'casual' ? 'Casual' : 'Formal'}</div>
         <div class="fabric-tailor">By ${f.tailorShop||'Unknown tailor'} · ${formatDate(f.createdAt)}</div>
         <div style="margin:10px 0;padding:10px;background:var(--gray-100);border-radius:var(--radius);font-size:12px;font-family:'Arial',sans-serif;">
           <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
@@ -576,9 +576,11 @@ async function approveFabric(id, tailorPrice) {
     const fab = allFabrics.find(f=>f.id===id);
     if (fab) {
       await db.collection('shirts').doc(id).set({
-        name: fab.name,
-        price: sellingPrice,        // customer sees selling price
-        tailorPrice: tailorPrice,   // your cost reference
+        name: (fab.material || 'Fabric') + ' · ' + (fab.shirtType === 'both' ? 'Formal & Casual' : fab.shirtType || 'Formal'),
+        price: sellingPrice,
+        tailorPrice: tailorPrice,
+        material: fab.material || null,
+        shirtType: fab.shirtType || null,
         imageUrl: fab.imageUrl||null,
         tailorId: fab.tailorId,
         tailorShop: fab.tailorShop,
