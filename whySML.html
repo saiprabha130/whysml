@@ -984,6 +984,9 @@ function renderShirts() {
     const imgContent = s.imageUrl
       ? `<img src="${s.imageUrl}" alt="${s.name}" loading="lazy">`
       : `<span>${s.emoji || '👔'}</span>`;
+    const typeLabel = s.shirtType === 'both' ? 'Formal & Casual' : s.shirtType === 'casual' ? 'Casual' : s.shirtType === 'formal' ? 'Formal' : '';
+    const displayName = s.material ? s.material : s.name;
+    const displayDesc = [typeLabel, s.tailorShop ? 'By ' + s.tailorShop : ''].filter(Boolean).join(' · ');
     return `<div class="shirt-card">
       <div class="shirt-img" style="${s.imageUrl ? '' : 'background:' + (s.color||'#e8f3ee') + ';'}">
         ${s.badge ? `<div class="shirt-badge">${s.badge}</div>` : ''}
@@ -991,8 +994,8 @@ function renderShirts() {
         ${imgContent}
       </div>
       <div class="shirt-info">
-        <div class="shirt-name">${s.name}</div>
-        <div class="shirt-desc">${s.desc}</div>
+        <div class="shirt-name">${displayName}</div>
+        <div class="shirt-desc">${displayDesc || s.desc || ''}</div>
         <div class="shirt-footer">
           <div>
             <div class="shirt-price">₹${Number(s.price).toLocaleString()}</div>
