@@ -118,7 +118,21 @@ input[readonly]{background:var(--gray-100);color:var(--gray-600);cursor:not-allo
 .fabric-card-price{font-size:12px;color:var(--gray-400);margin-bottom:8px;font-family:'Arial',sans-serif;}
 .fabric-remove-btn{width:100%;background:var(--red-light);color:var(--red);border:1px solid #f5c4b3;padding:6px;font-size:11px;font-weight:600;border-radius:var(--radius);cursor:pointer;font-family:'Arial',sans-serif;}
 .fabric-remove-btn:hover{background:#fae5e2;}
-.fabric-remove-btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+/* CATALOGUE LIST */
+.catalogue-item{display:flex;align-items:center;gap:16px;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:10px;}
+.cat-img{width:72px;height:72px;border-radius:var(--radius);overflow:hidden;flex-shrink:0;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.cat-img img{width:100%;height:100%;object-fit:cover;}
+.cat-info{flex:1;min-width:0;}
+.cat-type{font-size:14px;font-weight:700;margin-bottom:2px;}
+.cat-price{font-size:12px;color:var(--gray-400);font-family:'Arial',sans-serif;margin-bottom:4px;}
+.cat-delete-btn{background:var(--red-light);color:var(--red);border:1px solid #f5c4b3;padding:8px 14px;font-size:12px;font-weight:600;border-radius:var(--radius);cursor:pointer;font-family:'Arial',sans-serif;white-space:nowrap;flex-shrink:0;}
+.cat-delete-btn:hover{background:#fae5e2;}
+.cat-delete-btn:disabled{opacity:0.4;cursor:not-allowed;}
+@media(max-width:480px){
+  .catalogue-item{flex-wrap:wrap;gap:10px;}
+  .cat-delete-btn{width:100%;}
+}
 
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--black);color:var(--white);padding:12px 24px;border-radius:100px;font-size:13px;font-weight:500;z-index:999;transition:transform 0.3s;pointer-events:none;white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
@@ -272,16 +286,68 @@ input[readonly]{background:var(--gray-100);color:var(--gray-600);cursor:not-allo
         <div class="action-title">Refer a customer</div>
         <div class="action-desc">Take their measurements and create their whySML account right here</div>
       </div>
-      <div class="action-card" onclick="openFabricModal()">
+      <div class="action-card" onclick="openCatalogue()">
         <div class="action-icon">🧵</div>
-        <div class="action-title">Add a fabric</div>
-        <div class="action-desc">Upload fabric photo and your cost — we'll review and list it</div>
+        <div class="action-title">My catalogue</div>
+        <div class="action-desc">View and manage all fabrics you've uploaded to the store</div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="section-title" style="margin-top:32px;">Your fabrics</div>
-    <div style="font-size:13px;color:var(--gray-400);margin-bottom:16px;font-family:'Arial',sans-serif;">Fabrics you've uploaded. You can request removal by hiding them — we'll be notified.</div>
-    <div id="my-fabrics-list"><div class="empty-state">Loading...</div></div>
+<!-- ═══ SCREEN: CATALOGUE ═══ -->
+<div class="screen" id="screen-catalogue">
+  <nav>
+    <div class="nav-logo">why<span>SML</span> <em>Tailor</em></div>
+    <div class="nav-right">
+      <button class="nav-logout" onclick="goto('screen-dashboard')">← Back</button>
+    </div>
+  </nav>
+  <div class="dash-wrap">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:22px;font-weight:700;letter-spacing:-0.5px;">My catalogue</div>
+        <div style="font-size:13px;color:var(--gray-400);margin-top:4px;font-family:'Arial',sans-serif;">All fabrics you've submitted to whySML</div>
+      </div>
+    </div>
+    <div id="catalogue-list"><div class="empty-state">Loading...</div></div>
+
+    <!-- ADD FABRIC FORM at bottom -->
+    <div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:28px;margin-top:32px;">
+      <div style="font-size:16px;font-weight:700;margin-bottom:6px;">+ Add a fabric</div>
+      <div style="font-size:13px;color:var(--gray-400);margin-bottom:20px;font-family:'Arial',sans-serif;">Upload a fabric photo, select shirt type and enter your cost. We'll review and set the selling price before listing it.</div>
+
+      <div class="input-group">
+        <label class="input-label">Shirt type</label>
+        <select id="fab-type" style="width:100%;border:1px solid var(--gray-200);border-radius:var(--radius);padding:11px 14px;font-size:14px;color:var(--black);background:var(--white);outline:none;font-family:'Arial',sans-serif;">
+          <option value="formal">Formal</option>
+          <option value="casual">Casual</option>
+          <option value="both">Formal & Casual</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Your cost — fabric + stitching (₹)</label>
+        <input type="number" id="fab-price" placeholder="e.g. 1000" min="300" max="9999">
+        <div style="font-size:11px;color:var(--gray-400);margin-top:5px;font-family:'Arial',sans-serif;">This is what you charge us. We set the customer price separately.</div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Fabric photo</label>
+        <div class="photo-upload" id="fab-upload-area" onclick="document.getElementById('fab-input').click()">
+          <div id="fab-placeholder">
+            <div style="font-size:32px;margin-bottom:8px;">📸</div>
+            <div style="font-size:14px;font-weight:600;color:var(--black);margin-bottom:4px;">Tap to upload fabric photo</div>
+            <div style="font-size:12px;color:var(--gray-400);">JPG or PNG · Clear close-up of the fabric</div>
+          </div>
+          <img id="fab-preview" class="photo-preview" alt="Fabric preview">
+        </div>
+        <input type="file" id="fab-input" accept="image/*" style="display:none;" onchange="handleFabricPhoto(event)">
+      </div>
+
+      <div class="err" id="fabric-err">Please select shirt type, enter your cost and upload a photo.</div>
+      <button class="btn-green" id="fabric-btn" onclick="submitFabric()">Submit for review →</button>
+    </div>
   </div>
 </div>
 
@@ -337,38 +403,6 @@ input[readonly]{background:var(--gray-100);color:var(--gray-600);cursor:not-allo
     <div class="err" id="cust-otp-err" style="text-align:center;">Incorrect OTP. Please try again.</div>
     <button class="btn-green" id="cust-verify-btn" onclick="verifyCustOTP()">Verify & create account</button>
     <button class="btn-ghost" onclick="closeCustOtpModal()">← Back</button>
-  </div>
-</div>
-
-<!-- ═══ MODAL: ADD FABRIC ═══ -->
-<div class="modal-overlay" id="fabricModal">
-  <div class="modal">
-    <div class="modal-title">Add a fabric</div>
-    <div class="modal-sub">Upload a clear photo of the fabric and enter your total cost (fabric + stitching). We'll review it and set the customer-facing price before listing it.</div>
-    <div class="input-group">
-      <label class="input-label">Fabric name</label>
-      <input type="text" id="fab-name" placeholder="e.g. Blue Oxford Check">
-    </div>
-    <div class="input-group">
-      <label class="input-label">Your cost — fabric + stitching combined (₹)</label>
-      <input type="number" id="fab-price" placeholder="e.g. 1000" min="300" max="9999">
-      <div style="font-size:11px;color:var(--gray-400);margin-top:5px;">This is what you charge us. We'll set the customer price separately to cover our costs.</div>
-    </div>
-    <div class="input-group">
-      <label class="input-label">Fabric photo</label>
-      <div class="photo-upload" id="fab-upload-area" onclick="document.getElementById('fab-input').click()">
-        <div id="fab-placeholder">
-          <div style="font-size:32px;margin-bottom:8px;">📸</div>
-          <div style="font-size:14px;font-weight:600;color:var(--black);margin-bottom:4px;">Tap to upload fabric photo</div>
-          <div style="font-size:12px;color:var(--gray-400);">JPG or PNG · Clear close-up of the fabric</div>
-        </div>
-        <img id="fab-preview" class="photo-preview" alt="Fabric preview">
-      </div>
-      <input type="file" id="fab-input" accept="image/*" style="display:none;" onchange="handleFabricPhoto(event)">
-    </div>
-    <div class="err" id="fabric-err">Please fill all fields and upload a photo.</div>
-    <button class="btn-green" style="margin-top:16px;" id="fabric-btn" onclick="submitFabric()">Submit for review →</button>
-    <button class="btn-ghost" onclick="closeFabricModal()">Cancel</button>
   </div>
 </div>
 
@@ -586,7 +620,12 @@ function showDashboard() {
   document.getElementById('stat-referred').textContent = tailorData.totalReferred || 0;
   document.getElementById('stat-pending').textContent = '₹' + (tailorData.pendingEarnings || 0).toLocaleString();
   document.getElementById('stat-paid').textContent = '₹' + (tailorData.paidEarnings || 0).toLocaleString();
-  loadMyFabrics();
+}
+
+function openCatalogue() {
+  goto('screen-catalogue');
+  resetFabricForm();
+  loadCatalogue();
 }
 
 function formatDate(ts) {
@@ -596,77 +635,6 @@ function formatDate(ts) {
 }
 function copyCode() {
   navigator.clipboard.writeText(tailorData?.referralCode || '').then(() => showToast('Referral code copied!'));
-}
-
-// ── MY FABRICS ────────────────────────────────────────────────
-async function loadMyFabrics() {
-  const wrap = document.getElementById('my-fabrics-list');
-  wrap.innerHTML = '<div class="empty-state">Loading...</div>';
-  try {
-    const snap = await db.collection('fabrics')
-      .where('tailorId', '==', tailorData.uid)
-      .orderBy('createdAt', 'desc')
-      .get();
-
-    if (snap.empty) {
-      wrap.innerHTML = '<div class="empty-state">No fabrics uploaded yet. Click "Add a fabric" above to upload your first one!</div>';
-      return;
-    }
-
-    const fabrics = [];
-    snap.forEach(doc => fabrics.push({ id: doc.id, ...doc.data() }));
-
-    wrap.innerHTML = '<div class="my-fabrics-grid">' + fabrics.map(f => {
-      const statusLabel = f.active ? 'Live' : f.rejected ? 'Rejected' : 'Pending review';
-      const statusClass = f.active ? 'pill-live' : f.rejected ? 'pill-rejected' : 'pill-pending';
-      const canRemove = !f.rejected; // can request removal if pending or live
-
-      return `<div class="fabric-card">
-        <div class="fabric-card-img">
-          ${f.imageUrl ? `<img src="${f.imageUrl}" alt="${f.name}">` : '🧵'}
-          <span class="fabric-status-pill ${statusClass}">${statusLabel}</span>
-        </div>
-        <div class="fabric-card-info">
-          <div class="fabric-card-name">${f.name}</div>
-          <div class="fabric-card-price">Your cost: ₹${Number(f.tailorPrice || f.price || 0).toLocaleString()}</div>
-          ${canRemove
-            ? `<button class="fabric-remove-btn" id="rm-${f.id}" onclick="requestRemoveFabric('${f.id}','${f.name}')">
-                Remove from site
-               </button>`
-            : `<div style="font-size:11px;color:var(--gray-400);font-family:'Arial',sans-serif;">Already rejected</div>`
-          }
-        </div>
-      </div>`;
-    }).join('') + '</div>';
-  } catch(e) {
-    wrap.innerHTML = '<div class="empty-state">Could not load fabrics.</div>';
-  }
-}
-
-async function requestRemoveFabric(id, name) {
-  if (!confirm(`Remove "${name}" from the site?\n\nIf it's already live, it will be hidden immediately. If pending review, we'll cancel it.`)) return;
-
-  const btn = document.getElementById('rm-' + id);
-  if (btn) { btn.textContent = 'Removing...'; btn.disabled = true; }
-
-  try {
-    // Mark as inactive and flag for admin awareness
-    await db.collection('fabrics').doc(id).update({
-      active: false,
-      removedByTailor: true,
-      removedAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    // Also remove from shirts collection if it was approved
-    try {
-      await db.collection('shirts').doc(id).update({ active: false });
-    } catch(e) {} // shirt may not exist if fabric was never approved
-
-    showToast(`"${name}" removed from site.`);
-    loadMyFabrics(); // refresh the list
-  } catch(e) {
-    showToast('Error removing fabric. Please try again.');
-    if (btn) { btn.textContent = 'Remove from site'; btn.disabled = false; }
-  }
 }
 
 // ── REFER CUSTOMER ────────────────────────────────────────────
@@ -800,18 +768,6 @@ async function verifyCustOTP() {
 }
 
 // ── ADD FABRIC ────────────────────────────────────────────────
-function openFabricModal() {
-  ['fab-name','fab-price'].forEach(id => { document.getElementById(id).value = ''; });
-  document.getElementById('fab-preview').style.display = 'none';
-  document.getElementById('fab-placeholder').style.display = 'block';
-  document.getElementById('fab-upload-area').classList.remove('has-photo');
-  document.getElementById('fab-input').value = '';
-  document.getElementById('fabric-err').classList.remove('show');
-  fabPhotoBase64 = null;
-  document.getElementById('fabricModal').classList.add('open');
-}
-function closeFabricModal() { document.getElementById('fabricModal').classList.remove('open'); }
-
 function handleFabricPhoto(e) {
   const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
@@ -825,13 +781,24 @@ function handleFabricPhoto(e) {
   reader.readAsDataURL(file);
 }
 
+function resetFabricForm() {
+  document.getElementById('fab-price').value = '';
+  document.getElementById('fab-type').value = 'formal';
+  document.getElementById('fab-preview').style.display = 'none';
+  document.getElementById('fab-placeholder').style.display = 'block';
+  document.getElementById('fab-upload-area').classList.remove('has-photo');
+  document.getElementById('fab-input').value = '';
+  document.getElementById('fabric-err').classList.remove('show');
+  fabPhotoBase64 = null;
+}
+
 async function submitFabric() {
-  const name = document.getElementById('fab-name').value.trim();
   const price = document.getElementById('fab-price').value;
+  const shirtType = document.getElementById('fab-type').value;
   const err = document.getElementById('fabric-err');
 
-  if (!name || !price || !fabPhotoBase64) {
-    err.textContent = 'Please fill in name, your cost and upload a photo.';
+  if (!price || !fabPhotoBase64) {
+    err.textContent = 'Please enter your cost and upload a fabric photo.';
     err.classList.add('show'); return;
   }
   err.classList.remove('show');
@@ -853,9 +820,9 @@ async function submitFabric() {
     const uploadData = await uploadRes.json();
 
     await db.collection('fabrics').add({
-      name,
-      tailorPrice: Number(price),  // tailor's cost (fabric + stitching)
-      sellingPrice: null,          // admin will set this before approving
+      shirtType,
+      tailorPrice: Number(price),
+      sellingPrice: null,
       imageUrl: uploadData.success ? uploadData.url : null,
       tailorId: tailorData.uid,
       tailorShop: tailorData.shopName,
@@ -864,16 +831,77 @@ async function submitFabric() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
-    closeFabricModal();
-    showToast('Fabric submitted! We\'ll review and list it shortly.');
+    resetFabricForm();
+    showToast('Fabric submitted for review!');
+    loadCatalogue(); // refresh list
   } catch(e) {
     console.error(e);
-    err.textContent = 'Error submitting. Please try again.';
+    err.textContent = 'Error uploading. Please try again.';
     err.classList.add('show');
   } finally {
     btn.innerHTML = 'Submit for review →';
     btn.disabled = false;
   }
+}
+
+// ── CATALOGUE ─────────────────────────────────────────────────
+async function loadCatalogue() {
+  const wrap = document.getElementById('catalogue-list');
+  wrap.innerHTML = '<div class="empty-state">Loading...</div>';
+  try {
+    const snap = await db.collection('fabrics')
+      .where('tailorId', '==', tailorData.uid)
+      .orderBy('createdAt', 'desc')
+      .get();
+
+    if (snap.empty) {
+      wrap.innerHTML = '<div class="empty-state">No fabrics yet. Add your first fabric below!</div>';
+      return;
+    }
+
+    const fabrics = [];
+    snap.forEach(doc => fabrics.push({ id: doc.id, ...doc.data() }));
+
+    wrap.innerHTML = fabrics.map(f => {
+      const statusLabel = f.active ? 'Live on site' : f.rejected ? 'Rejected' : 'Pending review';
+      const statusClass = f.active ? 'pill-live' : f.rejected ? 'pill-rejected' : 'pill-pending';
+      const typeLabel = f.shirtType === 'both' ? 'Formal & Casual' : f.shirtType === 'casual' ? 'Casual' : 'Formal';
+
+      return `<div class="catalogue-item">
+        <div class="cat-img">
+          ${f.imageUrl ? `<img src="${f.imageUrl}" alt="Fabric">` : '🧵'}
+        </div>
+        <div class="cat-info">
+          <div class="cat-type">${typeLabel}</div>
+          <div class="cat-price">Your cost: ₹${Number(f.tailorPrice || 0).toLocaleString()}</div>
+          <span class="fabric-status-pill ${statusClass}" style="position:relative;top:auto;left:auto;display:inline-block;margin-top:4px;">${statusLabel}</span>
+        </div>
+        <button class="cat-delete-btn" onclick="deleteFabric('${f.id}','${f.active}')" ${f.rejected ? 'disabled style="opacity:0.4;"' : ''}>
+          🗑 Delete
+        </button>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    wrap.innerHTML = '<div class="empty-state">Could not load fabrics.</div>';
+  }
+}
+
+async function deleteFabric(id, isActive) {
+  const msg = isActive === 'true'
+    ? 'This fabric is live on the site. Deleting it will remove it from the customer catalogue. Are you sure?'
+    : 'Delete this fabric submission?';
+  if (!confirm(msg)) return;
+  try {
+    await db.collection('fabrics').doc(id).update({
+      active: false,
+      removedByTailor: true,
+      removedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    // Remove from shirts if it was live
+    try { await db.collection('shirts').doc(id).update({ active: false }); } catch(e) {}
+    showToast('Fabric removed.');
+    loadCatalogue();
+  } catch(e) { showToast('Error: ' + e.message); }
 }
 
 ['referModal','fabricModal'].forEach(id => {
