@@ -516,9 +516,13 @@ async function sendLoginOTP() {
   btn.disabled = true;
 
   try {
+    // Fully destroy and recreate recaptcha container
     loginRV = resetRV(loginRV);
-    const container = document.getElementById('login-recaptcha');
-    container.innerHTML = '';
+    const oldContainer = document.getElementById('login-recaptcha');
+    const newContainer = document.createElement('div');
+    newContainer.id = 'login-recaptcha';
+    oldContainer.replaceWith(newContainer);
+
     loginRV = new firebase.auth.RecaptchaVerifier('login-recaptcha', {
       size: 'invisible', callback: () => {},
       'expired-callback': () => { loginRV = resetRV(loginRV); }
@@ -533,11 +537,19 @@ async function sendLoginOTP() {
     showToast('OTP sent!');
   } catch(e) {
     console.error(e);
-    err.textContent = 'Error sending OTP. Please try again.';
+    // Show friendlier message for too-many-requests
+    if (e.code === 'auth/too-many-requests') {
+      err.textContent = 'Too many attempts. Please wait a few minutes and try again.';
+    } else {
+      err.textContent = 'Error sending OTP. Please try again.';
+    }
     err.classList.add('show');
     loginRV = resetRV(loginRV);
   } finally {
     btn.innerHTML = 'Send OTP →';
+    btn.disabled = false;
+  }
+}
     btn.disabled = false;
   }
 }
@@ -925,11 +937,12 @@ async function deleteFabric(id, isActive) {
   } catch(e) { showToast('Error: ' + e.message); }
 }
 
-['referModal','fabricModal'].forEach(id => {
-  document.getElementById(id).addEventListener('click', e => {
-    if(e.target === document.getElementById(id)) document.getElementById(id).classList.remove('open');
+const referModalEl = document.getElementById('referModal');
+if (referModalEl) {
+  referModalEl.addEventListener('click', e => {
+    if(e.target === referModalEl) referModalEl.classList.remove('open');
   });
-});
+}
 </script>
 </body>
 </html>
